@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Артем Вафин](https://up.htmlacademy.ru/javascript/21/user/1394233).
-* Наставник: [Никита Победоносцев] (https://up.htmlacademy.ru/javascript/21/user/502263).
+* Наставник: [Никита Победоносцев](https://up.htmlacademy.ru/javascript/21/user/502263).
 
 ---
 

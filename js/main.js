@@ -108,8 +108,8 @@ const createDataArray = function (amount) {
 
 const createPin = function (array) {
   const pinElement = mapPinTemplate.cloneNode(true);
-  pinElement.style.left = `${array.location.x + 25}px`;
-  pinElement.style.top = `${array.location.y + 35}px`;
+  pinElement.style.left = `${array.location.x - 25}px`;
+  pinElement.style.top = `${array.location.y - 35}px`;
   pinElement.querySelector(`img`).src = array.author.avatar;
   pinElement.querySelector(`img`).alt = array.offer.title;
 

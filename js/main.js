@@ -58,6 +58,8 @@ const MAX_PRICE = 10000;
 const MIN_PRICE = 1000;
 
 const mapNode = document.querySelector(`.map`);
+const mapPinsNode = mapNode.querySelector(`.map__pins`);
+const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map-pin`);
 
 const activeModeOn = function (element) {
   element.classList.remove(`map--faded`);
@@ -99,19 +101,30 @@ const createDataArray = function (amount) {
         }
     );
   }
-
   return array;
+};
+
+const createPin = function (array) {
+  const pinElement = mapPinTemplate.cloneNode(true);
+  pinElement.querySelector(`.map__pin`).style.left = `(${array.location.x} + 25)px`;
+  pinElement.querySelector(`.map__pin`).style.top = `(${array.location.y} + 35)px`;
+  pinElement.querySelector(`.map__pin`).src = array.author.avatar;
+  pinElement.querySelector(`.map__pin`).alt = array.offer.title;
 };
 
 activeModeOn(mapNode);
 
-// 3 На основе данных, созданных в первом пункте, создайте DOM-элементы, соответствующие меткам на карте, и заполните их данными из массива.
+// 3 На основе данных, созданных в первом пункте, создайте DOM-элементы,
+// соответствующие меткам на карте, и заполните их данными из массива.
 // Итоговую разметку метки .map__pin можно взять из шаблона #pin.
 // У метки укажите:
-// Координаты: style="left: {{location.x + смещение по X}}px; top: {{location.y + смещение по Y}}px;"
-// Обратите внимание. Координаты X и Y, которые вы вставите в разметку, это не координаты левого верхнего угла блока метки,
-// а координаты, на которые указывает метка своим острым концом. Чтобы найти эту координату нужно учесть размеры элемента с меткой.
-
+// Координаты: style="left: {{location.x + смещение по X}}px;
+// top: {{location.y + смещение по Y}}px;"
+// Обратите внимание. Координаты X и Y, которые вы вставите в разметку,
+// это не координаты левого верхнего угла блока метки,
+// а координаты, на которые указывает метка своим острым концом. Чтобы найти
+// эту координату нужно учесть размеры элемента с меткой.
+//     width: 50px; height: 70px;
 // У изображения метки укажите:
 // Аватар: src="{{author.avatar}}"
 // Альтернативный текст: alt="{{заголовок объявления}}"

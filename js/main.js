@@ -114,6 +114,15 @@ const createPin = function (array) {
   return pinElement;
 };
 
+const createElement = function (pin) {
+  const fragment = document.createDocumentFragment();
+  for (let i = 0; i < pin.length; i++) {
+    fragment.appendChild(createPin(pin[i]));
+  }
+
+  return fragment;
+};
+
 const addElement = function (element) {
   mapPinsNode.appendChild(element);
 };

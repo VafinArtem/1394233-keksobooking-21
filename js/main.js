@@ -1,6 +1,6 @@
 "use strict";
 
-const TITLE_DESCRIPTION = [
+const TITLES = [
   `Дворец из коробки`,
   `Квартира без окон`,
   `Квартирка с видом на автобусную остановку`,
@@ -8,7 +8,7 @@ const TITLE_DESCRIPTION = [
   `Дом трехэтажный с бассейном`,
   `Просторный гараж`
 ];
-const HOUSES_TYPE = [
+const HOUSES_TYPES = [
   `palace`,
   `flat`,
   `house`,
@@ -44,30 +44,80 @@ const GUESTS_AMOUNT = [
   1,
   0
 ];
-
-const PHOTO_URL = [
+const PHOTOS_URLS = [
   `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 
-const PINS_AMOUNT = 8;
+const PIN_AMOUNT = 8;
 
+const MAX_COORDINATE = 630;
+const MIN_COORDINATE = 130;
+const MAX_PRICE = 10000;
+const MIN_PRICE = 1000;
 
-// const createDataArray = function (numbers) {
-//   const array = [];
-//   for (let i = 0; i < numbers; i++) {
-//     array.push(
-//         {
-//           name: `${getRandomData(NAMES)} ${getRandomData(SURNAMES)}`,
-//           coatColor: getRandomData(COATS_COLORS),
-//           eyesColor: getRandomData(EYES_COLORS)
-//         }
-//     );
-//   }
+const getRandomData = function (arrayName) {
+  return arrayName[Math.floor(Math.random() * arrayName.length)];
+};
 
+const getRandomInRange = function (min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const createDataArray = function (amount) {
+  const array = [];
+  for (let i = 0; i < amount; i++) {
+    array.push(
+        {
+          author: {
+            avatar: `img/avatars/user0${Math.floor(Math.random() * 10)}.png`
+          },
+          location: {
+            x: getRandomInRange(MIN_COORDINATE, MAX_COORDINATE),
+            y: getRandomInRange(MIN_COORDINATE, MAX_COORDINATE)
+          },
+          offer: {
+            title: getRandomData(TITLES),
+            address: `${getRandomInRange(MIN_COORDINATE, MAX_COORDINATE)}, ${getRandomInRange(MIN_COORDINATE, MAX_COORDINATE)}`,
+            price: getRandomInRange(MIN_PRICE, MAX_PRICE),
+            type: getRandomData(HOUSES_TYPES),
+            rooms: getRandomData(ROOMS_AMOUNT),
+            guests: getRandomData(GUESTS_AMOUNT),
+            checkin: getRandomData(CHECKINS),
+            checkout: getRandomData(CHECKOUTS),
+            features: getRandomData(FEATURES),
+            description: ` `,
+            photos: getRandomData(PHOTOS_URLS)
+          }
+        }
+    );
+  }
+
+  return array;
+};
+
+// 2 У блока .map уберите класс .map--faded.
+// Это временное решение, этот класс переключает карту из неактивного состояния в активное. В последующих заданиях,
+// в соответствии с ТЗ вы будете переключать режимы страницы: неактивный, в котором карта и форма заблокированы и активный режим,
+// в котором производится ввод данных и просмотр похожих объявлений. Сейчас для тестирования функции генерации похожих объявлений мы
+// временно сымитируем активный режим, а в последующих разделах запрограммируем его полностью.
+
+// 3 На основе данных, созданных в первом пункте, создайте DOM-элементы, соответствующие меткам на карте, и заполните их данными из массива.
+// Итоговую разметку метки .map__pin можно взять из шаблона #pin.
+// У метки укажите:
+// Координаты: style="left: {{location.x + смещение по X}}px; top: {{location.y + смещение по Y}}px;"
+// Обратите внимание. Координаты X и Y, которые вы вставите в разметку, это не координаты левого верхнего угла блока метки,
+// а координаты, на которые указывает метка своим острым концом. Чтобы найти эту координату нужно учесть размеры элемента с меткой.
+
+// У изображения метки укажите:
+// Аватар: src="{{author.avatar}}"
+// Альтернативный текст: alt="{{заголовок объявления}}"
+
+// 4 Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment
+
+// ГОТОВО:
 // 1 Напишите функцию для создания массива из 8 сгенерированных JS объектов. Каждый объект массива ‐ описание похожего объявления неподалёку. Структура объектов должна быть следующей:
-
 // {
 //     "author": {
 //         "avatar": строка, адрес изображения вида img/avatars/user{{xx}}.png, где {{xx}} это число от 1 до 8 с ведущим нулём. Например, 01, 02 и т. д. Адреса изображений не повторяются
@@ -91,22 +141,3 @@ const PINS_AMOUNT = 8;
 //         "y": случайное число, координата y метки на карте от 130 до 630.
 //     }
 // }
-
-// 2 У блока .map уберите класс .map--faded.
-// Это временное решение, этот класс переключает карту из неактивного состояния в активное. В последующих заданиях,
-// в соответствии с ТЗ вы будете переключать режимы страницы: неактивный, в котором карта и форма заблокированы и активный режим,
-// в котором производится ввод данных и просмотр похожих объявлений. Сейчас для тестирования функции генерации похожих объявлений мы
-// временно сымитируем активный режим, а в последующих разделах запрограммируем его полностью.
-
-// 3 На основе данных, созданных в первом пункте, создайте DOM-элементы, соответствующие меткам на карте, и заполните их данными из массива.
-// Итоговую разметку метки .map__pin можно взять из шаблона #pin.
-// У метки укажите:
-// Координаты: style="left: {{location.x + смещение по X}}px; top: {{location.y + смещение по Y}}px;"
-// Обратите внимание. Координаты X и Y, которые вы вставите в разметку, это не координаты левого верхнего угла блока метки,
-// а координаты, на которые указывает метка своим острым концом. Чтобы найти эту координату нужно учесть размеры элемента с меткой.
-
-// У изображения метки укажите:
-// Аватар: src="{{author.avatar}}"
-// Альтернативный текст: alt="{{заголовок объявления}}"
-
-// 4 Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.

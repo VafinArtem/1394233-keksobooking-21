@@ -63,19 +63,19 @@ const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-const activeModeOn = function (element) {
+const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);
 };
 
-const getRandomData = function (arrayName) {
+const getRandomData = (arrayName) => {
   return arrayName[Math.floor(Math.random() * arrayName.length)];
 };
 
-const getRandomInRange = function (min, max) {
+const getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const createDataArray = function (amount) {
+const createDataArray = (amount) => {
   const array = [];
   for (let i = 0; i < amount; i++) {
     array.push(
@@ -106,7 +106,7 @@ const createDataArray = function (amount) {
   return array;
 };
 
-const createPin = function (array) {
+const createPin = (array) => {
   const pinElement = mapPinTemplate.cloneNode(true);
   pinElement.style.left = `${array.location.x - 25}px`;
   pinElement.style.top = `${array.location.y - 35}px`;
@@ -116,7 +116,7 @@ const createPin = function (array) {
   return pinElement;
 };
 
-const createNodeFragment = function (pin) {
+const createNodeFragment = (pin) => {
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < pin.length; i++) {
     fragment.appendChild(createPin(pin[i]));
@@ -125,11 +125,11 @@ const createNodeFragment = function (pin) {
   return fragment;
 };
 
-const addNodeFragment = function (element) {
+const addNodeFragment = (element) => {
   mapPinsNode.appendChild(element);
 };
 
-const initPinsScreen = function () {
+const initPinsScreen = () => {
   const pinsDataArray = createDataArray(PIN_AMOUNT);
   const pinsNodesFragment = createNodeFragment(pinsDataArray);
 

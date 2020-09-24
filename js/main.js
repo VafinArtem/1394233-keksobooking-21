@@ -8,7 +8,7 @@ const TITLES = [
   `Дом трехэтажный с бассейном`,
   `Просторный гараж`
 ];
-const HOUSES_TYPES = [
+const HOUSE_TYPES = [
   `palace`,
   `flat`,
   `house`,
@@ -44,20 +44,26 @@ const GUESTS_AMOUNT = [
   1,
   0
 ];
-const PHOTOS_URLS = [
+const PHOTO_URLS = [
   `http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
 
-const PIN_AMOUNT = 8;
+const PINS_AMOUNT = 8;
 
-const MAX_COORDINATE = 630;
-const MIN_COORDINATE = 130;
-const MAX_PRICE = 10000;
-const MIN_PRICE = 1000;
-const MAX_AMOUNT_USERS = 8;
-const MIN_AMOUNT_USERS = 1;
+const Price = {
+  MAX: 10000,
+  MIN: 1000
+};
+const Coordinate = {
+  MAX: 630,
+  MIN: 130
+};
+const AmountUsers = {
+  MAX: 8,
+  MIN: 1
+};
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
@@ -81,24 +87,24 @@ const createDataArray = (amount) => {
     array.push(
         {
           author: {
-            avatar: `img/avatars/user0${getRandomInRange(MIN_AMOUNT_USERS, MAX_AMOUNT_USERS)}.png`
+            avatar: `img/avatars/user0${getRandomInRange(AmountUsers.MIN, AmountUsers.MAX)}.png`
           },
           location: {
-            x: getRandomInRange(MIN_COORDINATE, MAX_COORDINATE),
-            y: getRandomInRange(MIN_COORDINATE, MAX_COORDINATE)
+            x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
+            y: getRandomInRange(Coordinate.MIN, Coordinate.MAX)
           },
           offer: {
             title: getRandomData(TITLES),
-            address: `${getRandomInRange(MIN_COORDINATE, MAX_COORDINATE)}, ${getRandomInRange(MIN_COORDINATE, MAX_COORDINATE)}`,
-            price: getRandomInRange(MIN_PRICE, MAX_PRICE),
-            type: getRandomData(HOUSES_TYPES),
+            address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
+            price: getRandomInRange(Price.MIN, Price.MAX),
+            type: getRandomData(HOUSE_TYPES),
             rooms: getRandomData(ROOMS_AMOUNT),
             guests: getRandomData(GUESTS_AMOUNT),
             checkin: getRandomData(CHECKINS),
             checkout: getRandomData(CHECKOUTS),
             features: getRandomData(FEATURES),
             description: ` `,
-            photos: getRandomData(PHOTOS_URLS)
+            photos: getRandomData(PHOTO_URLS)
           }
         }
     );
@@ -116,10 +122,10 @@ const createPin = (array) => {
   return pinElement;
 };
 
-const createNodeFragment = (pin) => {
+const createNodeFragment = (pinsArr) => {
   const fragment = document.createDocumentFragment();
-  for (let i = 0; i < pin.length; i++) {
-    fragment.appendChild(createPin(pin[i]));
+  for (let i = 0; i < pinsArr.length; i++) {
+    fragment.appendChild(createPin(pinsArr[i]));
   }
 
   return fragment;
@@ -130,7 +136,7 @@ const addNodeFragment = (element) => {
 };
 
 const initPinsScreen = () => {
-  const pinsDataArray = createDataArray(PIN_AMOUNT);
+  const pinsDataArray = createDataArray(PINS_AMOUNT);
   const pinsNodesFragment = createNodeFragment(pinsDataArray);
 
   addNodeFragment(pinsNodesFragment);

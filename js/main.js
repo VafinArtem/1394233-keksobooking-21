@@ -67,6 +67,7 @@ const AmountUsers = {
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
+const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
@@ -141,29 +142,31 @@ const createPin = (array) => {
   return pinElement;
 };
 
-const createCard = (array) => {
+const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);
-  cardElement.querySelector(`.popup__title`).textContent = array.offer.title;
-  cardElement.querySelector(`.popup__text--address`).textContent = array.offer.address;
-  cardElement.querySelector(`.popup__text--price`).textContent = `${array.offer.price}₽/ночь`;
+  cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
+  cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
+  cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
   const houseType = cardElement.querySelector(`.popup__type`);
 
-  if (array.offer.address === `flat`) {
+  if (object.offer.address === `flat`) {
     houseType.textContent = `Квартира`;
-  } else if (array.offer.address === `bungalow`) {
+  } else if (object.offer.address === `bungalow`) {
     houseType.textContent = `Бунгало`;
-  } else if (array.offer.address === `house`) {
+  } else if (object.offer.address === `house`) {
     houseType.textContent = `Дом`;
   } else {
     houseType.textContent = `Дворец`;
   }
 
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `${array.offer.rooms} комнаты для ${array.offer.guests} гостей`;
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
+  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin} , выезд&nbsp;до ${object.offer.checkout}`;
   // cardElement.querySelector(`.popup__features`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
-  cardElement.querySelector(`.popup__description`).textContent = array.offer.description;
-  cardElement.querySelector(`popup__photo`).src = array.author.photos;
+  cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
+  cardElement.querySelector(`.popup__photo`).src = object.offer.photos;
+  cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
 
+  return cardElement;
 };
 
 const createNodeFragment = (pinsArr) => {
@@ -175,8 +178,18 @@ const createNodeFragment = (pinsArr) => {
   return fragment;
 };
 
+const createСardFragment = (cardObj) => {
+  const fragment = document.createDocumentFragment();
+  fragment.appendChild(createCard(cardObj));
+  return fragment;
+};
+
 const addNodeFragment = (element) => {
   mapPinsNode.appendChild(element);
+};
+
+const addCardFragment = (element) => {
+  mapNode.insertBefore(element, mapFiltersNode);
 };
 
 const initPinsScreen = () => {
@@ -187,4 +200,12 @@ const initPinsScreen = () => {
   activeModeOn(mapNode);
 };
 
+const initCardScreen = () => {
+  const pinsDataArray = createDataArray(PINS_AMOUNT);
+  const cardNodesFragnment = createСardFragment(pinsDataArray[1]);
+
+  addCardFragment(cardNodesFragnment);
+};
+
 initPinsScreen();
+initCardScreen();

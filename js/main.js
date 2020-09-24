@@ -68,6 +68,7 @@ const AmountUsers = {
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
 // 1. Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
 
@@ -140,6 +141,31 @@ const createPin = (array) => {
   return pinElement;
 };
 
+const createCard = (array) => {
+  const cardElement = mapCardTemplate.cloneNode(true);
+  cardElement.querySelector(`.popup__title`).textContent = array.offer.title;
+  cardElement.querySelector(`.popup__text--address`).textContent = array.offer.address;
+  cardElement.querySelector(`.popup__text--price`).textContent = `${array.offer.price}₽/ночь`;
+  const houseType = cardElement.querySelector(`.popup__type`);
+
+  if (array.offer.address === `flat`) {
+    houseType.textContent = `Квартира`;
+  } else if (array.offer.address === `bungalow`) {
+    houseType.textContent = `Бунгало`;
+  } else if (array.offer.address === `house`) {
+    houseType.textContent = `Дом`;
+  } else {
+    houseType.textContent = `Дворец`;
+  }
+
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `${array.offer.rooms} комнаты для ${array.offer.guests} гостей`;
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
+  // cardElement.querySelector(`.popup__features`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
+  cardElement.querySelector(`.popup__description`).textContent = array.offer.description;
+  cardElement.querySelector(`popup__photo`).src = array.author.photos;
+
+};
+
 const createNodeFragment = (pinsArr) => {
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < pinsArr.length; i++) {
@@ -158,7 +184,6 @@ const initPinsScreen = () => {
   const pinsNodesFragment = createNodeFragment(pinsDataArray);
 
   addNodeFragment(pinsNodesFragment);
-
   activeModeOn(mapNode);
 };
 

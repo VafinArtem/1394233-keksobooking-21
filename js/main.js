@@ -149,18 +149,18 @@ const createCard = (object) => {
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
   const houseType = cardElement.querySelector(`.popup__type`);
 
-  if (object.offer.address === `flat`) {
+  if (object.offer.type === `flat`) {
     houseType.textContent = `Квартира`;
-  } else if (object.offer.address === `bungalow`) {
+  } else if (object.offer.type === `bungalow`) {
     houseType.textContent = `Бунгало`;
-  } else if (object.offer.address === `house`) {
+  } else if (object.offer.type === `house`) {
     houseType.textContent = `Дом`;
   } else {
     houseType.textContent = `Дворец`;
   }
 
   cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
-  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin} , выезд&nbsp;до ${object.offer.checkout}`;
+  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
   // cardElement.querySelector(`.popup__features`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
   cardElement.querySelector(`.popup__photo`).src = object.offer.photos;
@@ -203,6 +203,8 @@ const initPinsScreen = () => {
 const initCardScreen = () => {
   const pinsDataArray = createDataArray(PINS_AMOUNT);
   const cardNodesFragnment = createСardFragment(pinsDataArray[1]);
+
+  console.log(pinsDataArray[1]);
 
   addCardFragment(cardNodesFragnment);
 };

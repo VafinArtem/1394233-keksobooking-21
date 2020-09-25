@@ -70,6 +70,7 @@ const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+const cardPhotosTemplate = document.querySelector(`#card`).content.querySelector(`.popup__photos`);
 
 
 // 1. Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
@@ -125,7 +126,7 @@ const createDataArray = (amount) => {
           checkout: getRandomData(CHECKOUTS),
           features: getRandomData(FEATURES),
           description: ` `,
-          photos: getRandomData(PHOTO_URLS)
+          photos: PHOTO_URLS
         }
       }
     );
@@ -154,6 +155,11 @@ const houseTypeStr = (objectValue) => {
     return `Дворец`;
   }
 };
+
+// READY Создать новый темплейт .popup__photos
+// Создать фукцию, которая добавляет в в темплейт фотографии в зависимости от количества фотографий в массиве.
+
+
 
 const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);

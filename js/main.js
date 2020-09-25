@@ -106,30 +106,28 @@ const getRandomInRange = (min, max) => {
 const createDataArray = (amount) => {
   const array = [];
   for (let i = 0; i < amount; i++) {
-    array.push(
-      {
-        author: {
-          avatar: `img/avatars/user0${getRandomInRange(AmountUsers.MIN, AmountUsers.MAX)}.png`
-        },
-        location: {
-          x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
-          y: getRandomInRange(Coordinate.MIN, Coordinate.MAX)
-        },
-        offer: {
-          title: getRandomData(TITLES),
-          address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
-          price: getRandomInRange(Price.MIN, Price.MAX),
-          type: getRandomData(HOUSE_TYPES),
-          rooms: getRandomData(ROOMS_AMOUNT),
-          guests: getRandomData(GUESTS_AMOUNT),
-          checkin: getRandomData(CHECKINS),
-          checkout: getRandomData(CHECKOUTS),
-          features: getRandomData(FEATURES),
-          description: ` `,
-          photos: PHOTO_URLS
-        }
+    array.push({
+      author: {
+        avatar: `img/avatars/user0${getRandomInRange(AmountUsers.MIN, AmountUsers.MAX)}.png`
+      },
+      location: {
+        x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
+        y: getRandomInRange(Coordinate.MIN, Coordinate.MAX)
+      },
+      offer: {
+        title: getRandomData(TITLES),
+        address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
+        price: getRandomInRange(Price.MIN, Price.MAX),
+        type: getRandomData(HOUSE_TYPES),
+        rooms: getRandomData(ROOMS_AMOUNT),
+        guests: getRandomData(GUESTS_AMOUNT),
+        checkin: getRandomData(CHECKINS),
+        checkout: getRandomData(CHECKOUTS),
+        features: getRandomData(FEATURES),
+        description: ` `,
+        photos: PHOTO_URLS
       }
-    );
+    });
   }
   return array;
 };

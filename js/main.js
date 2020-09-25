@@ -70,7 +70,7 @@ const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
-const cardPhotosTemplate = document.querySelector(`#card`).content.querySelector(`.popup__photos`);
+const cardPhotoTemplate = document.querySelector(`#card`).content.querySelector(`.popup__photo`);
 
 
 // 1. Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
@@ -156,13 +156,24 @@ const houseTypeStr = (objectValue) => {
   }
 };
 
-// READY Создать новый темплейт .popup__photos
-// Создать фукцию, которая добавляет в в темплейт фотографии в зависимости от количества фотографий в массиве.
+const createPhotosElements = (photosArr, source) => {
+  for (let i = 0; i < photosArr.length; i++) {
+    const photoElement = cardPhotoTemplate.cloneNode(true);
+    photoElement.src = photosArr[i];
+    source.appendChild(photoElement);
+  }
+  return source;
+};
 
-
+const delChild = (parent, child) => {
+  parent.removeChild(child);
+};
 
 const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);
+  const photoSource = cardElement.querySelector(`.popup__photos`);
+  const photoImg = photoSource.querySelector(`img`);
+  delChild(photoSource, photoImg);
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
@@ -171,7 +182,7 @@ const createCard = (object) => {
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
   // cardElement.querySelector(`.popup__features`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
-  cardElement.querySelector(`.popup__photo`).src = object.offer.photos;
+  cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
   cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
 
   return cardElement;

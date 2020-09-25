@@ -143,16 +143,33 @@ const createPin = (array) => {
 };
 
 const houseTypeStr = (objectValue) => {
-  if (objectValue === `flat`) {
-    return `Квартира`;
-  } else if (objectValue === `bungalow`) {
-    return `Бунгало`;
-  } else if (objectValue === `house`) {
-    return `Дом`;
-  } else {
-    return `Дворец`;
+  switch (objectValue) {
+    case `flat`:
+      objectValue = `Квартира`;
+      break;
+    case `bungalow`:
+      objectValue = `Бунгало`;
+      break;
+    case `house`:
+      objectValue = `Дом`;
+      break;
+    case `palace`:
+      objectValue = `Дворец`;
+      break;
   }
+
+  return objectValue;
 };
+
+// if (objectValue === `flat`) {
+//   return `Квартира`;
+// } else if (objectValue === `bungalow`) {
+//   return `Бунгало`;
+// } else if (objectValue === `house`) {
+//   return `Дом`;
+// } else {
+//   return `Дворец`;
+// }
 
 const createPhotosElements = (photosArr, source) => {
   for (let i = 0; i < photosArr.length; i++) {
@@ -212,16 +229,11 @@ const addCardFragment = (element) => {
 const initPinsScreen = () => {
   const pinsDataArray = createDataArray(PINS_AMOUNT);
   const pinsNodesFragment = createNodeFragment(pinsDataArray);
-
-  addNodeFragment(pinsNodesFragment);
-  activeModeOn(mapNode);
-};
-
-const initCardScreen = () => {
-  const pinsDataArray = createDataArray(PINS_AMOUNT);
-  const cardNodesFragnment = createСardFragment(pinsDataArray[1]);
+  const cardNodesFragnment = createСardFragment(pinsDataArray[0]);
 
   addCardFragment(cardNodesFragnment);
+  addNodeFragment(pinsNodesFragment);
+  activeModeOn(mapNode);
 };
 
 initPinsScreen();

@@ -71,6 +71,7 @@ const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
+
 // 1. Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
 
 // 2. На основе первого по порядку элемента из сгенерированного массива и шаблона #card создайте DOM-элемент объявления (карточка объявления), заполните его данными из объекта:
@@ -105,28 +106,28 @@ const createDataArray = (amount) => {
   const array = [];
   for (let i = 0; i < amount; i++) {
     array.push(
-        {
-          author: {
-            avatar: `img/avatars/user0${getRandomInRange(AmountUsers.MIN, AmountUsers.MAX)}.png`
-          },
-          location: {
-            x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
-            y: getRandomInRange(Coordinate.MIN, Coordinate.MAX)
-          },
-          offer: {
-            title: getRandomData(TITLES),
-            address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
-            price: getRandomInRange(Price.MIN, Price.MAX),
-            type: getRandomData(HOUSE_TYPES),
-            rooms: getRandomData(ROOMS_AMOUNT),
-            guests: getRandomData(GUESTS_AMOUNT),
-            checkin: getRandomData(CHECKINS),
-            checkout: getRandomData(CHECKOUTS),
-            features: getRandomData(FEATURES),
-            description: ` `,
-            photos: getRandomData(PHOTO_URLS)
-          }
+      {
+        author: {
+          avatar: `img/avatars/user0${getRandomInRange(AmountUsers.MIN, AmountUsers.MAX)}.png`
+        },
+        location: {
+          x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
+          y: getRandomInRange(Coordinate.MIN, Coordinate.MAX)
+        },
+        offer: {
+          title: getRandomData(TITLES),
+          address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
+          price: getRandomInRange(Price.MIN, Price.MAX),
+          type: getRandomData(HOUSE_TYPES),
+          rooms: getRandomData(ROOMS_AMOUNT),
+          guests: getRandomData(GUESTS_AMOUNT),
+          checkin: getRandomData(CHECKINS),
+          checkout: getRandomData(CHECKOUTS),
+          features: getRandomData(FEATURES),
+          description: ` `,
+          photos: getRandomData(PHOTO_URLS)
         }
+      }
     );
   }
   return array;
@@ -142,23 +143,24 @@ const createPin = (array) => {
   return pinElement;
 };
 
+const houseTypeStr = (objectValue) => {
+  if (objectValue === `flat`) {
+    return `Квартира`;
+  } else if (objectValue === `bungalow`) {
+    return `Бунгало`;
+  } else if (objectValue === `house`) {
+    return `Дом`;
+  } else {
+    return `Дворец`;
+  }
+};
+
 const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
-  const houseType = cardElement.querySelector(`.popup__type`);
-
-  if (object.offer.type === `flat`) {
-    houseType.textContent = `Квартира`;
-  } else if (object.offer.type === `bungalow`) {
-    houseType.textContent = `Бунгало`;
-  } else if (object.offer.type === `house`) {
-    houseType.textContent = `Дом`;
-  } else {
-    houseType.textContent = `Дворец`;
-  }
-
+  cardElement.querySelector(`.popup__type`).textContent = houseTypeStr(object.offer.type);
   cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
   // cardElement.querySelector(`.popup__features`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
@@ -203,8 +205,6 @@ const initPinsScreen = () => {
 const initCardScreen = () => {
   const pinsDataArray = createDataArray(PINS_AMOUNT);
   const cardNodesFragnment = createСardFragment(pinsDataArray[1]);
-
-  console.log(pinsDataArray[1]);
 
   addCardFragment(cardNodesFragnment);
 };

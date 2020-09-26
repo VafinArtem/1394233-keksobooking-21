@@ -72,25 +72,6 @@ const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.ma
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const cardPhotoTemplate = document.querySelector(`#card`).content.querySelector(`.popup__photo`);
 
-
-// 1. Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
-
-// 2. На основе первого по порядку элемента из сгенерированного массива и шаблона #card создайте DOM-элемент объявления (карточка объявления), заполните его данными из объекта:
-
-// Выведите заголовок объявления offer.title в заголовок .popup__title.
-// Выведите адрес offer.address в блок .popup__text--address.
-// Выведите цену offer.price в блок .popup__text--price строкой вида {{offer.price}}₽/ночь. Например, 5200₽/ночь.
-// В блок .popup__type выведите тип жилья offer.type: Квартира для flat, Бунгало для bungalow, Дом для house, Дворец для palace.
-// Выведите количество гостей и комнат offer.rooms и offer.guests в блок .popup__text--capacity строкой вида {{offer.rooms}} комнаты для {{offer.guests}} гостей. Например, 2 комнаты для 3 гостей.
-// Время заезда и выезда offer.checkin и offer.checkout в блок .popup__text--time строкой вида Заезд после {{offer.checkin}}, выезд&nbsp;до {{offer.checkout}}. Например, заезд после 14:00, выезд до 12:00.
-// В список .popup__features выведите все доступные удобства в объявлении.
-// В блок .popup__description выведите описание объекта недвижимости offer.description.
-// В блок .popup__photos выведите все фотографии из списка offer.photos. Каждая из строк массива photos должна записываться как src соответствующего изображения.
-// Замените src у аватарки пользователя — изображения, которое записано в .popup__avatar — на значения поля author.avatar отрисовываемого объекта.
-// Если данных для заполнения не хватает, соответствующий блок в карточке скрывается.
-
-// 3. Вставьте полученный DOM-элемент в блок .map перед блоком.map__filters-container.
-
 const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);
 };
@@ -101,6 +82,25 @@ const getRandomData = (arrayName) => {
 
 const getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const delChild = (parent, child) => {
+  parent.removeChild(child);
+};
+
+const disableNode = (node, childTag) => {
+  if (!node.contains(node.querySelector(childTag))) {
+    node.style = `display: none`;
+  }
+};
+
+const disableTextElement = (parent, typeTextElement) => {
+  const childs = parent.querySelectorAll(typeTextElement);
+  for (let i = 0; i < childs.length; i++) {
+    if (childs[i].textContent === ``) {
+      childs[i].style = `display:none`;
+    }
+  }
 };
 
 const createDataArray = (amount) => {
@@ -142,7 +142,7 @@ const createPin = (array) => {
   return pinElement;
 };
 
-const houseTypeStr = (objectValue) => {
+const translateHouseType = (objectValue) => {
   switch (objectValue) {
     case `flat`:
       objectValue = `Квартира`;
@@ -161,16 +161,6 @@ const houseTypeStr = (objectValue) => {
   return objectValue;
 };
 
-// if (objectValue === `flat`) {
-//   return `Квартира`;
-// } else if (objectValue === `bungalow`) {
-//   return `Бунгало`;
-// } else if (objectValue === `house`) {
-//   return `Дом`;
-// } else {
-//   return `Дворец`;
-// }
-
 const createPhotosElements = (photosArr, source) => {
   for (let i = 0; i < photosArr.length; i++) {
     const photoElement = cardPhotoTemplate.cloneNode(true);
@@ -180,11 +170,7 @@ const createPhotosElements = (photosArr, source) => {
   return source;
 };
 
-const delChild = (parent, child) => {
-  parent.removeChild(child);
-};
-
-const featuresContain = (featuresArr) => {
+const createFeaturesElements = (featuresArr) => {
   const mapCardNode = mapCardTemplate.cloneNode(true);
   const featuresNode = mapCardNode.querySelector(`.popup__features`);
   const featuresElement = featuresNode.querySelectorAll(`.popup__feature`);
@@ -229,24 +215,23 @@ const createCard = (object) => {
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
-  cardElement.querySelector(`.popup__type`).textContent = houseTypeStr(object.offer.type);
+  cardElement.querySelector(`.popup__type`).textContent = translateHouseType(object.offer.type);
   cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
-  cardElement.insertBefore(featuresContain(object.offer.features), cardElement.querySelector(`.popup__description`));
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
-  if (cardElement.querySelector(`.popup__description`).textContent === ``) {
-    cardElement.querySelector(`.popup__description`).style = `display: none`;
-  }
-  cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
-  if (!photoSource.contains(photoSource.querySelector(`img`))) {
-    photoSource.style = `display: none`;
-  }
   cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
+  const featuresNode = cardElement.insertBefore(createFeaturesElements(object.offer.features), cardElement.querySelector(`.popup__description`));
+  const photosNode = cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
+  disableNode(featuresNode, `li`);
+  disableNode(photosNode, `img`);
+  disableTextElement(cardElement, `p`);
+  disableTextElement(cardElement, `h3`);
+  disableTextElement(cardElement, `h4`);
 
   return cardElement;
 };
 
-const createNodeFragment = (pinsArr) => {
+const createPinsNodeFragment = (pinsArr) => {
   const fragment = document.createDocumentFragment();
   for (let i = 0; i < pinsArr.length; i++) {
     fragment.appendChild(createPin(pinsArr[i]));
@@ -271,7 +256,7 @@ const addCardFragment = (element) => {
 
 const initPinsScreen = () => {
   const pinsDataArray = createDataArray(PINS_AMOUNT);
-  const pinsNodesFragment = createNodeFragment(pinsDataArray);
+  const pinsNodesFragment = createPinsNodeFragment(pinsDataArray);
   const cardNodesFragnment = createСardFragment(pinsDataArray[0]);
 
   addCardFragment(cardNodesFragnment);

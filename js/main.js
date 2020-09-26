@@ -71,6 +71,7 @@ const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const cardPhotoTemplate = document.querySelector(`#card`).content.querySelector(`.popup__photo`);
+const cardFeaturesTemplate = document.querySelector(`#card`).content.querySelector(`.popup__features`);
 
 
 // 1. Отрисуйте сгенерированные DOM-элементы в блок .map__pins. Для вставки элементов используйте DocumentFragment.
@@ -123,8 +124,8 @@ const createDataArray = (amount) => {
         guests: getRandomData(GUESTS_AMOUNT),
         checkin: getRandomData(CHECKINS),
         checkout: getRandomData(CHECKOUTS),
-        features: getRandomData(FEATURES),
-        description: ` `,
+        features: FEATURES,
+        description: ``,
         photos: PHOTO_URLS
       }
     });
@@ -184,10 +185,37 @@ const delChild = (parent, child) => {
   parent.removeChild(child);
 };
 
+const featuresContain = (featuresArr) => {
+  const featuresNode = cardFeaturesTemplate.cloneNode(true);
+  for (let i = 0; i < featuresArr.length; i++) {
+    if (!featuresArr.includes(`wifi`)) {
+      featuresNode.querySelector(`.popup__feature--wifi`).style = `display: none`;
+    }
+    if (!featuresArr.includes(`dishwasher`)) {
+      featuresNode.querySelector(`.popup__feature--dishwasher`).style = `display: none`;
+    }
+    if (!featuresArr.includes(`parking`)) {
+      featuresNode.querySelector(`.popup__feature--parking`).style = `display: none`;
+    }
+    if (!featuresArr.includes(`washer`)) {
+      featuresNode.querySelector(`.popup__feature--washer`).style = `display: none`;
+    }
+    if (!featuresArr.includes(`elevator`)) {
+      featuresNode.querySelector(`.popup__feature--elevator`).style = `display: none`;
+    }
+    if (!featuresArr.includes(`conditioner`)) {
+      featuresNode.querySelector(`.popup__feature--conditioner`).style = `display: none`;
+    }
+  }
+  return featuresNode;
+};
+
 const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);
   const photoSource = cardElement.querySelector(`.popup__photos`);
   const photoImg = photoSource.querySelector(`img`);
+  const featuresNode = cardElement.querySelector(`.popup__features`);
+  delChild(cardElement, featuresNode);
   delChild(photoSource, photoImg);
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
@@ -195,7 +223,7 @@ const createCard = (object) => {
   cardElement.querySelector(`.popup__type`).textContent = houseTypeStr(object.offer.type);
   cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
-  // cardElement.querySelector(`.popup__features`).textContent = `Заезд после ${array.offer.checkin} , выезд&nbsp;до ${array.offer.checkout}`;
+  cardElement.insertBefore(featuresContain(object.offer.features), cardElement.querySelector(`.popup__description`));
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
   cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
   cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
@@ -237,4 +265,3 @@ const initPinsScreen = () => {
 };
 
 initPinsScreen();
-initCardScreen();

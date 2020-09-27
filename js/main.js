@@ -69,10 +69,6 @@ const Coordinate = {
   MAX: 630,
   MIN: 130
 };
-const AmountUsers = {
-  MAX: 8,
-  MIN: 1
-};
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);

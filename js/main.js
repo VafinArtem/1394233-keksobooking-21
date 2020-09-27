@@ -49,7 +49,16 @@ const PHOTO_URLS = [
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
-
+const USERS_AMOUNT = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+];
 const PINS_AMOUNT = 8;
 
 const Price = {
@@ -84,6 +93,12 @@ const getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+const shuffleArray = (array) => {
+  let a = array.slice();
+  a.sort(() => Math.random() - 0.5);
+  return a;
+};
+
 const delChild = (parent, child) => {
   parent.removeChild(child);
 };
@@ -105,10 +120,11 @@ const disableTextElement = (parent, typeTextElement) => {
 
 const createDataArray = (amount) => {
   const array = [];
+  const numbersArray = shuffleArray(USERS_AMOUNT);
   for (let i = 0; i < amount; i++) {
     array.push({
       author: {
-        avatar: `img/avatars/user0${getRandomInRange(AmountUsers.MIN, AmountUsers.MAX)}.png`
+        avatar: `img/avatars/user0${numbersArray[i]}.png`
       },
       location: {
         x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),

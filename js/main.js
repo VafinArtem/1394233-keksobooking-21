@@ -99,6 +99,15 @@ const getDeclension = (number, titles) => {
   return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 };
 
+const getRandomValuesArr = (array) => {
+  let newArray = [];
+  for (let i = 0; i < Math.floor(Math.random() * array.length); i++) {
+    newArray.push(array[i]);
+  }
+
+  return newArray;
+};
+
 const createDataArray = (amount) => {
   const array = [];
   for (let i = 0; i < amount; i++) {
@@ -119,9 +128,9 @@ const createDataArray = (amount) => {
         guests: getRandomArrElement(GUESTS_AMOUNT),
         checkin: getRandomArrElement(CHECKINS),
         checkout: getRandomArrElement(CHECKOUTS),
-        features: Object.keys(FEATURES_CLASS_MAP),
+        features: getRandomValuesArr(Object.keys(FEATURES_CLASS_MAP)),
         description: getRandomArrElement(DESCRIPTIONS),
-        photos: PHOTO_URLS
+        photos: getRandomValuesArr(PHOTO_URLS)
       }
     });
   }

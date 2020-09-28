@@ -100,12 +100,7 @@ const getDeclension = (number, titles) => {
 };
 
 const getRandomValuesArr = (array) => {
-  let newArray = [];
-  for (let i = 0; i < Math.floor(Math.random() * array.length); i++) {
-    newArray.push(array[i]);
-  }
-
-  return newArray;
+  return array.slice(0, (Math.floor(Math.random() * array.length)));
 };
 
 const createDataArray = (amount) => {

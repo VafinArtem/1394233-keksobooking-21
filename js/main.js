@@ -8,12 +8,6 @@ const TITLES = [
   `Дом трехэтажный с бассейном`,
   `Просторный гараж`
 ];
-const HOUSE_TYPES = [
-  `palace`,
-  `flat`,
-  `house`,
-  `bungalow`
-];
 const FEATURES = [
   `wifi`,
   `dishwasher`,
@@ -49,16 +43,12 @@ const PHOTO_URLS = [
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`
 ];
-const USERS_AMOUNT = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8
-];
+const HOUSE_TYPES = {
+  flat: `Квартира`,
+  bungalow: `Бунгало`,
+  palace: `Замок`,
+  house: `Дом`
+};
 const PINS_AMOUNT = 8;
 
 const Price = {
@@ -89,12 +79,6 @@ const getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const shuffleArray = (array) => {
-  let a = array.slice();
-  a.sort(() => Math.random() - 0.5);
-  return a;
-};
-
 const delChild = (parent, child) => {
   parent.removeChild(child);
 };
@@ -116,11 +100,10 @@ const disableTextElement = (parent, typeTextElement) => {
 
 const createDataArray = (amount) => {
   const array = [];
-  const numbersArray = shuffleArray(USERS_AMOUNT);
   for (let i = 0; i < amount; i++) {
     array.push({
       author: {
-        avatar: `img/avatars/user0${numbersArray[i]}.png`
+        avatar: `img/avatars/user0${i + 1}.png`
       },
       location: {
         x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
@@ -130,7 +113,7 @@ const createDataArray = (amount) => {
         title: getRandomData(TITLES),
         address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
         price: getRandomInRange(Price.MIN, Price.MAX),
-        type: getRandomData(HOUSE_TYPES),
+        type: getRandomData(Object.keys(HOUSE_TYPES)),
         rooms: getRandomData(ROOMS_AMOUNT),
         guests: getRandomData(GUESTS_AMOUNT),
         checkin: getRandomData(CHECKINS),
@@ -152,25 +135,6 @@ const createPin = (array) => {
   pinElement.querySelector(`img`).alt = array.offer.title;
 
   return pinElement;
-};
-
-const translateHouseType = (objectValue) => {
-  switch (objectValue) {
-    case `flat`:
-      objectValue = `Квартира`;
-      break;
-    case `bungalow`:
-      objectValue = `Бунгало`;
-      break;
-    case `house`:
-      objectValue = `Дом`;
-      break;
-    case `palace`:
-      objectValue = `Дворец`;
-      break;
-  }
-
-  return objectValue;
 };
 
 const createPhotosElements = (photosArr, source) => {
@@ -227,7 +191,7 @@ const createCard = (object) => {
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
-  cardElement.querySelector(`.popup__type`).textContent = translateHouseType(object.offer.type);
+  cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[object.offer.type];
   cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;

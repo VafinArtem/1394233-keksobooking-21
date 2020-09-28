@@ -55,8 +55,12 @@ const Price = {
   MAX: 10000,
   MIN: 1000
 };
-const Coordinate = {
+const CoordinateY = {
   MAX: 630,
+  MIN: 130
+};
+const CoordinateX = {
+  MAX: 970,
   MIN: 130
 };
 
@@ -91,12 +95,12 @@ const createDataArray = (amount) => {
         avatar: `img/avatars/user0${i + 1}.png`
       },
       location: {
-        x: getRandomInt(Coordinate.MIN, Coordinate.MAX),
-        y: getRandomInt(Coordinate.MIN, Coordinate.MAX)
+        x: getRandomInt(CoordinateX.MIN, CoordinateX.MAX),
+        y: getRandomInt(CoordinateY.MIN, CoordinateY.MAX)
       },
       offer: {
         title: getRandomArrElement(TITLES),
-        address: `${getRandomInt(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInt(Coordinate.MIN, Coordinate.MAX)}`,
+        address: `${getRandomInt(CoordinateX.MIN, CoordinateX.MAX)}, ${getRandomInt(CoordinateY.MIN, CoordinateY.MAX)}`,
         price: getRandomInt(Price.MIN, Price.MAX),
         type: getRandomArrElement(Object.keys(HOUSE_TYPES)),
         rooms: getRandomArrElement(ROOMS_AMOUNT),

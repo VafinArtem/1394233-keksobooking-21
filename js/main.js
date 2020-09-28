@@ -8,6 +8,11 @@ const TITLES = [
   `Дом трехэтажный с бассейном`,
   `Просторный гараж`
 ];
+const DESCRIPTIONS = [
+  `Великолепный таун-хауз в центре Токио. Подходит как туристам, так и бизнесменам. Дом полностью укомплектован и имеет свежий ремонт.`,
+  `Маленькая чистая квратира на краю парка. Без интернета, регистрации и СМС.`,
+  `Замечательный дворец в старинном центре города. Только для тех кто может себе позволить дворец. Лакеев и прочих жокеев просим не беспокоить.`
+];
 const FEATURES_CLASS_MAP = {
   wifi: `popup__feature--wifi`,
   dishwasher: `popup__feature--dishwasher`,
@@ -108,7 +113,7 @@ const createDataArray = (amount) => {
         checkin: getRandomArrElement(CHECKINS),
         checkout: getRandomArrElement(CHECKOUTS),
         features: Object.keys(FEATURES_CLASS_MAP),
-        description: ``,
+        description: getRandomArrElement(DESCRIPTIONS),
         photos: PHOTO_URLS
       }
     });

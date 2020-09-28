@@ -65,7 +65,6 @@ const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
-const cardPhotoTemplate = document.querySelector(`#card`).content.querySelector(`.popup__photo`);
 
 const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);
@@ -79,29 +78,10 @@ const getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-// const delChild = (parent, child) => {
-//   parent.removeChild(child);
-// };
-
-// const disableNode = (node, childTag) => {
-//   if (!node.contains(node.querySelector(childTag))) {
-//     node.style = `display: none`;
-//   }
-// };
-
 const getDeclension = (number, titles) => {
   const cases = [2, 0, 1, 1, 1, 2];
   return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 };
-
-// const disableTextElement = (parent, typeTextElement) => {
-//   const childs = parent.querySelectorAll(typeTextElement);
-//   for (let i = 0; i < childs.length; i++) {
-//     if (childs[i].textContent === ``) {
-//       childs[i].style = `display:none`;
-//     }
-//   }
-// };
 
 const createDataArray = (amount) => {
   const array = [];
@@ -142,14 +122,6 @@ const createPin = (array) => {
   return pinElement;
 };
 
-const createPhotosElements = (photosArr, source) => {
-  for (let i = 0; i < photosArr.length; i++) {
-    const photoElement = cardPhotoTemplate.cloneNode(true);
-    photoElement.src = photosArr[i];
-    source.appendChild(photoElement);
-  }
-  return source;
-};
 
 const filterFeatures = (cardNode, featuresArr) => {
   let featureNodes = cardNode.querySelectorAll(`.popup__feature`);
@@ -165,7 +137,6 @@ const filterFeatures = (cardNode, featuresArr) => {
 
 const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);
-  const photoSource = cardElement.querySelector(`.popup__photos`);
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
@@ -175,13 +146,19 @@ const createCard = (object) => {
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
   cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
   filterFeatures(cardElement, object.offer.features);
-  cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
 
-  // disableNode(featuresNode, `li`);
-  // disableNode(photosNode, `img`);
-  // disableTextElement(cardElement, `p`);
-  // disableTextElement(cardElement, `h3`);
-  // disableTextElement(cardElement, `h4`);
+  if (object.offer.photos.length) {
+    cardElement.querySelector(`.popup__photos`).classList.remove(`hidden`);
+    let photoNode = cardElement.querySelector(`.popup__photo`);
+    photoNode.src = object.offer.photos[0];
+    if (object.offer.photos.length > 1) {
+      const fragment = document.createDocumentFragment();
+      for (let i = 1; i < object.offer.photos.length; i++) {
+        fragment.appendChild(photoNode.cloneNode(true)).src = object.offer.photos[i];
+      }
+      photoNode.parentElement.appendChild(fragment);
+    }
+  }
 
   return cardElement;
 };

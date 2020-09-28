@@ -70,11 +70,11 @@ const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);
 };
 
-const getRandomData = (arrayName) => {
-  return arrayName[Math.floor(Math.random() * arrayName.length)];
+const getRandomArrElement = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
 };
 
-const getRandomInRange = (min, max) => {
+const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -91,18 +91,18 @@ const createDataArray = (amount) => {
         avatar: `img/avatars/user0${i + 1}.png`
       },
       location: {
-        x: getRandomInRange(Coordinate.MIN, Coordinate.MAX),
-        y: getRandomInRange(Coordinate.MIN, Coordinate.MAX)
+        x: getRandomInt(Coordinate.MIN, Coordinate.MAX),
+        y: getRandomInt(Coordinate.MIN, Coordinate.MAX)
       },
       offer: {
-        title: getRandomData(TITLES),
-        address: `${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInRange(Coordinate.MIN, Coordinate.MAX)}`,
-        price: getRandomInRange(Price.MIN, Price.MAX),
-        type: getRandomData(Object.keys(HOUSE_TYPES)),
-        rooms: getRandomData(ROOMS_AMOUNT),
-        guests: getRandomData(GUESTS_AMOUNT),
-        checkin: getRandomData(CHECKINS),
-        checkout: getRandomData(CHECKOUTS),
+        title: getRandomArrElement(TITLES),
+        address: `${getRandomInt(Coordinate.MIN, Coordinate.MAX)}, ${getRandomInt(Coordinate.MIN, Coordinate.MAX)}`,
+        price: getRandomInt(Price.MIN, Price.MAX),
+        type: getRandomArrElement(Object.keys(HOUSE_TYPES)),
+        rooms: getRandomArrElement(ROOMS_AMOUNT),
+        guests: getRandomArrElement(GUESTS_AMOUNT),
+        checkin: getRandomArrElement(CHECKINS),
+        checkout: getRandomArrElement(CHECKOUTS),
         features: Object.keys(FEATURES_CLASS_MAP),
         description: ``,
         photos: PHOTO_URLS
@@ -122,59 +122,59 @@ const createPin = (array) => {
   return pinElement;
 };
 
-const createCard = (object) => {
+const createCard = (dataObject) => {
   const cardElement = mapCardTemplate.cloneNode(true);
-  if (object.offer.title.length) {
+  if (dataObject.offer.title.length) {
     cardElement.querySelector(`.popup__title`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
+    cardElement.querySelector(`.popup__title`).textContent = dataObject.offer.title;
   }
-  if (object.offer.address.length) {
+  if (dataObject.offer.address.length) {
     cardElement.querySelector(`.popup__text--address`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--address`).textContent = object.offer.title;
+    cardElement.querySelector(`.popup__text--address`).textContent = dataObject.offer.address;
   }
-  if (object.offer.price.length) {
+  if (dataObject.offer.price.length) {
     cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
+    cardElement.querySelector(`.popup__text--price`).textContent = `${dataObject.offer.price} ₽/ночь`;
   }
-  if (object.offer.price.length) {
+  if (dataObject.offer.price.length) {
     cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
+    cardElement.querySelector(`.popup__text--price`).textContent = `${dataObject.offer.price} ₽/ночь`;
   }
-  if (object.offer.type.length) {
+  if (dataObject.offer.type.length) {
     cardElement.querySelector(`.popup__type`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[object.offer.type];
+    cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[dataObject.offer.type];
   }
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} ${getDeclension(object.offer.rooms, [`комната`, `комнаты`, `комнат`])} для ${object.offer.guests} ${getDeclension(object.offer.guests, [`гостя`, `гостей`, `гостей`])}`;
-  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `${dataObject.offer.rooms} ${getDeclension(dataObject.offer.rooms, [`комната`, `комнаты`, `комнат`])} для ${dataObject.offer.guests} ${getDeclension(dataObject.offer.guests, [`гостя`, `гостей`, `гостей`])}`;
+  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${dataObject.offer.checkin}, выезд до ${dataObject.offer.checkout}`;
 
-  if (object.offer.description.length) {
+  if (dataObject.offer.description.length) {
     cardElement.querySelector(`.popup__description`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
+    cardElement.querySelector(`.popup__description`).textContent = dataObject.offer.description;
   }
-  if (object.author.avatar.length) {
+  if (dataObject.author.avatar.length) {
     cardElement.querySelector(`.popup__avatar`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
+    cardElement.querySelector(`.popup__avatar`).src = dataObject.author.avatar;
   }
-  if (object.offer.features.length) {
+  if (dataObject.offer.features.length) {
     cardElement.querySelector(`.popup__features`).classList.remove(`hidden`);
     const featureNodes = cardElement.querySelectorAll(`.popup__feature`);
     for (let i = 0; i < featureNodes.length; i++) {
-      for (let j = 0; j < object.offer.features.length; j++) {
-        if (featureNodes[i].classList.contains(FEATURES_CLASS_MAP[object.offer.features[j]])) {
+      for (let j = 0; j < dataObject.offer.features.length; j++) {
+        if (featureNodes[i].classList.contains(FEATURES_CLASS_MAP[dataObject.offer.features[j]])) {
           featureNodes[i].classList.remove(`hidden`);
           break;
         }
       }
     }
   }
-  if (object.offer.photos.length) {
+  if (dataObject.offer.photos.length) {
     cardElement.querySelector(`.popup__photos`).classList.remove(`hidden`);
     let photoNode = cardElement.querySelector(`.popup__photo`);
-    photoNode.src = object.offer.photos[0];
-    if (object.offer.photos.length > 1) {
+    photoNode.src = dataObject.offer.photos[0];
+    if (dataObject.offer.photos.length > 1) {
       const fragment = document.createDocumentFragment();
-      for (let i = 1; i < object.offer.photos.length; i++) {
-        fragment.appendChild(photoNode.cloneNode(true)).src = object.offer.photos[i];
+      for (let i = 1; i < dataObject.offer.photos.length; i++) {
+        fragment.appendChild(photoNode.cloneNode(true)).src = dataObject.offer.photos[i];
       }
       photoNode.parentElement.appendChild(fragment);
     }
@@ -198,21 +198,13 @@ const createСardFragment = (cardObj) => {
   return fragment;
 };
 
-const addNodeFragment = (element) => {
-  mapPinsNode.appendChild(element);
-};
-
-const addCardFragment = (element) => {
-  mapNode.insertBefore(element, mapFiltersNode);
-};
-
 const initPinsScreen = () => {
   const pinsDataArray = createDataArray(PINS_AMOUNT);
   const pinsNodesFragment = createPinsNodeFragment(pinsDataArray);
-  const cardNodesFragnment = createСardFragment(pinsDataArray[0]);
+  const cardNodesFragment = createСardFragment(pinsDataArray[0]);
 
-  addCardFragment(cardNodesFragnment);
-  addNodeFragment(pinsNodesFragment);
+  mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
+  mapPinsNode.appendChild(pinsNodesFragment);
   activeModeOn(mapNode);
 };
 

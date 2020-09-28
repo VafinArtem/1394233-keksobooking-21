@@ -116,12 +116,12 @@ const createDataArray = (amount) => {
   return array;
 };
 
-const createPin = (array) => {
+const createPin = (obj) => {
   const pinElement = mapPinTemplate.cloneNode(true);
-  pinElement.style.left = `${array.location.x - 25}px`;
-  pinElement.style.top = `${array.location.y - 35}px`;
-  pinElement.querySelector(`img`).src = array.author.avatar;
-  pinElement.querySelector(`img`).alt = array.offer.title;
+  pinElement.style.left = `${obj.location.x - 25}px`;
+  pinElement.style.top = `${obj.location.y - 35}px`;
+  pinElement.querySelector(`img`).src = obj.author.avatar;
+  pinElement.querySelector(`img`).alt = obj.offer.title;
 
   return pinElement;
 };

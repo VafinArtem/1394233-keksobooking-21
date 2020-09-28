@@ -8,14 +8,14 @@ const TITLES = [
   `Дом трехэтажный с бассейном`,
   `Просторный гараж`
 ];
-const FEATURES = [
-  `wifi`,
-  `dishwasher`,
-  `parking`,
-  `washer`,
-  `elevator`,
-  `conditioner`
-];
+const FEATURES_CLASS_MAP = {
+  wifi: `popup__feature--wifi`,
+  dishwasher: `popup__feature--dishwasher`,
+  parking: `popup__feature--parking`,
+  washer: `popup__feature--washer`,
+  elevator: `popup__feature--elevator`,
+  conditioner: `popup__feature--conditioner`
+};
 const CHECKINS = [
   `12:00`,
   `13:00`,
@@ -79,24 +79,29 @@ const getRandomInRange = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const delChild = (parent, child) => {
-  parent.removeChild(child);
+// const delChild = (parent, child) => {
+//   parent.removeChild(child);
+// };
+
+// const disableNode = (node, childTag) => {
+//   if (!node.contains(node.querySelector(childTag))) {
+//     node.style = `display: none`;
+//   }
+// };
+
+const getDeclension = (number, titles) => {
+  const cases = [2, 0, 1, 1, 1, 2];
+  return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 };
 
-const disableNode = (node, childTag) => {
-  if (!node.contains(node.querySelector(childTag))) {
-    node.style = `display: none`;
-  }
-};
-
-const disableTextElement = (parent, typeTextElement) => {
-  const childs = parent.querySelectorAll(typeTextElement);
-  for (let i = 0; i < childs.length; i++) {
-    if (childs[i].textContent === ``) {
-      childs[i].style = `display:none`;
-    }
-  }
-};
+// const disableTextElement = (parent, typeTextElement) => {
+//   const childs = parent.querySelectorAll(typeTextElement);
+//   for (let i = 0; i < childs.length; i++) {
+//     if (childs[i].textContent === ``) {
+//       childs[i].style = `display:none`;
+//     }
+//   }
+// };
 
 const createDataArray = (amount) => {
   const array = [];
@@ -118,7 +123,7 @@ const createDataArray = (amount) => {
         guests: getRandomData(GUESTS_AMOUNT),
         checkin: getRandomData(CHECKINS),
         checkout: getRandomData(CHECKOUTS),
-        features: FEATURES,
+        features: Object.keys(FEATURES_CLASS_MAP),
         description: ``,
         photos: PHOTO_URLS
       }
@@ -146,63 +151,37 @@ const createPhotosElements = (photosArr, source) => {
   return source;
 };
 
-const createFeaturesElements = (featuresArr) => {
-  const mapCardNode = mapCardTemplate.cloneNode(true);
-  const featuresNode = mapCardNode.querySelector(`.popup__features`);
-  const featuresElement = featuresNode.querySelectorAll(`.popup__feature`);
-
-  if (featuresArr.length === 0) {
-    for (let featureElement of featuresElement) {
-      delChild(featuresNode, featureElement);
-    }
-  } else {
-    for (let i = 0; i < featuresArr.length; i++) {
-      if (!featuresArr.includes(`wifi`)) {
-        featuresNode.querySelector(`.popup__feature--wifi`).style = `display: none`;
-      }
-      if (!featuresArr.includes(`dishwasher`)) {
-        featuresNode.querySelector(`.popup__feature--dishwasher`).style = `display: none`;
-      }
-      if (!featuresArr.includes(`parking`)) {
-        featuresNode.querySelector(`.popup__feature--parking`).style = `display: none`;
-      }
-      if (!featuresArr.includes(`washer`)) {
-        featuresNode.querySelector(`.popup__feature--washer`).style = `display: none`;
-      }
-      if (!featuresArr.includes(`elevator`)) {
-        featuresNode.querySelector(`.popup__feature--elevator`).style = `display: none`;
-      }
-      if (!featuresArr.includes(`conditioner`)) {
-        featuresNode.querySelector(`.popup__feature--conditioner`).style = `display: none`;
+const filterFeatures = (cardNode, featuresArr) => {
+  let featureNodes = cardNode.querySelectorAll(`.popup__feature`);
+  for (let i = 0; i < featureNodes.length; i++) {
+    for (let j = 0; j < featuresArr.length; j++) {
+      if (featureNodes[i].classList.contains(FEATURES_CLASS_MAP[featuresArr[j]])) {
+        featureNodes[i].classList.remove(`hidden`);
+        break;
       }
     }
   }
-
-  return featuresNode;
 };
 
 const createCard = (object) => {
   const cardElement = mapCardTemplate.cloneNode(true);
   const photoSource = cardElement.querySelector(`.popup__photos`);
-  const photoImg = photoSource.querySelector(`.popup__photo`);
-  const featuresSource = cardElement.querySelector(`.popup__features`);
-  delChild(cardElement, featuresSource);
-  delChild(photoSource, photoImg);
   cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
   cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
   cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
   cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[object.offer.type];
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} комнаты для ${object.offer.guests} гостей`;
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} ${getDeclension(object.offer.rooms, [`комната`, `комнаты`, `комнат`])} для ${object.offer.guests} ${getDeclension(object.offer.guests, [`гостя`, `гостей`, `гостей`])}`;
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
   cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
   cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
-  const featuresNode = cardElement.insertBefore(createFeaturesElements(object.offer.features), cardElement.querySelector(`.popup__description`));
-  const photosNode = cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
-  disableNode(featuresNode, `li`);
-  disableNode(photosNode, `img`);
-  disableTextElement(cardElement, `p`);
-  disableTextElement(cardElement, `h3`);
-  disableTextElement(cardElement, `h4`);
+  filterFeatures(cardElement, object.offer.features);
+  cardElement.appendChild(createPhotosElements(object.offer.photos, photoSource));
+
+  // disableNode(featuresNode, `li`);
+  // disableNode(photosNode, `img`);
+  // disableTextElement(cardElement, `p`);
+  // disableTextElement(cardElement, `h3`);
+  // disableTextElement(cardElement, `h4`);
 
   return cardElement;
 };

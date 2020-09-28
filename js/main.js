@@ -122,31 +122,51 @@ const createPin = (array) => {
   return pinElement;
 };
 
+const createCard = (object) => {
+  const cardElement = mapCardTemplate.cloneNode(true);
+  if (object.offer.title.length) {
+    cardElement.querySelector(`.popup__title`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
+  }
+  if (object.offer.address.length) {
+    cardElement.querySelector(`.popup__text--address`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__text--address`).textContent = object.offer.title;
+  }
+  if (object.offer.price.length) {
+    cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
+  }
+  if (object.offer.price.length) {
+    cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
+  }
+  if (object.offer.type.length) {
+    cardElement.querySelector(`.popup__type`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[object.offer.type];
+  }
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} ${getDeclension(object.offer.rooms, [`комната`, `комнаты`, `комнат`])} для ${object.offer.guests} ${getDeclension(object.offer.guests, [`гостя`, `гостей`, `гостей`])}`;
+  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
 
-const filterFeatures = (cardNode, featuresArr) => {
-  let featureNodes = cardNode.querySelectorAll(`.popup__feature`);
-  for (let i = 0; i < featureNodes.length; i++) {
-    for (let j = 0; j < featuresArr.length; j++) {
-      if (featureNodes[i].classList.contains(FEATURES_CLASS_MAP[featuresArr[j]])) {
-        featureNodes[i].classList.remove(`hidden`);
-        break;
+  if (object.offer.description.length) {
+    cardElement.querySelector(`.popup__description`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
+  }
+  if (object.author.avatar.length) {
+    cardElement.querySelector(`.popup__avatar`).classList.remove(`hidden`);
+    cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
+  }
+  if (object.offer.features.length) {
+    cardElement.querySelector(`.popup__features`).classList.remove(`hidden`);
+    const featureNodes = cardElement.querySelectorAll(`.popup__feature`);
+    for (let i = 0; i < featureNodes.length; i++) {
+      for (let j = 0; j < object.offer.features.length; j++) {
+        if (featureNodes[i].classList.contains(FEATURES_CLASS_MAP[object.offer.features[j]])) {
+          featureNodes[i].classList.remove(`hidden`);
+          break;
+        }
       }
     }
   }
-};
-
-const createCard = (object) => {
-  const cardElement = mapCardTemplate.cloneNode(true);
-  cardElement.querySelector(`.popup__title`).textContent = object.offer.title;
-  cardElement.querySelector(`.popup__text--address`).textContent = object.offer.address;
-  cardElement.querySelector(`.popup__text--price`).textContent = `${object.offer.price} ₽/ночь`;
-  cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[object.offer.type];
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `${object.offer.rooms} ${getDeclension(object.offer.rooms, [`комната`, `комнаты`, `комнат`])} для ${object.offer.guests} ${getDeclension(object.offer.guests, [`гостя`, `гостей`, `гостей`])}`;
-  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${object.offer.checkin}, выезд до ${object.offer.checkout}`;
-  cardElement.querySelector(`.popup__description`).textContent = object.offer.description;
-  cardElement.querySelector(`.popup__avatar`).src = object.author.avatar;
-  filterFeatures(cardElement, object.offer.features);
-
   if (object.offer.photos.length) {
     cardElement.querySelector(`.popup__photos`).classList.remove(`hidden`);
     let photoNode = cardElement.querySelector(`.popup__photo`);

@@ -60,13 +60,9 @@ const Price = {
   MAX: 10000,
   MIN: 1000
 };
-const CoordinateY = {
-  MAX: 630,
-  MIN: 130
-};
-const CoordinateX = {
-  MAX: 970,
-  MIN: 130
+const PinSize = {
+  WIDTH: 50,
+  HEIGHT: 70
 };
 
 const mapNode = document.querySelector(`.map`);
@@ -74,6 +70,17 @@ const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+
+const Coordinates = {
+  Y: {
+    MAX: 630 - PinSize.HEIGHT,
+    MIN: 130
+  },
+  X: {
+    MAX: mapPinsNode.offsetWidth - (PinSize.WIDTH / 2),
+    MIN: -(PinSize.WIDTH / 2)
+  }
+};
 
 const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);
@@ -100,12 +107,12 @@ const createDataArray = (amount) => {
         avatar: `img/avatars/user0${i + 1}.png`
       },
       location: {
-        x: getRandomInt(CoordinateX.MIN, CoordinateX.MAX),
-        y: getRandomInt(CoordinateY.MIN, CoordinateY.MAX)
+        x: getRandomInt(Coordinates.X.MIN, Coordinates.X.MAX),
+        y: getRandomInt(Coordinates.Y.MIN, Coordinates.Y.MAX)
       },
       offer: {
         title: getRandomArrElement(TITLES),
-        address: `${getRandomInt(CoordinateX.MIN, CoordinateX.MAX)}, ${getRandomInt(CoordinateY.MIN, CoordinateY.MAX)}`,
+        address: `${getRandomInt(Coordinates.X.MIN, Coordinates.X.MAX)}, ${getRandomInt(Coordinates.Y.MIN, Coordinates.Y.MAX)}`,
         price: getRandomInt(Price.MIN, Price.MAX),
         type: getRandomArrElement(Object.keys(HOUSE_TYPES)),
         rooms: getRandomArrElement(ROOMS_AMOUNT),
@@ -123,8 +130,8 @@ const createDataArray = (amount) => {
 
 const createPin = (obj) => {
   const pinElement = mapPinTemplate.cloneNode(true);
-  pinElement.style.left = `${obj.location.x - 25}px`;
-  pinElement.style.top = `${obj.location.y - 35}px`;
+  pinElement.style.left = `${obj.location.x}px`;
+  pinElement.style.top = `${obj.location.y}px`;
   pinElement.querySelector(`img`).src = obj.author.avatar;
   pinElement.querySelector(`img`).alt = obj.offer.title;
 

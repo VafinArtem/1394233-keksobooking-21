@@ -99,8 +99,8 @@ const getDeclension = (number, titles) => {
   return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
 };
 
-const getRandomValuesArr = (array) => {
-  return array.slice(0, (Math.floor(Math.random() * array.length)));
+const getRandomLenghtArr = (array) => {
+  return array.slice(0, getRandomInt(0, array.length));
 };
 
 const createDataArray = (amount) => {
@@ -123,9 +123,9 @@ const createDataArray = (amount) => {
         guests: getRandomArrElement(GUESTS_AMOUNT),
         checkin: getRandomArrElement(CHECKINS),
         checkout: getRandomArrElement(CHECKOUTS),
-        features: getRandomValuesArr(Object.keys(FEATURES_CLASS_MAP)),
+        features: getRandomLenghtArr(Object.keys(FEATURES_CLASS_MAP)),
         description: getRandomArrElement(DESCRIPTIONS),
-        photos: getRandomValuesArr(PHOTO_URLS)
+        photos: getRandomLenghtArr(PHOTO_URLS)
       }
     });
   }
@@ -152,13 +152,9 @@ const createCard = (dataObject) => {
     cardElement.querySelector(`.popup__text--address`).classList.remove(`hidden`);
     cardElement.querySelector(`.popup__text--address`).textContent = dataObject.offer.address;
   }
-  if (dataObject.offer.price.length) {
+  if (dataObject.offer.price) {
     cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--price`).textContent = `${dataObject.offer.price} ₽/ночь`;
-  }
-  if (dataObject.offer.price.length) {
-    cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--price`).textContent = `${dataObject.offer.price} ₽/ночь`;
+    cardElement.querySelector(`.popup__text--price`).textContent = `${new Intl.NumberFormat(`ru-RU`).format(dataObject.offer.price)} ₽/ночь`;
   }
   if (dataObject.offer.type.length) {
     cardElement.querySelector(`.popup__type`).classList.remove(`hidden`);

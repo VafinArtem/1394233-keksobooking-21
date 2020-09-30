@@ -64,6 +64,10 @@ const PinSize = {
   WIDTH: 50,
   HEIGHT: 70
 };
+const MainPinSize = {
+  WIDTH: 62,
+  HEIGHT: 72
+};
 const KeyboardKeys = {
   ESCAPE: `Escape`,
   ENTER: `Enter`
@@ -251,7 +255,7 @@ const onActiveMode = () => {
   enabledFormBlocks(mapFiltersBlocks);
   enebledNode(mapNode, `map--faded`);
   enebledNode(formNode, `ad-form--disabled`);
-}
+};
 
 disabledFormBlocks(formBlocks);
 disabledFormBlocks(mapFiltersSelect);
@@ -260,6 +264,7 @@ disabledFormBlocks(mapFiltersBlocks);
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {
     onActiveMode();
+    formNode.querySelector(`input[name="address"]`).value = `${Number.parseInt(mapPinMain.style.left, 10) + MainPinSize.WIDTH / 2}, ${Number.parseInt(mapPinMain.style.top, 10) + MainPinSize.HEIGHT}`;
   }
 });
 

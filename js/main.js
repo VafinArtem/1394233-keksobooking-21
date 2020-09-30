@@ -67,11 +67,13 @@ const PinSize = {
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
-// const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
+const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const formNode = document.querySelector(`.ad-form`);
 const formBlocks = formNode.querySelectorAll(`fieldset`);
+const mapFiltersSelect = mapFiltersNode.querySelectorAll(`select`);
+const mapFiltersBlocks = mapFiltersNode.querySelectorAll(`fieldset`);
 
 const Coordinates = {
   Y: {
@@ -84,13 +86,15 @@ const Coordinates = {
   }
 };
 
-const disabledFormBlocks = () => {
-  for (let formBlock of formBlocks) {
-    formBlock.setAttribute(`disabled`, `true`);
+const disabledFormBlocks = (blocks) => {
+  for (let block of blocks) {
+    block.setAttribute(`disabled`, `true`);
   }
 };
 
-disabledFormBlocks();
+disabledFormBlocks(formBlocks);
+disabledFormBlocks(mapFiltersSelect);
+disabledFormBlocks(mapFiltersBlocks);
 
 const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);

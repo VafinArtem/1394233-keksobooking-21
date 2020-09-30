@@ -70,6 +70,8 @@ const mapPinsNode = mapNode.querySelector(`.map__pins`);
 // const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
+const formNode = document.querySelector(`.ad-form`);
+const formBlocks = formNode.querySelectorAll(`fieldset`);
 
 const Coordinates = {
   Y: {
@@ -81,6 +83,14 @@ const Coordinates = {
     MIN: -(PinSize.WIDTH / 2)
   }
 };
+
+const disabledFormBlocks = () => {
+  for (let formBlock of formBlocks) {
+    formBlock.setAttribute(`disabled`, `true`);
+  }
+};
+
+disabledFormBlocks();
 
 const activeModeOn = (element) => {
   element.classList.remove(`map--faded`);
@@ -220,8 +230,8 @@ const initPinsScreen = () => {
   // const cardNodesFragment = createСardFragment(pinsDataArray[0]);
 
   // mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-  mapPinsNode.appendChild(pinsNodesFragment);
-  activeModeOn(mapNode);
+  // mapPinsNode.appendChild(pinsNodesFragment);
+  // activeModeOn(mapNode);
 };
 
 initPinsScreen();

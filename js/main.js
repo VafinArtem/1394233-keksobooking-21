@@ -67,6 +67,7 @@ const PinSize = {
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
+const mapPinMain = mapNode.querySelector(`.map__pin--main`);
 const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
@@ -92,12 +93,14 @@ const disabledFormBlocks = (blocks) => {
   }
 };
 
-disabledFormBlocks(formBlocks);
-disabledFormBlocks(mapFiltersSelect);
-disabledFormBlocks(mapFiltersBlocks);
+const enabledFormBlocks = (blocks) => {
+  for (let block of blocks) {
+    block.removeAttribute(`disabled`);
+  }
+};
 
-const activeModeOn = (element) => {
-  element.classList.remove(`map--faded`);
+const activeModeOn = (element, noActivityClass) => {
+  element.classList.remove(noActivityClass);
 };
 
 const getRandomArrElement = (arr) => {
@@ -235,7 +238,22 @@ const initPinsScreen = () => {
 
   // mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
   // mapPinsNode.appendChild(pinsNodesFragment);
-  // activeModeOn(mapNode);
+
 };
+
+
+disabledFormBlocks(formBlocks);
+disabledFormBlocks(mapFiltersSelect);
+disabledFormBlocks(mapFiltersBlocks);
+
+mapPinMain.addEventListener(`mousedown`, function (evt) {
+  if (evt.button === 0) {
+    enabledFormBlocks(formBlocks);
+    enabledFormBlocks(mapFiltersSelect);
+    enabledFormBlocks(mapFiltersBlocks);
+    activeModeOn(mapNode, `map--faded`);
+    activeModeOn(formNode, `ad-form--disabled`);
+  }
+});
 
 initPinsScreen();

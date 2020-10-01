@@ -245,7 +245,7 @@ const initPinsScreen = () => {
   // const cardNodesFragment = createСardFragment(pinsDataArray[0]);
 
   // mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-  // mapPinsNode.appendChild(pinsNodesFragment);
+  mapPinsNode.appendChild(pinsNodesFragment);
 
 };
 
@@ -264,6 +264,7 @@ disabledFormBlocks(mapFiltersBlocks);
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {
     onActiveMode();
+    initPinsScreen();
     formNode.querySelector(`input[name="address"]`).value = `${Number.parseInt(mapPinMain.style.left, 10) + MainPinSize.WIDTH / 2}, ${Number.parseInt(mapPinMain.style.top, 10) + MainPinSize.HEIGHT}`;
   }
 });
@@ -271,7 +272,7 @@ mapPinMain.addEventListener(`mousedown`, function (evt) {
 mapPinMain.addEventListener(`keydown`, function (evt) {
   if (evt.key === KeyboardKeys.ENTER) {
     onActiveMode();
+    initPinsScreen();
+    formNode.querySelector(`input[name="address"]`).value = `${Number.parseInt(mapPinMain.style.left, 10) + MainPinSize.WIDTH / 2}, ${Number.parseInt(mapPinMain.style.top, 10) + MainPinSize.HEIGHT}`;
   }
 });
-
-initPinsScreen();

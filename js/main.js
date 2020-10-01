@@ -81,6 +81,8 @@ const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.ma
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const formNode = document.querySelector(`.ad-form`);
 const formBlocks = formNode.querySelectorAll(`fieldset`);
+const numberRoomInput = formNode.querySelector(`#room_number`);
+const capacityRoomInput = formNode.querySelector(`#capacity`);
 const mapFiltersSelect = mapFiltersNode.querySelectorAll(`select`);
 const mapFiltersBlocks = mapFiltersNode.querySelectorAll(`fieldset`);
 
@@ -95,21 +97,21 @@ const Coordinates = {
   }
 };
 
-const disabledFormBlocks = (blocks) => {
-  for (let block of blocks) {
-    block.setAttribute(`disabled`, `true`);
+capacityRoomInput.addEventListener(`input`, () => {
+  if (capacityRoomInput.value !== `1` && numberRoomInput.value === `1`) {
+    capacityRoomInput.setCustomValidity(`Вы можете выбрать только одного гостя`);
+  } else if (numberRoomInput.value === `2` && capacityRoomInput.value !== `1` && capacityRoomInput.value !== `2`) {
+    capacityRoomInput.setCustomValidity(`Вы можете выбрать только одного гостя или двух гостей`);
+  } else if (numberRoomInput.value === `3` && capacityRoomInput.value !== `1` && capacityRoomInput.value !== `2` && capacityRoomInput.value !== `3`) {
+    capacityRoomInput.setCustomValidity(`Вы можете выбрать только одного гостя, двух гостей или трех гостей`);
+  } else if (numberRoomInput.value === `100` && capacityRoomInput.value !== `0`) {
+    capacityRoomInput.setCustomValidity(`Вы не можете выбрать столько гостей, укажите "не для гостей"`);
+  } else {
+    capacityRoomInput.setCustomValidity(``);
   }
-};
 
-const enabledFormBlocks = (blocks) => {
-  for (let block of blocks) {
-    block.removeAttribute(`disabled`);
-  }
-};
-
-const enebledNode = (element, noActivityClass) => {
-  element.classList.remove(noActivityClass);
-};
+  capacityRoomInput.reportValidity();
+});
 
 const getRandomArrElement = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -126,6 +128,22 @@ const getRandomInt = (min, max) => {
 
 const getRandomLenghtArr = (array) => {
   return array.slice(0, getRandomInt(0, array.length));
+};
+
+const disabledFormBlocks = (blocks) => {
+  for (let block of blocks) {
+    block.setAttribute(`disabled`, `true`);
+  }
+};
+
+const enabledFormBlocks = (blocks) => {
+  for (let block of blocks) {
+    block.removeAttribute(`disabled`);
+  }
+};
+
+const enebledNode = (element, noActivityClass) => {
+  element.classList.remove(noActivityClass);
 };
 
 const createDataArray = (amount) => {

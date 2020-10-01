@@ -101,7 +101,8 @@ const Coordinates = {
 const Form = {
   NUMBER_ROOM: formNode.querySelector(`#room_number`),
   CAPACITY_ROOM: formNode.querySelector(`#capacity`),
-  ADRESS: formNode.querySelector(`#address`)
+  ADRESS: formNode.querySelector(`#address`),
+  SUBMIT: formNode.querySelector(`.ad-form__submit`)
 };
 
 const getRandomArrElement = (arr) => {
@@ -266,6 +267,21 @@ const initPinsScreen = () => {
 
 };
 
+const getCapacityRoomValidation = () => {
+  if (Form.NUMBER_ROOM.value === `1` && Form.CAPACITY_ROOM.value !== `1`) {
+    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя`);
+  } else if (Form.NUMBER_ROOM.value === `2` && Form.CAPACITY_ROOM.value !== `1` && Form.CAPACITY_ROOM.value !== `2`) {
+    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя или двух гостей`);
+  } else if (Form.NUMBER_ROOM.value === `3` && Form.CAPACITY_ROOM.value !== `1` && Form.CAPACITY_ROOM.value !== `2` && Form.CAPACITY_ROOM.value !== `3`) {
+    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя, двух гостей или трех гостей`);
+  } else if (Form.NUMBER_ROOM.value === `100` && Form.CAPACITY_ROOM.value !== `0`) {
+    Form.CAPACITY_ROOM.setCustomValidity(`Вы не можете выбрать столько гостей, укажите "не для гостей"`);
+  } else {
+    Form.CAPACITY_ROOM.setCustomValidity(``);
+  }
+  Form.CAPACITY_ROOM.reportValidity();
+};
+
 const onActiveMode = () => {
   enabledFormBlocks(formBlocks);
   enabledFormBlocks(mapFiltersSelect);
@@ -294,18 +310,5 @@ mapPinMain.addEventListener(`keydown`, function (evt) {
   }
 });
 
-Form.CAPACITY_ROOM.addEventListener(`input`, () => {
-  if (Form.NUMBER_ROOM.value === `1` && Form.CAPACITY_ROOM.value !== `1`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя`);
-  } else if (Form.NUMBER_ROOM.value === `2` && Form.CAPACITY_ROOM.value !== `1` && Form.CAPACITY_ROOM.value !== `2`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя или двух гостей`);
-  } else if (Form.NUMBER_ROOM.value === `3` && Form.CAPACITY_ROOM.value !== `1` && Form.CAPACITY_ROOM.value !== `2` && Form.CAPACITY_ROOM.value !== `3`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя, двух гостей или трех гостей`);
-  } else if (Form.NUMBER_ROOM.value === `100` && Form.CAPACITY_ROOM.value !== `0`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы не можете выбрать столько гостей, укажите "не для гостей"`);
-  } else {
-    Form.CAPACITY_ROOM.setCustomValidity(``);
-  }
-
-  Form.CAPACITY_ROOM.reportValidity();
-});
+Form.CAPACITY_ROOM.addEventListener(`input`, getCapacityRoomValidation);
+Form.SUBMIT.addEventListener(`click`, getCapacityRoomValidation);

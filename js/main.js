@@ -282,6 +282,10 @@ const getCapacityRoomValidation = () => {
   Form.CAPACITY_ROOM.reportValidity();
 };
 
+const passAdressInput = () => {
+  Form.ADRESS.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
+};
+
 const onActiveMode = () => {
   enabledFormBlocks(formBlocks);
   enabledFormBlocks(mapFiltersSelect);
@@ -298,7 +302,7 @@ mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {
     onActiveMode();
     initPinsScreen();
-    Form.ADRESS.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
+    passAdressInput();
   }
 }, {
   once: true
@@ -308,7 +312,7 @@ mapPinMain.addEventListener(`keydown`, function (evt) {
   if (evt.key === KeyboardKeys.ENTER) {
     onActiveMode();
     initPinsScreen();
-    Form.ADRESS.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
+    passAdressInput();
   }
 }, {
   once: true

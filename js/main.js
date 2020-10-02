@@ -130,20 +130,16 @@ const getRandomLenghtArr = (array) => {
   return array.slice(0, getRandomInt(0, array.length));
 };
 
-const disabledFormBlocks = (blocks) => {
+const disableFormBlocks = (blocks) => {
   for (let block of blocks) {
     block.setAttribute(`disabled`, `true`);
   }
 };
 
-const enabledFormBlocks = (blocks) => {
+const enableFormBlocks = (blocks) => {
   for (let block of blocks) {
     block.removeAttribute(`disabled`);
   }
-};
-
-const enebledNode = (element, noActivityClass) => {
-  element.classList.remove(noActivityClass);
 };
 
 const createDataArray = (amount) => {
@@ -287,16 +283,16 @@ const passAdressInput = () => {
 };
 
 const onActiveMode = () => {
-  enabledFormBlocks(formBlocks);
-  enabledFormBlocks(mapFiltersSelect);
-  enabledFormBlocks(mapFiltersBlocks);
-  enebledNode(mapNode, `map--faded`);
-  enebledNode(formNode, `ad-form--disabled`);
+  enableFormBlocks(formBlocks);
+  enableFormBlocks(mapFiltersSelect);
+  enableFormBlocks(mapFiltersBlocks);
+  mapNode.classList.remove(`map--faded`);
+  formNode.classList.remove(`ad-form--disabled`);
 };
 
-disabledFormBlocks(formBlocks);
-disabledFormBlocks(mapFiltersSelect);
-disabledFormBlocks(mapFiltersBlocks);
+disableFormBlocks(formBlocks);
+disableFormBlocks(mapFiltersSelect);
+disableFormBlocks(mapFiltersBlocks);
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {

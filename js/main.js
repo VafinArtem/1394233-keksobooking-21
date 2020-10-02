@@ -109,11 +109,11 @@ const getRandomInt = (min, max) => {
 // };
 
 const getMainMapPinCoordinateX = () => {
-  return Number.parseInt(mapPinMain.style.left, 10) + MainPinSize.WIDTH / 2;
+  return parseInt(mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
 };
 
 const getMainMapPinCoordinateY = () => {
-  return Number.parseInt(mapPinMain.style.top, 10) + MainPinSize.HEIGHT;
+  return parseInt(mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
 };
 
 const getRandomLenghtArr = (array) => {

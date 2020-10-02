@@ -81,9 +81,6 @@ const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.ma
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const formNode = document.querySelector(`.ad-form`);
 const formBlocks = formNode.querySelectorAll(`fieldset`);
-// const Form.NUMBER_ROOM = formNode.querySelector(`#room_number`);
-// const Form.CAPACITY_ROOM = formNode.querySelector(`#capacity`);
-// const adressInput = formNode.querySelector(`#address`);
 const mapFiltersSelect = mapFiltersNode.querySelectorAll(`select`);
 const mapFiltersBlocks = mapFiltersNode.querySelectorAll(`fieldset`);
 
@@ -96,13 +93,6 @@ const Coordinates = {
     MAX: mapPinsNode.offsetWidth - (PinSize.WIDTH / 2),
     MIN: -(PinSize.WIDTH / 2)
   }
-};
-
-const Form = {
-  NUMBER_ROOM: formNode.querySelector(`#room_number`),
-  CAPACITY_ROOM: formNode.querySelector(`#capacity`),
-  ADRESS: formNode.querySelector(`#address`),
-  SUBMIT: formNode.querySelector(`.ad-form__submit`)
 };
 
 const getRandomArrElement = (arr) => {
@@ -264,22 +254,22 @@ const initPinsScreen = () => {
 };
 
 const getCapacityRoomValidation = () => {
-  if (Form.NUMBER_ROOM.value === `1` && Form.CAPACITY_ROOM.value !== `1`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя`);
-  } else if (Form.NUMBER_ROOM.value === `2` && Form.CAPACITY_ROOM.value !== `1` && Form.CAPACITY_ROOM.value !== `2`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя или двух гостей`);
-  } else if (Form.NUMBER_ROOM.value === `3` && Form.CAPACITY_ROOM.value !== `1` && Form.CAPACITY_ROOM.value !== `2` && Form.CAPACITY_ROOM.value !== `3`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы можете выбрать только одного гостя, двух гостей или трех гостей`);
-  } else if (Form.NUMBER_ROOM.value === `100` && Form.CAPACITY_ROOM.value !== `0`) {
-    Form.CAPACITY_ROOM.setCustomValidity(`Вы не можете выбрать столько гостей, укажите "не для гостей"`);
+  if (formNode.rooms.value === `1` && formNode.capacity.value !== `1`) {
+    formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя`);
+  } else if (formNode.rooms.value === `2` && formNode.capacity.value !== `1` && formNode.capacity.value !== `2`) {
+    formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя или двух гостей`);
+  } else if (formNode.rooms.value === `3` && formNode.capacity.value !== `1` && formNode.capacity.value !== `2` && formNode.capacity.value !== `3`) {
+    formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя, двух гостей или трех гостей`);
+  } else if (formNode.rooms.value === `100` && formNode.capacity.value !== `0`) {
+    formNode.capacity.setCustomValidity(`Вы не можете выбрать столько гостей, укажите "не для гостей"`);
   } else {
-    Form.CAPACITY_ROOM.setCustomValidity(``);
+    formNode.capacity.setCustomValidity(``);
   }
-  Form.CAPACITY_ROOM.reportValidity();
+  formNode.capacity.reportValidity();
 };
 
-const passAdressInput = () => {
-  Form.ADRESS.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
+const passAddressInput = () => {
+  formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
 };
 
 const onActiveMode = () => {
@@ -298,7 +288,7 @@ mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {
     onActiveMode();
     initPinsScreen();
-    passAdressInput();
+    passAddressInput();
   }
 }, {
   once: true
@@ -308,11 +298,11 @@ mapPinMain.addEventListener(`keydown`, function (evt) {
   if (evt.key === KeyboardKeys.ENTER) {
     onActiveMode();
     initPinsScreen();
-    passAdressInput();
+    passAddressInput();
   }
 }, {
   once: true
 });
 
-Form.CAPACITY_ROOM.addEventListener(`input`, getCapacityRoomValidation);
-Form.SUBMIT.addEventListener(`click`, getCapacityRoomValidation);
+formNode.capacity.addEventListener(`input`, getCapacityRoomValidation);
+formNode.addEventListener(`submit`, getCapacityRoomValidation);

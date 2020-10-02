@@ -77,12 +77,10 @@ const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
 const mapPinMain = mapNode.querySelector(`.map__pin--main`);
 const mapFiltersNode = mapNode.querySelector(`.map__filters-container`);
+const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const formNode = document.querySelector(`.ad-form`);
-const formBlocks = formNode.querySelectorAll(`fieldset`);
-const mapFiltersSelect = mapFiltersNode.querySelectorAll(`select`);
-const mapFiltersBlocks = mapFiltersNode.querySelectorAll(`fieldset`);
 
 const Coordinates = {
   Y: {
@@ -120,15 +118,15 @@ const getRandomLenghtArr = (array) => {
   return array.slice(0, getRandomInt(0, array.length));
 };
 
-const changeFormActivity = (blocks) => {
-  for (let block of blocks) {
-    if (!block.hasAttribute(`disabled`)) {
-      block.disabled = true;
-    } else {
-      block.disabled = false;
-    }
-  }
-};
+// const changeFormActivity = (blocks) => {
+//   for (let block of blocks) {
+//     if (!block.hasAttribute(`disabled`)) {
+//       block.disabled = true;
+//     } else {
+//       block.disabled = false;
+//     }
+//   }
+// };
 
 const createDataArray = (amount) => {
   const array = [];
@@ -270,17 +268,24 @@ const passAddressInput = () => {
   formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
 };
 
-const onActiveMode = () => {
-  changeFormActivity(formBlocks);
-  changeFormActivity(mapFiltersSelect);
-  changeFormActivity(mapFiltersBlocks);
-  mapNode.classList.remove(`map--faded`);
-  formNode.classList.remove(`ad-form--disabled`);
+const toggleDisabledOnFormNodes = () => {
+  const pageIsActive = formNode.classList.contains(`ad-form--disabled`);
+
+  Array.from(formNode.children).forEach((children) => {
+    children.disabled = pageIsActive;
+  });
+  Array.from(formFiltersNode.children).forEach((children) => {
+    children.disabled = pageIsActive;
+  });
 };
 
-changeFormActivity(formBlocks);
-changeFormActivity(mapFiltersSelect);
-changeFormActivity(mapFiltersBlocks);
+const onActiveMode = () => {
+  mapNode.classList.remove(`map--faded`);
+  formNode.classList.remove(`ad-form--disabled`);
+  toggleDisabledOnFormNodes();
+};
+
+toggleDisabledOnFormNodes();
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {

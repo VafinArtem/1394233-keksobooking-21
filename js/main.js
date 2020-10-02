@@ -120,15 +120,13 @@ const getRandomLenghtArr = (array) => {
   return array.slice(0, getRandomInt(0, array.length));
 };
 
-const disableFormBlocks = (blocks) => {
+const changeFormActivity = (blocks) => {
   for (let block of blocks) {
-    block.setAttribute(`disabled`, `true`);
-  }
-};
-
-const enableFormBlocks = (blocks) => {
-  for (let block of blocks) {
-    block.removeAttribute(`disabled`);
+    if (!block.hasAttribute(`disabled`)) {
+      block.disabled = true;
+    } else {
+      block.disabled = false;
+    }
   }
 };
 
@@ -253,7 +251,7 @@ const initPinsScreen = () => {
 
 };
 
-const getCapacityRoomValidation = () => {
+const validateRoomsInput = () => {
   if (formNode.rooms.value === `1` && formNode.capacity.value !== `1`) {
     formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя`);
   } else if (formNode.rooms.value === `2` && formNode.capacity.value !== `1` && formNode.capacity.value !== `2`) {
@@ -273,16 +271,16 @@ const passAddressInput = () => {
 };
 
 const onActiveMode = () => {
-  enableFormBlocks(formBlocks);
-  enableFormBlocks(mapFiltersSelect);
-  enableFormBlocks(mapFiltersBlocks);
+  changeFormActivity(formBlocks);
+  changeFormActivity(mapFiltersSelect);
+  changeFormActivity(mapFiltersBlocks);
   mapNode.classList.remove(`map--faded`);
   formNode.classList.remove(`ad-form--disabled`);
 };
 
-disableFormBlocks(formBlocks);
-disableFormBlocks(mapFiltersSelect);
-disableFormBlocks(mapFiltersBlocks);
+changeFormActivity(formBlocks);
+changeFormActivity(mapFiltersSelect);
+changeFormActivity(mapFiltersBlocks);
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {
@@ -304,5 +302,5 @@ mapPinMain.addEventListener(`keydown`, function (evt) {
   once: true
 });
 
-formNode.capacity.addEventListener(`input`, getCapacityRoomValidation);
-formNode.addEventListener(`submit`, getCapacityRoomValidation);
+formNode.capacity.addEventListener(`input`, validateRoomsInput);
+formNode.addEventListener(`submit`, validateRoomsInput);

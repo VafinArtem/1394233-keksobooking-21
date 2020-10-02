@@ -300,6 +300,8 @@ mapPinMain.addEventListener(`mousedown`, function (evt) {
     initPinsScreen();
     Form.ADRESS.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
   }
+}, {
+  once: true
 });
 
 mapPinMain.addEventListener(`keydown`, function (evt) {
@@ -308,6 +310,8 @@ mapPinMain.addEventListener(`keydown`, function (evt) {
     initPinsScreen();
     Form.ADRESS.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
   }
+}, {
+  once: true
 });
 
 Form.CAPACITY_ROOM.addEventListener(`input`, getCapacityRoomValidation);

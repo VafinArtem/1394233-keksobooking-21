@@ -54,6 +54,12 @@ const HOUSE_TYPES = {
   palace: `Замок`,
   house: `Дом`
 };
+const ROOMS_FOR_GUESTS_MAP = {
+  1: [`1`],
+  2: [`1`, `2`],
+  3: [`1`, `2`, `3`],
+  100: [`0`]
+};
 const PINS_AMOUNT = 8;
 
 const Price = {
@@ -81,6 +87,7 @@ const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 // const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const formNode = document.querySelector(`.ad-form`);
+const formSubmit = formNode.querySelector(`.ad-form__submit`);
 
 const Coordinates = {
   Y: {
@@ -250,18 +257,8 @@ const initPinsScreen = () => {
 };
 
 const validateRoomsInput = () => {
-  if (formNode.rooms.value === `1` && formNode.capacity.value !== `1`) {
-    formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя`);
-  } else if (formNode.rooms.value === `2` && formNode.capacity.value !== `1` && formNode.capacity.value !== `2`) {
-    formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя или двух гостей`);
-  } else if (formNode.rooms.value === `3` && formNode.capacity.value !== `1` && formNode.capacity.value !== `2` && formNode.capacity.value !== `3`) {
-    formNode.capacity.setCustomValidity(`Вы можете выбрать только одного гостя, двух гостей или трех гостей`);
-  } else if (formNode.rooms.value === `100` && formNode.capacity.value !== `0`) {
-    formNode.capacity.setCustomValidity(`Вы не можете выбрать столько гостей, укажите "не для гостей"`);
-  } else {
-    formNode.capacity.setCustomValidity(``);
-  }
   formNode.capacity.reportValidity();
+  return !ROOMS_FOR_GUESTS_MAP[formNode.rooms.value].includes(formNode.capacity.value) ? formNode.capacity.setCustomValidity(`Вы не можете выбрать данное количество гостей`) : formNode.capacity.setCustomValidity(``);
 };
 
 const passAddressInput = () => {
@@ -308,4 +305,5 @@ mapPinMain.addEventListener(`keydown`, function (evt) {
 });
 
 formNode.capacity.addEventListener(`input`, validateRoomsInput);
-formNode.addEventListener(`submit`, validateRoomsInput);
+formNode.rooms.addEventListener(`input`, validateRoomsInput);
+formSubmit.addEventListener(`click`, validateRoomsInput);

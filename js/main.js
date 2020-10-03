@@ -272,9 +272,11 @@ const toggleDisabledOnFormNodes = () => {
 
   Array.from(formNode.children).forEach((children) => {
     children.disabled = pageIsActive;
+    children.classList.toggle(`disable-cursor`);
   });
   Array.from(formFiltersNode.children).forEach((children) => {
     children.disabled = pageIsActive;
+    children.classList.toggle(`disable-cursor`);
   });
 };
 

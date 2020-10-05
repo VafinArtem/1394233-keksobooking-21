@@ -74,10 +74,10 @@ const MainPinSize = {
   WIDTH: 62,
   HEIGHT: 72
 };
-const KeyboardKeys = {
-  ESCAPE: `Escape`,
-  ENTER: `Enter`
-};
+// const KeyboardKeys = {
+//   ESCAPE: `Escape`,
+//   ENTER: `Enter`
+// };
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
@@ -290,16 +290,18 @@ toggleDisabledOnFormNodes();
 
 mapPinMain.addEventListener(`mousedown`, function (evt) {
   if (evt.button === 0) {
-    onActiveMode();
-    initPinsScreen();
-    passAddressInput();
+    if (formNode.classList.contains(`ad-form--disabled`)) {
+      onActiveMode();
+      initPinsScreen();
+      passAddressInput();
+    }
   }
 }, {
   once: true
 });
 
-mapPinMain.addEventListener(`keydown`, function (evt) {
-  if (evt.key === KeyboardKeys.ENTER) {
+mapPinMain.addEventListener(`click`, function () {
+  if (formNode.classList.contains(`ad-form--disabled`)) {
     onActiveMode();
     initPinsScreen();
     passAddressInput();

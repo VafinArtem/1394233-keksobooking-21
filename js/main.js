@@ -294,21 +294,14 @@ mapPinMain.addEventListener(`click`, function () {
 
   pinsArr.forEach((element, index) => {
     element.addEventListener(`click`, () => {
+      const cardNode = mapNode.querySelector(`.map__card`);
+      if (cardNode) {
+        cardNode.parentNode.removeChild(cardNode);
+      }
       const cardNodesFragment = createСardFragment(pinsDataArray[index]);
       mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
     });
   });
-
-
-  // Array.from(formNode.children).forEach((child) => {
-  //   child.disabled = isPageDisabled;
-  //   child.classList[classListMethod](`disable-cursor`);
-  // });
-
-  // mapPins.addEventListener(`click`, () => {
-  // const cardNodesFragment = createСardFragment(pinsDataArray[0]);
-  // mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-  // });
 }, {
   once: true
 });

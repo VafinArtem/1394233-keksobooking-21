@@ -257,10 +257,8 @@ const initPinsScreen = () => {
 };
 
 const validateRoomsInput = () => {
-
-  const a = !ROOMS_FOR_GUESTS_MAP[formNode.rooms.value].includes(formNode.capacity.value) ? formNode.capacity.setCustomValidity(`Вы не можете выбрать данное количество гостей`) : formNode.capacity.setCustomValidity(``);
+  formNode.capacity.setCustomValidity(ROOMS_FOR_GUESTS_MAP[formNode.rooms.value].includes(formNode.capacity.value) ? `` : `Вы не можете выбрать данное количество гостей`);
   formNode.capacity.reportValidity();
-  return a;
 };
 
 const passAddressInput = () => {

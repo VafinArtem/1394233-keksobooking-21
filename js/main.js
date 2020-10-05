@@ -265,16 +265,18 @@ const passAddressInput = () => {
   formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
 };
 
-const toggleDisabledOnFormNodes = () => {
-  const pageIsActive = formNode.classList.contains(`ad-form--disabled`);
+let isPageDisabled = false;
 
-  Array.from(formNode.children).forEach((children) => {
-    children.disabled = pageIsActive;
-    children.classList.toggle(`disable-cursor`);
+const toggleDisabledOnFormNodes = () => {
+  isPageDisabled = !isPageDisabled;
+  const classListMethod = isPageDisabled ? `add` : `remove`;
+  Array.from(formNode.children).forEach((child) => {
+    child.disabled = isPageDisabled;
+    child.classList[classListMethod](`disable-cursor`);
   });
-  Array.from(formFiltersNode.children).forEach((children) => {
-    children.disabled = pageIsActive;
-    children.classList.toggle(`disable-cursor`);
+  Array.from(formFiltersNode.children).forEach((child) => {
+    child.disabled = isPageDisabled;
+    child.classList[classListMethod](`disable-cursor`);
   });
 };
 
@@ -286,24 +288,10 @@ const onActiveMode = () => {
 
 toggleDisabledOnFormNodes();
 
-mapPinMain.addEventListener(`mousedown`, function (evt) {
-  if (evt.button === 0) {
-    if (formNode.classList.contains(`ad-form--disabled`)) {
-      onActiveMode();
-      initPinsScreen();
-      passAddressInput();
-    }
-  }
-}, {
-  once: true
-});
-
 mapPinMain.addEventListener(`click`, function () {
-  if (formNode.classList.contains(`ad-form--disabled`)) {
-    onActiveMode();
-    initPinsScreen();
-    passAddressInput();
-  }
+  onActiveMode();
+  initPinsScreen();
+  passAddressInput();
 }, {
   once: true
 });

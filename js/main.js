@@ -287,6 +287,14 @@ let cardNode;
 
 const closeCard = () => {
   cardNode.parentNode.removeChild(cardNode);
+  document.removeEventListener(`keydown`, onPopupEscPress);
+};
+
+const onPopupEscPress = function (evt) {
+  if (evt.key === KeyboardKeys.ESCAPE) {
+    evt.preventDefault();
+    closeCard();
+  }
 };
 
 mapPinMain.addEventListener(`click`, function () {
@@ -309,6 +317,7 @@ mapPinMain.addEventListener(`click`, function () {
       cardNode = mapNode.querySelector(`.map__card`);
       const closeButton = cardNode.querySelector(`.popup__close`);
       closeButton.addEventListener(`click`, closeCard);
+      document.addEventListener(`keydown`, onPopupEscPress);
     });
   });
 }, {

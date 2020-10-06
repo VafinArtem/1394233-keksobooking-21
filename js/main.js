@@ -74,10 +74,10 @@ const MainPinSize = {
   WIDTH: 62,
   HEIGHT: 72
 };
-// const KeyboardKeys = {
-//   ESCAPE: `Escape`,
-//   ENTER: `Enter`
-// };
+const KeyboardKeys = {
+  ESCAPE: `Escape`,
+  ENTER: `Enter`
+};
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
@@ -283,6 +283,12 @@ const onActiveMode = () => {
 
 toggleDisabledOnFormNodes();
 
+let cardNode;
+
+const closeCard = () => {
+  cardNode.parentNode.removeChild(cardNode);
+};
+
 mapPinMain.addEventListener(`click`, function () {
   onActiveMode();
   initPinsScreen();
@@ -294,12 +300,15 @@ mapPinMain.addEventListener(`click`, function () {
 
   pinsArr.forEach((element, index) => {
     element.addEventListener(`click`, () => {
-      const cardNode = mapNode.querySelector(`.map__card`);
+      cardNode = mapNode.querySelector(`.map__card`);
       if (cardNode) {
-        cardNode.parentNode.removeChild(cardNode);
+        closeCard();
       }
       const cardNodesFragment = createСardFragment(pinsDataArray[index]);
       mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
+      cardNode = mapNode.querySelector(`.map__card`);
+      const closeButton = cardNode.querySelector(`.popup__close`);
+      closeButton.addEventListener(`click`, closeCard);
     });
   });
 }, {

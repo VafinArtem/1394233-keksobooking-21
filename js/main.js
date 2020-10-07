@@ -98,7 +98,6 @@ const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 const formNode = document.querySelector(`.ad-form`);
-const formSubmit = formNode.querySelector(`.ad-form__submit`);
 
 const Coordinates = {
   Y: {
@@ -254,14 +253,10 @@ const initPinsScreen = () => {
   mapPinsNode.appendChild(pinsNodesFragment);
 };
 
-const validateCheckInInput = () => {
-  if (formNode.timein.value) {
+const validateTimeSelects = (evt) => {
+  if (evt.target === formNode.timein) {
     formNode.timeout.value = formNode.timein.value;
-  }
-};
-
-const validateCheckOutInput = () => {
-  if (formNode.timeout.value) {
+  } else {
     formNode.timein.value = formNode.timeout.value;
   }
 };
@@ -290,10 +285,23 @@ const validateTitleInput = () => {
   formNode.title.reportValidity();
 };
 
-const validateForm = () => {
-  validateRoomsInput();
-  validateTitleInput();
-  validatePriceInput();
+const onFormNodeChange = (evt) => {
+  switch (evt.target) {
+    case formNode.title:
+      validateTitleInput();
+      break;
+    case formNode.rooms:
+    case formNode.capacity:
+      validateRoomsInput();
+      break;
+    case formNode.timein:
+    case formNode.timeout:
+      validateTimeSelects(evt);
+      break;
+    case formNode.type:
+      validatePriceInput();
+      break;
+  }
 };
 
 const passAddressInput = () => {
@@ -325,7 +333,7 @@ toggleDisabledOnFormNodes();
 
 let cardNode;
 
-const closeCard = () => {
+const removeActiveCard = () => {
   cardNode.parentNode.removeChild(cardNode);
   document.removeEventListener(`keydown`, onPopupEscPress);
 };
@@ -333,7 +341,7 @@ const closeCard = () => {
 const onPopupEscPress = function (evt) {
   if (evt.key === KeyboardKeys.ESCAPE) {
     evt.preventDefault();
-    closeCard();
+    removeActiveCard();
   }
 };
 
@@ -348,13 +356,13 @@ mapPinMain.addEventListener(`click`, function () {
     element.addEventListener(`click`, () => {
       cardNode = mapNode.querySelector(`.map__card`);
       if (cardNode) {
-        closeCard();
+        removeActiveCard();
       }
       const cardNodesFragment = createСardFragment(pinsDataArray[index]);
       mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
       cardNode = mapNode.querySelector(`.map__card`);
       const closeButton = cardNode.querySelector(`.popup__close`);
-      closeButton.addEventListener(`click`, closeCard);
+      closeButton.addEventListener(`click`, removeActiveCard);
       document.addEventListener(`keydown`, onPopupEscPress);
     });
   });
@@ -362,10 +370,4 @@ mapPinMain.addEventListener(`click`, function () {
   once: true
 });
 
-formNode.capacity.addEventListener(`input`, validateRoomsInput);
-formNode.rooms.addEventListener(`input`, validateRoomsInput);
-formNode.title.addEventListener(`input`, validateTitleInput);
-formNode.type.addEventListener(`input`, validatePriceInput);
-formNode.timein.addEventListener(`input`, validateCheckInInput);
-formNode.timeout.addEventListener(`input`, validateCheckOutInput);
-formSubmit.addEventListener(`click`, validateForm);
+formNode.addEventListener(`change`, onFormNodeChange);

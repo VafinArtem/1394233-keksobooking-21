@@ -254,8 +254,11 @@ const validateRoomsInput = () => {
 
 const validatePriceInput = () => {
   const maxValue = 1000000;
+  let minValue = 0;
   if (formNode.price.value > maxValue) {
     formNode.price.setCustomValidity(`Вы превысили масимальную цену за номер на ${new Intl.NumberFormat(`ru-RU`).format(formNode.price.value - maxValue)} руб.`);
+  } else if (formNode.type.value === `palace` && formNode.price.value < 10000) {
+    formNode.price.setCustomValidity(`Минимальцая цена за номер во Дворце 10 000`);
   } else {
     formNode.price.setCustomValidity(``);
   }

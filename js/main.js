@@ -305,14 +305,6 @@ const passAddressInput = () => {
   formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
 };
 
-let mapPins;
-
-const getPins = () => {
-  mapPins = mapPinsNode.querySelectorAll(`.map__pin`);
-
-  return mapPins;
-};
-
 let isPageDisabled = false;
 
 const toggleDisabledOnFormNodes = () => {
@@ -354,10 +346,8 @@ mapPinMain.addEventListener(`click`, function () {
   onActiveMode();
   initPinsScreen();
   passAddressInput();
-  getPins();
 
-  let pinsArr = Array.from(mapPins);
-  pinsArr.shift();
+  let pinsArr = Array.from(mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
 
   pinsArr.forEach((element, index) => {
     element.addEventListener(`click`, () => {

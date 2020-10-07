@@ -78,6 +78,10 @@ const KeyboardKeys = {
   ESCAPE: `Escape`,
   ENTER: `Enter`
 };
+const TitleLength = {
+  MIN: 30,
+  MAX: 100
+};
 
 const mapNode = document.querySelector(`.map`);
 const mapPinsNode = mapNode.querySelector(`.map__pins`);
@@ -248,6 +252,19 @@ const validateRoomsInput = () => {
   formNode.capacity.reportValidity();
 };
 
+const validateTitleInput = () => {
+  let valueLength = formNode.title.value.length;
+
+  if (valueLength < TitleLength.MIN) {
+    formNode.title.setCustomValidity(`Ещё ${TitleLength.MIN - valueLength} симв.`);
+  } else if (valueLength > TitleLength.MAX) {
+    formNode.title.setCustomValidity(`Удалите лишние ${valueLength - TitleLength.MAX} симв.`);
+  } else {
+    formNode.title.setCustomValidity(``);
+  }
+  formNode.title.reportValidity();
+};
+
 const passAddressInput = () => {
   formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
 };
@@ -326,4 +343,5 @@ mapPinMain.addEventListener(`click`, function () {
 
 formNode.capacity.addEventListener(`input`, validateRoomsInput);
 formNode.rooms.addEventListener(`input`, validateRoomsInput);
+formNode.title.addEventListener(`input`, validateTitleInput);
 formSubmit.addEventListener(`click`, validateRoomsInput);

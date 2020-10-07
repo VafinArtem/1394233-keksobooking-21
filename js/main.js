@@ -255,6 +255,18 @@ const initPinsScreen = () => {
   mapPinsNode.appendChild(pinsNodesFragment);
 };
 
+const validateCheckInInput = () => {
+  if (formNode.timein.value) {
+    formNode.timeout.value = formNode.timein.value;
+  }
+};
+
+const validateCheckOutInput = () => {
+  if (formNode.timeout.value) {
+    formNode.timein.value = formNode.timeout.value;
+  }
+};
+
 const validateRoomsInput = () => {
   formNode.capacity.setCustomValidity(ROOMS_FOR_GUESTS_MAP[formNode.rooms.value].includes(formNode.capacity.value) ? `` : `Вы не можете выбрать данное количество гостей`);
   formNode.capacity.reportValidity();
@@ -364,4 +376,6 @@ formNode.capacity.addEventListener(`input`, validateRoomsInput);
 formNode.rooms.addEventListener(`input`, validateRoomsInput);
 formNode.title.addEventListener(`input`, validateTitleInput);
 formNode.price.addEventListener(`input`, validatePriceInput);
+formNode.timein.addEventListener(`input`, validateCheckInInput);
+formNode.timeout.addEventListener(`input`, validateCheckOutInput);
 formSubmit.addEventListener(`click`, validateRoomsInput);

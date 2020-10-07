@@ -60,7 +60,15 @@ const ROOMS_FOR_GUESTS_MAP = {
   3: [`1`, `2`, `3`],
   100: [`0`]
 };
+const MIN_PRICE = {
+  palace: 10000,
+  house: 5000,
+  flat: 1000,
+  bungalow: 0
+};
+const MAX_PRICE = 1000000;
 const PINS_AMOUNT = 8;
+
 
 const Price = {
   MAX: 10000,
@@ -253,19 +261,15 @@ const validateRoomsInput = () => {
 };
 
 const validatePriceInput = () => {
-  const maxValue = 1000000;
-  let minValue = 0;
-  if (formNode.price.value > maxValue) {
-    formNode.price.setCustomValidity(`Вы превысили масимальную цену за номер на ${new Intl.NumberFormat(`ru-RU`).format(formNode.price.value - maxValue)} руб.`);
-  } else if (formNode.type.value === `palace` && formNode.price.value < 10000) {
-    formNode.price.setCustomValidity(`Минимальцая цена за номер во Дворце 10 000`);
+  if (formNode.price.value > MAX_PRICE) {
+    formNode.price.setCustomValidity(`Вы превысили масимальную цену за номер на ${new Intl.NumberFormat(`ru-RU`).format(formNode.price.value - MAX_PRICE)} руб.`);
   } else {
-    formNode.price.setCustomValidity(``);
+    formNode.price.setCustomValidity(formNode.price.value >= MIN_PRICE[formNode.type.value] ? `` : `Минимальцая цена за номер ${new Intl.NumberFormat(`ru-RU`).format(MIN_PRICE[formNode.type.value])} руб.`);
   }
+
   formNode.price.reportValidity();
 };
 
-formNode.price.addEventListener(`input`, validatePriceInput);
 
 const validateTitleInput = () => {
   const valueLength = formNode.title.value.length;
@@ -359,4 +363,5 @@ mapPinMain.addEventListener(`click`, function () {
 formNode.capacity.addEventListener(`input`, validateRoomsInput);
 formNode.rooms.addEventListener(`input`, validateRoomsInput);
 formNode.title.addEventListener(`input`, validateTitleInput);
+formNode.price.addEventListener(`input`, validatePriceInput);
 formSubmit.addEventListener(`click`, validateRoomsInput);

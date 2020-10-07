@@ -66,7 +66,6 @@ const MIN_PRICE = {
   flat: 1000,
   bungalow: 0
 };
-const MAX_PRICE = 1000000;
 const PINS_AMOUNT = 8;
 
 
@@ -273,14 +272,10 @@ const validateRoomsInput = () => {
 };
 
 const validatePriceInput = () => {
-  if (formNode.price.value > MAX_PRICE) {
-    formNode.price.setCustomValidity(`Вы превысили масимальную цену за номер на ${new Intl.NumberFormat(`ru-RU`).format(formNode.price.value - MAX_PRICE)} руб.`);
-  } else {
-    formNode.price.setCustomValidity(formNode.price.value >= MIN_PRICE[formNode.type.value] ? `` : `Минимальцая цена за номер ${new Intl.NumberFormat(`ru-RU`).format(MIN_PRICE[formNode.type.value])} руб.`);
-  }
-
-  formNode.price.reportValidity();
+  formNode.price.min = MIN_PRICE[formNode.type.value];
+  formNode.price.placeholder = MIN_PRICE[formNode.type.value];
 };
+
 
 const validateTitleInput = () => {
   const valueLength = formNode.title.value.length;
@@ -370,7 +365,7 @@ mapPinMain.addEventListener(`click`, function () {
 formNode.capacity.addEventListener(`input`, validateRoomsInput);
 formNode.rooms.addEventListener(`input`, validateRoomsInput);
 formNode.title.addEventListener(`input`, validateTitleInput);
-formNode.price.addEventListener(`input`, validatePriceInput);
+formNode.type.addEventListener(`input`, validatePriceInput);
 formNode.timein.addEventListener(`input`, validateCheckInInput);
 formNode.timeout.addEventListener(`input`, validateCheckOutInput);
 formSubmit.addEventListener(`click`, validateForm);

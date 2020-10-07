@@ -252,8 +252,20 @@ const validateRoomsInput = () => {
   formNode.capacity.reportValidity();
 };
 
+const validatePriceInput = () => {
+  const maxValue = 1000000;
+  if (formNode.price.value > maxValue) {
+    formNode.price.setCustomValidity(`Вы превысили масимальную цену за номер на ${new Intl.NumberFormat(`ru-RU`).format(formNode.price.value - maxValue)} руб.`);
+  } else {
+    formNode.price.setCustomValidity(``);
+  }
+  formNode.price.reportValidity();
+};
+
+formNode.price.addEventListener(`input`, validatePriceInput);
+
 const validateTitleInput = () => {
-  let valueLength = formNode.title.value.length;
+  const valueLength = formNode.title.value.length;
 
   if (valueLength < TitleLength.MIN) {
     formNode.title.setCustomValidity(`Ещё ${TitleLength.MIN - valueLength} симв.`);

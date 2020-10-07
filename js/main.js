@@ -282,7 +282,6 @@ const validatePriceInput = () => {
   formNode.price.reportValidity();
 };
 
-
 const validateTitleInput = () => {
   const valueLength = formNode.title.value.length;
 
@@ -294,6 +293,12 @@ const validateTitleInput = () => {
     formNode.title.setCustomValidity(``);
   }
   formNode.title.reportValidity();
+};
+
+const validateForm = () => {
+  validateRoomsInput();
+  validateTitleInput();
+  validatePriceInput();
 };
 
 const passAddressInput = () => {
@@ -378,4 +383,4 @@ formNode.title.addEventListener(`input`, validateTitleInput);
 formNode.price.addEventListener(`input`, validatePriceInput);
 formNode.timein.addEventListener(`input`, validateCheckInInput);
 formNode.timeout.addEventListener(`input`, validateCheckOutInput);
-formSubmit.addEventListener(`click`, validateRoomsInput);
+formSubmit.addEventListener(`click`, validateForm);

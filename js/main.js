@@ -36,16 +36,11 @@ window.map.mapPinMain.addEventListener(`click`, function () {
 
   pinsArr.forEach((element, index) => {
     element.addEventListener(`click`, () => {
-      window.map.cardNode = window.pin.mapNode.querySelector(`.map__card`);
-      if (window.map.cardNode) {
-        window.map.removeActiveCard();
-      }
+      window.map.removeActiveCard();
       const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
-      window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-      window.map.cardNode = window.pin.mapNode.querySelector(`.map__card`);
-      const closeButton = window.map.cardNode.querySelector(`.popup__close`);
-      closeButton.addEventListener(`click`, window.map.removeActiveCard);
+      cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
       document.addEventListener(`keydown`, window.util.onPopupEscPress);
+      window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
     });
   });
 }, {

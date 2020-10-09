@@ -26,22 +26,8 @@ const TitleLength = {
 const mapPinMain = window.pin.mapNode.querySelector(`.map__pin--main`);
 const mapFiltersNode = window.pin.mapNode.querySelector(`.map__filters-container`);
 const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
-
 const formNode = document.querySelector(`.ad-form`);
 
-
-const getMainMapPinCoordinateX = () => {
-  return parseInt(mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
-};
-
-const getMainMapPinCoordinateY = () => {
-  return parseInt(mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
-};
-
-const initPinsScreen = () => {
-  const pinsNodesFragment = window.pin.createPinsNodeFragment(window.data.pinsDataArray);
-  window.pin.mapPinsNode.appendChild(pinsNodesFragment);
-};
 
 const validateTimeSelects = (evt) => {
   if (evt.target === formNode.timein) {
@@ -60,7 +46,6 @@ const validatePriceInput = () => {
   formNode.price.min = MIN_PRICE[formNode.type.value];
   formNode.price.placeholder = MIN_PRICE[formNode.type.value];
 };
-
 
 const validateTitleInput = () => {
   const valueLength = formNode.title.value.length;
@@ -94,6 +79,14 @@ const onFormNodeChange = (evt) => {
   }
 };
 
+const getMainMapPinCoordinateX = () => {
+  return parseInt(mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
+};
+
+const getMainMapPinCoordinateY = () => {
+  return parseInt(mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
+};
+
 const passAddressInput = () => {
   formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
 };
@@ -121,39 +114,26 @@ const onActiveMode = () => {
 
 toggleDisabledOnFormNodes();
 
-let cardNode;
-
-const removeActiveCard = () => {
-  cardNode.parentNode.removeChild(cardNode);
-  document.removeEventListener(`keydown`, onPopupEscPress);
-};
-
-const onPopupEscPress = function (evt) {
-  if (evt.key === window.util.KeyboardKeys.ESCAPE) {
-    evt.preventDefault();
-    removeActiveCard();
-  }
-};
 
 mapPinMain.addEventListener(`click`, function () {
   onActiveMode();
-  initPinsScreen();
+  window.map.initPinsScreen();
   passAddressInput();
 
   let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
 
   pinsArr.forEach((element, index) => {
     element.addEventListener(`click`, () => {
-      cardNode = window.pin.mapNode.querySelector(`.map__card`);
-      if (cardNode) {
-        removeActiveCard();
+      window.map.cardNode = window.pin.mapNode.querySelector(`.map__card`);
+      if (window.map.cardNode) {
+        window.map.removeActiveCard();
       }
       const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
       window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-      cardNode = window.pin.mapNode.querySelector(`.map__card`);
-      const closeButton = cardNode.querySelector(`.popup__close`);
-      closeButton.addEventListener(`click`, removeActiveCard);
-      document.addEventListener(`keydown`, onPopupEscPress);
+      window.map.cardNode = window.pin.mapNode.querySelector(`.map__card`);
+      const closeButton = window.map.cardNode.querySelector(`.popup__close`);
+      closeButton.addEventListener(`click`, window.map.removeActiveCard);
+      document.addEventListener(`keydown`, window.util.onPopupEscPress);
     });
   });
 }, {

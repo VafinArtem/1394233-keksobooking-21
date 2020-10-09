@@ -1,6 +1,12 @@
 "use strict";
 
 (() => {
+
+  const KeyboardKeys = {
+    ESCAPE: `Escape`,
+    ENTER: `Enter`
+  };
+
   window.util = {
     getRandomArrElement: (arr) => {
       return arr[Math.floor(Math.random() * arr.length)];
@@ -15,9 +21,11 @@
     getRandomLenghtArr: (array) => {
       return array.slice(0, window.util.getRandomInt(0, array.length));
     },
-    KeyboardKeys: {
-      ESCAPE: `Escape`,
-      ENTER: `Enter`
+    onPopupEscPress: (evt) => {
+      if (evt.key === KeyboardKeys.ESCAPE) {
+        evt.preventDefault();
+        window.map.removeActiveCard();
+      }
     }
   };
 })();

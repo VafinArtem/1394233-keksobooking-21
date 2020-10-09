@@ -54,6 +54,8 @@ const HOUSE_TYPES = {
   palace: `Замок`,
   house: `Дом`
 };
+const PINS_AMOUNT = 8;
+
 const ROOMS_FOR_GUESTS_MAP = {
   1: [`1`],
   2: [`1`, `2`],
@@ -66,8 +68,6 @@ const MIN_PRICE = {
   flat: 1000,
   bungalow: 0
 };
-const PINS_AMOUNT = 8;
-
 
 const Price = {
   MAX: 10000,
@@ -80,10 +80,6 @@ const PinSize = {
 const MainPinSize = {
   WIDTH: 62,
   HEIGHT: 72
-};
-const KeyboardKeys = {
-  ESCAPE: `Escape`,
-  ENTER: `Enter`
 };
 const TitleLength = {
   MIN: 30,
@@ -110,29 +106,12 @@ const Coordinates = {
   }
 };
 
-const getRandomArrElement = (arr) => {
-  return arr[Math.floor(Math.random() * arr.length)];
-};
-
-const getRandomInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const getDeclension = (number, titles) => {
-  const cases = [2, 0, 1, 1, 1, 2];
-  return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(number % 10 < 5) ? number % 10 : 5]];
-};
-
 const getMainMapPinCoordinateX = () => {
   return parseInt(mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
 };
 
 const getMainMapPinCoordinateY = () => {
   return parseInt(mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
-};
-
-const getRandomLenghtArr = (array) => {
-  return array.slice(0, getRandomInt(0, array.length));
 };
 
 const createDataArray = (amount) => {
@@ -143,21 +122,21 @@ const createDataArray = (amount) => {
         avatar: `img/avatars/user0${i + 1}.png`
       },
       location: {
-        x: getRandomInt(Coordinates.X.MIN, Coordinates.X.MAX),
-        y: getRandomInt(Coordinates.Y.MIN, Coordinates.Y.MAX)
+        x: window.util.getRandomInt(Coordinates.X.MIN, Coordinates.X.MAX),
+        y: window.util.getRandomInt(Coordinates.Y.MIN, Coordinates.Y.MAX)
       },
       offer: {
-        title: getRandomArrElement(TITLES),
-        address: `${getRandomInt(Coordinates.X.MIN, Coordinates.X.MAX)}, ${getRandomInt(Coordinates.Y.MIN, Coordinates.Y.MAX)}`,
-        price: getRandomInt(Price.MIN, Price.MAX),
-        type: getRandomArrElement(Object.keys(HOUSE_TYPES)),
-        rooms: getRandomArrElement(ROOMS_AMOUNT),
-        guests: getRandomArrElement(GUESTS_AMOUNT),
-        checkin: getRandomArrElement(CHECKINS),
-        checkout: getRandomArrElement(CHECKOUTS),
-        features: getRandomLenghtArr(Object.keys(FEATURES_CLASS_MAP)),
-        description: getRandomArrElement(DESCRIPTIONS),
-        photos: getRandomLenghtArr(PHOTO_URLS)
+        title: window.util.getRandomArrElement(TITLES),
+        address: `${window.util.getRandomInt(Coordinates.X.MIN, Coordinates.X.MAX)}, ${window.util.getRandomInt(Coordinates.Y.MIN, Coordinates.Y.MAX)}`,
+        price: window.util.getRandomInt(Price.MIN, Price.MAX),
+        type: window.util.getRandomArrElement(Object.keys(HOUSE_TYPES)),
+        rooms: window.util.getRandomArrElement(ROOMS_AMOUNT),
+        guests: window.util.getRandomArrElement(GUESTS_AMOUNT),
+        checkin: window.util.getRandomArrElement(CHECKINS),
+        checkout: window.util.getRandomArrElement(CHECKOUTS),
+        features: window.util.getRandomLenghtArr(Object.keys(FEATURES_CLASS_MAP)),
+        description: window.util.getRandomArrElement(DESCRIPTIONS),
+        photos: window.util.getRandomLenghtArr(PHOTO_URLS)
       }
     });
   }
@@ -192,7 +171,7 @@ const createCard = (dataObject) => {
     cardElement.querySelector(`.popup__type`).classList.remove(`hidden`);
     cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[dataObject.offer.type];
   }
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `${dataObject.offer.rooms} ${getDeclension(dataObject.offer.rooms, [`комната`, `комнаты`, `комнат`])} ${dataObject.offer.guests > 0 ? `для ${dataObject.offer.guests} ${getDeclension(dataObject.offer.guests, [`гостя`, `гостей`, `гостей`])}` : `не для гостей`}`;
+  cardElement.querySelector(`.popup__text--capacity`).textContent = `${dataObject.offer.rooms} ${window.util.getDeclension(dataObject.offer.rooms, [`комната`, `комнаты`, `комнат`])} ${dataObject.offer.guests > 0 ? `для ${dataObject.offer.guests} ${window.util.getDeclension(dataObject.offer.guests, [`гостя`, `гостей`, `гостей`])}` : `не для гостей`}`;
   cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${dataObject.offer.checkin}, выезд до ${dataObject.offer.checkout} `;
 
   if (dataObject.offer.description.length) {
@@ -339,7 +318,7 @@ const removeActiveCard = () => {
 };
 
 const onPopupEscPress = function (evt) {
-  if (evt.key === KeyboardKeys.ESCAPE) {
+  if (evt.key === window.util.KeyboardKeys.ESCAPE) {
     evt.preventDefault();
     removeActiveCard();
   }

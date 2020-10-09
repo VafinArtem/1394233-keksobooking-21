@@ -11,6 +11,7 @@
       const cardNode = window.pin.mapNode.querySelector(`.map__card`);
       if (cardNode) {
         cardNode.parentNode.removeChild(cardNode);
+        document.removeEventListener(`keydown`, window.util.onPopupEscPress);
       }
     }
   };

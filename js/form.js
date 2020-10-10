@@ -14,10 +14,6 @@
     bungalow: 0
   };
 
-  const MainPinSize = {
-    WIDTH: 62,
-    HEIGHT: 72
-  };
   const TitleLength = {
     MIN: 30,
     MAX: 100
@@ -57,11 +53,11 @@
   };
 
   const getMainMapPinCoordinateX = () => {
-    return parseInt(window.map.mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
+    return parseInt(window.map.mapPinMain.style.left, 10) + (window.move.MainPinSize.WIDTH / 2);
   };
 
   const getMainMapPinCoordinateY = () => {
-    return parseInt(window.map.mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
+    return parseInt(window.map.mapPinMain.style.top, 10) + (window.move.MainPinSize.HEIGHT);
   };
 
   const onFormNodeChange = (evt) => {

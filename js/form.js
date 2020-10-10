@@ -55,6 +55,7 @@
     }
     formNode.title.reportValidity();
   };
+
   const getMainMapPinCoordinateX = () => {
     return parseInt(window.map.mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
   };
@@ -62,6 +63,7 @@
   const getMainMapPinCoordinateY = () => {
     return parseInt(window.map.mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
   };
+
   const onFormNodeChange = (evt) => {
     switch (evt.target) {
       case formNode.title:

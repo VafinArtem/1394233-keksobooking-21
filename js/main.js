@@ -31,6 +31,7 @@
     onActiveMode();
     window.map.initPinsScreen();
     window.form.passAddressInput();
+    window.map.mapPinMain.addEventListener(`mousedown`, window.move.onMouseDownMainPin);
 
     let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
 

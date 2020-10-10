@@ -7,6 +7,10 @@
     ENTER: `Enter`
   };
 
+  const MouseButtons = {
+    MAIN: 0
+  };
+
   window.util = {
     getRandomArrElement: (arr) => {
       return arr[Math.floor(Math.random() * arr.length)];
@@ -26,6 +30,8 @@
         evt.preventDefault();
         window.map.removeActiveCard();
       }
-    }
+    },
+    MouseButtons,
+    KeyboardKeys
   };
 })();

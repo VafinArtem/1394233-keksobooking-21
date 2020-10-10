@@ -4,7 +4,12 @@
 
   const MainPinSize = {
     WIDTH: 62,
-    HEIGHT: 72
+    HEIGHT: 84
+  };
+
+  const MainPinCircleSize = {
+    WIDTH: 62,
+    HEIGHT: 31
   };
 
   const Coordinates = {
@@ -15,24 +20,6 @@
     X: {
       MAX: window.pin.mapNode.offsetWidth - (MainPinSize.WIDTH / 2),
       MIN: -(MainPinSize.WIDTH / 2)
-    }
-  };
-
-  const getBoundPinCoorinates = () => {
-    if (parseInt(window.map.mapPinMain.style.top, 10) < Coordinates.Y.MIN) {
-      window.map.mapPinMain.style.top = `${Coordinates.Y.MIN}px`;
-    }
-
-    if (parseInt(window.map.mapPinMain.style.top, 10) > Coordinates.Y.MAX) {
-      window.map.mapPinMain.style.top = `${Coordinates.Y.MAX}px`;
-    }
-
-    if (parseInt(window.map.mapPinMain.style.left, 10) < Coordinates.X.MIN) {
-      window.map.mapPinMain.style.left = `${Coordinates.X.MIN}px`;
-    }
-
-    if (parseInt(window.map.mapPinMain.style.left, 10) > Coordinates.X.MAX) {
-      window.map.mapPinMain.style.left = `${Coordinates.X.MAX}px`;
     }
   };
 
@@ -52,17 +39,25 @@
         y: startCoords.y - moveEvt.clientY
       };
 
+      const CoordinatesMainPin = {
+        x: window.map.mapPinMain.offsetLeft - shift.x,
+        y: window.map.mapPinMain.offsetTop - shift.y
+      };
+
       startCoords = {
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
 
-      window.map.mapPinMain.style.top = `${window.map.mapPinMain.offsetTop - shift.y}px`;
-      window.map.mapPinMain.style.left = `${window.map.mapPinMain.offsetLeft - shift.x}px`;
+      if (CoordinatesMainPin.x >= Coordinates.X.MIN && CoordinatesMainPin.x <= Coordinates.X.MAX) {
+        window.map.mapPinMain.style.left = `${CoordinatesMainPin.x}px`;
+      }
 
-      getBoundPinCoorinates();
+      if (CoordinatesMainPin.y >= Coordinates.Y.MIN && CoordinatesMainPin.y <= Coordinates.Y.MAX) {
+        window.map.mapPinMain.style.top = `${CoordinatesMainPin.y}px`;
+      }
 
-      window.form.passAddressInput();
+      window.form.passAddressInput(MainPinSize.WIDTH, MainPinSize.HEIGHT);
     };
 
     const onMouseUp = (upEvt) => {
@@ -77,6 +72,7 @@
   });
 
   window.move = {
-    MainPinSize
+    MainPinSize,
+    MainPinCircleSize
   };
 })();

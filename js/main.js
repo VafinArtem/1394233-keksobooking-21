@@ -23,45 +23,51 @@
     window.pin.mapNode.classList.remove(`map--faded`);
     window.form.formNode.classList.remove(`ad-form--disabled`);
     toggleDisabledOnFormNodes();
+    window.form.passAddressInput(window.move.MainPinSize.WIDTH, window.move.MainPinSize.HEIGHT);
   };
 
   toggleDisabledOnFormNodes();
-  window.form.passAddressInput();
+  window.form.passAddressInput(window.move.MainPinCircleSize.WIDTH, window.move.MainPinCircleSize.HEIGHT);
 
-  window.map.mapPinMain.addEventListener(`click`, function () {
-    onActiveMode();
-    window.map.initPinsScreen();
+  window.map.mapPinMain.addEventListener(`mousedown`, function (evt) {
+    if (evt.button === window.util.MouseButtons.MAIN) {
+      evt.preventDefault();
+      onActiveMode();
+      window.map.initPinsScreen();
 
-    let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
+      let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
 
-    pinsArr.forEach((element, index) => {
-      element.addEventListener(`click`, () => {
-        window.map.removeActiveCard();
-        const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
-        cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
-        document.addEventListener(`keydown`, window.util.onPopupEscPress);
-        window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
+      pinsArr.forEach((element, index) => {
+        element.addEventListener(`click`, () => {
+          window.map.removeActiveCard();
+          const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
+          cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
+          document.addEventListener(`keydown`, window.util.onPopupEscPress);
+          window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
+        });
       });
-    });
+    }
   }, {
     once: true
   });
-  // window.map.mapPinMain.addEventListener(`mousedown`, function () {
-  //   onActiveMode();
-  //   window.map.initPinsScreen();
+  window.map.mapPinMain.addEventListener(`keydown`, function (evt) {
+    if (evt.key === window.util.KeyboardKeys.ESCAPE) {
+      onActiveMode();
+      window.map.initPinsScreen();
 
-  //   let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
+      let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
 
-  //   pinsArr.forEach((element, index) => {
-  //     element.addEventListener(`click`, () => {
-  //       window.map.removeActiveCard();
-  //       const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
-  //       cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
-  //       document.addEventListener(`keydown`, window.util.onPopupEscPress);
-  //       window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-  //     });
-  //   });
-  // }, {
-  //   once: true
-  // });
+      pinsArr.forEach((element, index) => {
+        element.addEventListener(`click`, () => {
+          window.map.removeActiveCard();
+          const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
+          cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
+          document.addEventListener(`keydown`, window.util.onPopupEscPress);
+          window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
+        });
+      });
+    }
+  }, {
+    once: true
+  });
 })();

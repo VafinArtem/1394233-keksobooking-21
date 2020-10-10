@@ -52,12 +52,12 @@
     formNode.title.reportValidity();
   };
 
-  const getMainMapPinCoordinateX = () => {
-    return parseInt(window.map.mapPinMain.style.left, 10) + (window.move.MainPinSize.WIDTH / 2);
+  const getMainMapPinCoordinateX = (pinWidth) => {
+    return parseInt(window.map.mapPinMain.style.left, 10) + (pinWidth / 2);
   };
 
-  const getMainMapPinCoordinateY = () => {
-    return parseInt(window.map.mapPinMain.style.top, 10) + (window.move.MainPinSize.HEIGHT);
+  const getMainMapPinCoordinateY = (pinHeight) => {
+    return parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight);
   };
 
   const onFormNodeChange = (evt) => {
@@ -83,8 +83,8 @@
 
   window.form = {
     formNode: document.querySelector(`.ad-form`),
-    passAddressInput: () => {
-      window.form.formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
+    passAddressInput: (pinWidth, pinHeight) => {
+      window.form.formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
     }
   };
 })();

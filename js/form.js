@@ -14,10 +14,6 @@
     bungalow: 0
   };
 
-  const MainPinSize = {
-    WIDTH: 62,
-    HEIGHT: 72
-  };
   const TitleLength = {
     MIN: 30,
     MAX: 100
@@ -55,13 +51,15 @@
     }
     formNode.title.reportValidity();
   };
-  const getMainMapPinCoordinateX = () => {
-    return parseInt(window.map.mapPinMain.style.left, 10) + (MainPinSize.WIDTH / 2);
+
+  const getMainMapPinCoordinateX = (pinWidth) => {
+    return parseInt(window.map.mapPinMain.style.left, 10) + (pinWidth / 2);
   };
 
-  const getMainMapPinCoordinateY = () => {
-    return parseInt(window.map.mapPinMain.style.top, 10) + (MainPinSize.HEIGHT);
+  const getMainMapPinCoordinateY = (pinHeight) => {
+    return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight) : parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight / 2);
   };
+
   const onFormNodeChange = (evt) => {
     switch (evt.target) {
       case formNode.title:
@@ -85,8 +83,8 @@
 
   window.form = {
     formNode: document.querySelector(`.ad-form`),
-    passAddressInput: () => {
-      window.form.formNode.address.value = `${getMainMapPinCoordinateX()}, ${getMainMapPinCoordinateY()}`;
+    passAddressInput: (pinWidth, pinHeight) => {
+      window.form.formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
     }
   };
 })();

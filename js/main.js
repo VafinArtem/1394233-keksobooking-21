@@ -23,17 +23,11 @@
     window.pin.mapNode.classList.remove(`map--faded`);
     window.form.formNode.classList.remove(`ad-form--disabled`);
     toggleDisabledOnFormNodes();
+    window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
   };
 
-  toggleDisabledOnFormNodes();
-
-  window.map.mapPinMain.addEventListener(`click`, function () {
-    onActiveMode();
-    window.map.initPinsScreen();
-    window.form.passAddressInput();
-
+  const onPinsClick = () => {
     let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
-
     pinsArr.forEach((element, index) => {
       element.addEventListener(`click`, () => {
         window.map.removeActiveCard();
@@ -43,7 +37,38 @@
         window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
       });
     });
-  }, {
+  };
+
+  const onPinMainMousedownPress = (evt) => {
+    if (evt.button === window.util.MouseButtons.MAIN) {
+      evt.preventDefault();
+      onActiveMode();
+      window.map.initPinsScreen();
+      onPinsClick();
+      window.map.mapPinMain.removeEventListener(`keydown`, onPinMainEnterPress, {
+        once: true
+      });
+    }
+  };
+
+  const onPinMainEnterPress = (evt) => {
+    if (evt.key === window.util.KeyboardKeys.ENTER) {
+      evt.preventDefault();
+      onActiveMode();
+      window.map.initPinsScreen();
+      onPinsClick();
+      window.map.mapPinMain.removeEventListener(`mousedown`, onPinMainMousedownPress, {
+        once: true
+      });
+    }
+  };
+
+  toggleDisabledOnFormNodes();
+  window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
+  window.map.mapPinMain.addEventListener(`mousedown`, onPinMainMousedownPress, {
+    once: true
+  });
+  window.map.mapPinMain.addEventListener(`keydown`, onPinMainEnterPress, {
     once: true
   });
 })();

@@ -16,7 +16,7 @@
   const Coordinates = {
     Y: {
       MAX: 630 - MainPinSize.pin.HEIGHT,
-      MIN: 130 - MainPinSize.pin.HEIGHT
+      MIN: 130
     },
     X: {
       MAX: window.pin.mapNode.offsetWidth - (MainPinSize.pin.WIDTH / 2),

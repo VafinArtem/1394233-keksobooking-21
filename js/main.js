@@ -19,13 +19,6 @@
     });
   };
 
-  const onActiveMode = () => {
-    window.pin.mapNode.classList.remove(`map--faded`);
-    window.form.formNode.classList.remove(`ad-form--disabled`);
-    toggleDisabledOnFormNodes();
-    window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
-  };
-
   const onPinsClick = () => {
     let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
     pinsArr.forEach((element, index) => {
@@ -39,27 +32,29 @@
     });
   };
 
+  const activatePage = () => {
+    window.pin.mapNode.classList.remove(`map--faded`);
+    window.form.formNode.classList.remove(`ad-form--disabled`);
+    toggleDisabledOnFormNodes();
+    window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
+    window.map.initPinsScreen();
+    onPinsClick();
+  };
+
   const onPinMainMousedownPress = (evt) => {
     if (evt.button === window.util.MouseButtons.MAIN) {
       evt.preventDefault();
-      onActiveMode();
-      window.map.initPinsScreen();
-      onPinsClick();
-      window.map.mapPinMain.removeEventListener(`keydown`, onPinMainEnterPress, {
-        once: true
-      });
+      activatePage();
+      window.map.mapPinMain.removeEventListener(`keydown`, onPinMainEnterPress);
     }
   };
 
   const onPinMainEnterPress = (evt) => {
     if (evt.key === window.util.KeyboardKeys.ENTER) {
       evt.preventDefault();
-      onActiveMode();
-      window.map.initPinsScreen();
+      activatePage();
       onPinsClick();
-      window.map.mapPinMain.removeEventListener(`mousedown`, onPinMainMousedownPress, {
-        once: true
-      });
+      window.map.mapPinMain.removeEventListener(`mousedown`, onPinMainMousedownPress);
     }
   };
 

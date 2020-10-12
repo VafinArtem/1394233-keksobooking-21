@@ -19,19 +19,21 @@
     });
   };
 
-  const onPinsClick = () => {
-    window.load((similarData) => {
-      let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-      pinsArr.forEach((element, index) => {
-        element.addEventListener(`click`, () => {
-          window.map.removeActiveCard();
-          const cardNodesFragment = window.card.createСardFragment(similarData[index]);
-          cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
-          document.addEventListener(`keydown`, window.util.onPopupEscPress);
-          window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-        });
+  const successHandler = (similarData) => {
+    let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    pinsArr.forEach((element, index) => {
+      element.addEventListener(`click`, () => {
+        window.map.removeActiveCard();
+        const cardNodesFragment = window.card.createСardFragment(similarData[index]);
+        cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
+        document.addEventListener(`keydown`, window.util.onPopupEscPress);
+        window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
       });
     });
+  };
+
+  const onPinsClick = () => {
+    window.load(successHandler, window.map.errorHandler);
   };
 
   const activatePage = () => {

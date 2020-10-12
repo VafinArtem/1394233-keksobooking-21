@@ -15,7 +15,7 @@
 
   const Coordinates = {
     Y: {
-      MAX: 630 - MainPinSize.pin.HEIGHT,
+      MAX: 630,
       MIN: 130
     },
     X: {

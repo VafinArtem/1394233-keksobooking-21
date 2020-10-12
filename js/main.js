@@ -20,7 +20,7 @@
   };
 
   const onPinsClick = () => {
-    let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
+    let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     pinsArr.forEach((element, index) => {
       element.addEventListener(`click`, () => {
         window.map.removeActiveCard();

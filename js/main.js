@@ -23,11 +23,11 @@
     window.pin.mapNode.classList.remove(`map--faded`);
     window.form.formNode.classList.remove(`ad-form--disabled`);
     toggleDisabledOnFormNodes();
-    window.form.passAddressInput(window.move.MainPinSize.WIDTH, window.move.MainPinSize.HEIGHT);
+    window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
   };
 
   toggleDisabledOnFormNodes();
-  window.form.passAddressInput(window.move.MainPinCircleSize.WIDTH, window.move.MainPinCircleSize.HEIGHT);
+  window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
 
   window.map.mapPinMain.addEventListener(`mousedown`, function (evt) {
     if (evt.button === window.util.MouseButtons.MAIN) {
@@ -36,7 +36,6 @@
       window.map.initPinsScreen();
 
       let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
-
       pinsArr.forEach((element, index) => {
         element.addEventListener(`click`, () => {
           window.map.removeActiveCard();
@@ -50,8 +49,9 @@
   }, {
     once: true
   });
+
   window.map.mapPinMain.addEventListener(`keydown`, function (evt) {
-    if (evt.key === window.util.KeyboardKeys.ESCAPE) {
+    if (evt.key === window.util.KeyboardKeys.ENTER) {
       onActiveMode();
       window.map.initPinsScreen();
 

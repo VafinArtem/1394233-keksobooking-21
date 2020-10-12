@@ -26,48 +26,49 @@
     window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
   };
 
-  toggleDisabledOnFormNodes();
-  window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
+  const onPinsClick = () => {
+    let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
+    pinsArr.forEach((element, index) => {
+      element.addEventListener(`click`, () => {
+        window.map.removeActiveCard();
+        const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
+        cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
+        document.addEventListener(`keydown`, window.util.onPopupEscPress);
+        window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
+      });
+    });
+  };
 
-  window.map.mapPinMain.addEventListener(`mousedown`, function (evt) {
+  const onPinMainMousedownPress = (evt) => {
     if (evt.button === window.util.MouseButtons.MAIN) {
       evt.preventDefault();
       onActiveMode();
       window.map.initPinsScreen();
-
-      let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
-      pinsArr.forEach((element, index) => {
-        element.addEventListener(`click`, () => {
-          window.map.removeActiveCard();
-          const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
-          cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
-          document.addEventListener(`keydown`, window.util.onPopupEscPress);
-          window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-        });
+      onPinsClick();
+      window.map.mapPinMain.removeEventListener(`keydown`, onPinMainEnterPress, {
+        once: true
       });
     }
-  }, {
-    once: true
-  });
+  };
 
-  window.map.mapPinMain.addEventListener(`keydown`, function (evt) {
+  const onPinMainEnterPress = (evt) => {
     if (evt.key === window.util.KeyboardKeys.ENTER) {
+      evt.preventDefault();
       onActiveMode();
       window.map.initPinsScreen();
-
-      let pinsArr = Array.from(window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`));
-
-      pinsArr.forEach((element, index) => {
-        element.addEventListener(`click`, () => {
-          window.map.removeActiveCard();
-          const cardNodesFragment = window.card.createСardFragment(window.data.pinsDataArray[index]);
-          cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
-          document.addEventListener(`keydown`, window.util.onPopupEscPress);
-          window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-        });
+      onPinsClick();
+      window.map.mapPinMain.removeEventListener(`mousedown`, onPinMainMousedownPress, {
+        once: true
       });
     }
-  }, {
+  };
+
+  toggleDisabledOnFormNodes();
+  window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
+  window.map.mapPinMain.addEventListener(`mousedown`, onPinMainMousedownPress, {
+    once: true
+  });
+  window.map.mapPinMain.addEventListener(`keydown`, onPinMainEnterPress, {
     once: true
   });
 })();

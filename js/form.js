@@ -82,9 +82,9 @@
   formNode.addEventListener(`change`, onFormNodeChange);
 
   window.form = {
-    formNode: document.querySelector(`.ad-form`),
+    formNode,
     passAddressInput: (pinWidth, pinHeight) => {
-      window.form.formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
+      formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
     }
   };
 })();

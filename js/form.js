@@ -57,7 +57,7 @@
   };
 
   const getMainMapPinCoordinateY = (pinHeight) => {
-    return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight) : parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight / 2);
+    return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) : parseInt(window.map.mapPinMain.style.top, 10) - (pinHeight / 2);
   };
 
   const onFormNodeChange = (evt) => {

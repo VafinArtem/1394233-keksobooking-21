@@ -102,27 +102,12 @@
 
   formNode.addEventListener(`change`, onFormNodeChange);
   formNode.addEventListener(`submit`, (evt) => {
-    window.upload(new FormData(formNode), () => {
-      let pinsNode = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-      window.pin.mapNode.classList.add(`map--faded`);
-      formNode.classList.add(`ad-form--disabled`);
-      toggleDisabledOnFormNodes();
-      for (let pinNode of pinsNode) {
-        pinNode.parentNode.removeChild(pinNode);
-      }
-      formNode.reset();
-      window.map.mapPinMain.style.left = `570px`;
-      window.map.mapPinMain.style.top = `375px`;
-      passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
-      window.map.removeActiveCard();
-      window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
-        once: true
-      });
-      window.map.mapPinMain.addEventListener(`keydown`, window.activate.onPinMainEnterPress, {
-        once: true
-      });
+    window.upload(new FormData(formNode), window.reset.resetPage);
+    evt.preventDefault();
+  });
 
-    });
+  formNode.addEventListener(`reset`, (evt) => {
+    window.reset.resetPage();
     evt.preventDefault();
   });
 

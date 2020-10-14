@@ -77,6 +77,10 @@
     return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) : parseInt(window.map.mapPinMain.style.top, 10) - (pinHeight / 2);
   };
 
+  const passAddressInput = (pinWidth, pinHeight) => {
+    formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
+  };
+
   const onFormNodeChange = (evt) => {
     switch (evt.target) {
       case formNode.title:
@@ -99,18 +103,32 @@
   formNode.addEventListener(`change`, onFormNodeChange);
   formNode.addEventListener(`submit`, (evt) => {
     window.upload(new FormData(formNode), () => {
+      let pinsNode = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
       window.pin.mapNode.classList.add(`map--faded`);
       formNode.classList.add(`ad-form--disabled`);
       toggleDisabledOnFormNodes();
+      for (let pinNode of pinsNode) {
+        pinNode.parentNode.removeChild(pinNode);
+      }
+      formNode.reset();
+      window.map.mapPinMain.style.left = `570px`;
+      window.map.mapPinMain.style.top = `375px`;
+      passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
+      window.map.removeActiveCard();
+      window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
+        once: true
+      });
+      window.map.mapPinMain.addEventListener(`keydown`, window.activate.onPinMainEnterPress, {
+        once: true
+      });
+
     });
     evt.preventDefault();
   });
 
   window.form = {
     formNode,
-    passAddressInput: (pinWidth, pinHeight) => {
-      formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
-    },
+    passAddressInput,
     toggleDisabledOnFormNodes,
     mapFiltersNode
   };

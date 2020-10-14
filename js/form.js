@@ -20,6 +20,23 @@
   };
 
   const formNode = document.querySelector(`.ad-form`);
+  const mapFiltersNode = window.pin.mapNode.querySelector(`.map__filters-container`);
+  const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
+
+  let isPageDisabled = false;
+
+  const toggleDisabledOnFormNodes = () => {
+    isPageDisabled = !isPageDisabled;
+    const classListMethod = isPageDisabled ? `add` : `remove`;
+    Array.from(window.form.formNode.children).forEach((child) => {
+      child.disabled = isPageDisabled;
+      child.classList[classListMethod](`disable-cursor`);
+    });
+    Array.from(formFiltersNode.children).forEach((child) => {
+      child.disabled = isPageDisabled;
+      child.classList[classListMethod](`disable-cursor`);
+    });
+  };
 
   const validateTimeSelects = (evt) => {
     if (evt.target === formNode.timein) {
@@ -80,11 +97,21 @@
   };
 
   formNode.addEventListener(`change`, onFormNodeChange);
+  formNode.addEventListener(`submit`, (evt) => {
+    window.upload(new FormData(formNode), () => {
+      window.pin.mapNode.classList.add(`map--faded`);
+      formNode.classList.add(`ad-form--disabled`);
+      toggleDisabledOnFormNodes();
+    });
+    evt.preventDefault();
+  });
 
   window.form = {
     formNode,
     passAddressInput: (pinWidth, pinHeight) => {
       formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
-    }
+    },
+    toggleDisabledOnFormNodes,
+    mapFiltersNode
   };
 })();

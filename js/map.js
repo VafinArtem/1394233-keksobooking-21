@@ -3,8 +3,8 @@
 (() => {
   window.map = {
     mapPinMain: window.pin.mapNode.querySelector(`.map__pin--main`),
-    initPinsScreen: () => {
-      const pinsNodesFragment = window.pin.createPinsNodeFragment(window.data.pinsDataArray);
+    initPinsScreen: (array) => {
+      const pinsNodesFragment = window.pin.createPinsNodeFragment(array);
       window.pin.mapPinsNode.appendChild(pinsNodesFragment);
     },
     removeActiveCard: () => {

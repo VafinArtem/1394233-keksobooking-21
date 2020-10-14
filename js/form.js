@@ -57,7 +57,7 @@
   };
 
   const getMainMapPinCoordinateY = (pinHeight) => {
-    return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight) : parseInt(window.map.mapPinMain.style.top, 10) + (pinHeight / 2);
+    return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) : parseInt(window.map.mapPinMain.style.top, 10) - (pinHeight / 2);
   };
 
   const onFormNodeChange = (evt) => {
@@ -82,9 +82,9 @@
   formNode.addEventListener(`change`, onFormNodeChange);
 
   window.form = {
-    formNode: document.querySelector(`.ad-form`),
+    formNode,
     passAddressInput: (pinWidth, pinHeight) => {
-      window.form.formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
+      formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
     }
   };
 })();

@@ -86,12 +86,13 @@
 
   formNode.addEventListener(`change`, onFormNodeChange);
   formNode.addEventListener(`submit`, (evt) => {
-    window.upload(new FormData(formNode), window.reset.resetPage);
+    window.data.upload(new FormData(formNode), window.reset.page);
+    window.reset.createMessageElement();
     evt.preventDefault();
   });
 
   formResetButton.addEventListener(`click`, (evt) => {
-    window.reset.resetPage();
+    window.reset.page();
     evt.preventDefault();
   });
 

@@ -4,6 +4,14 @@
   const mainNode = document.querySelector(`main`);
   const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
 
+  const createMessageElement = () => {
+    const successMessageElement = successMessageTemplate.cloneNode(true);
+    mainNode.appendChild(successMessageElement);
+
+    document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
+    successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
+  };
+
   const removeMessageElement = () => {
     const succesMessageElement = mainNode.querySelector(`.success`);
     const errorMessageElement = mainNode.querySelector(`.error`);
@@ -16,7 +24,7 @@
     }
   };
 
-  const resetPage = () => {
+  const page = () => {
     let pinsNode = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
 
     window.pin.mapNode.classList.add(`map--faded`);
@@ -36,11 +44,6 @@
 
     window.map.removeActiveCard();
 
-    const successMessageElement = successMessageTemplate.cloneNode(true);
-    mainNode.appendChild(successMessageElement);
-
-    document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
-    successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
     window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
       once: true
     });
@@ -50,8 +53,9 @@
   };
 
   window.reset = {
-    resetPage,
+    page,
     removeMessageElement,
-    mainNode
+    mainNode,
+    createMessageElement
   };
 })();

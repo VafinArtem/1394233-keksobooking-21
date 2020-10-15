@@ -19,15 +19,6 @@
     });
   };
 
-
-  const showError = (errorMessage) => {
-    const errorLoadNode = document.querySelector(`.error-load`);
-    const errorLoadMessageNode = errorLoadNode.querySelector(`.error-load__message`);
-
-    errorLoadNode.classList.remove(`hidden`);
-    errorLoadMessageNode.textContent = errorMessage;
-  };
-
   const onPinsClick = (array) => {
     let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     pinsArr.forEach((element, index) => {
@@ -53,7 +44,7 @@
   const onPinMainMousedownPress = (evt) => {
     if (evt.button === window.util.MouseButtons.MAIN) {
       evt.preventDefault();
-      window.load(activatePage, showError);
+      window.data.load(activatePage);
       window.map.mapPinMain.removeEventListener(`keydown`, onPinMainEnterPress);
     }
   };
@@ -61,7 +52,7 @@
   const onPinMainEnterPress = (evt) => {
     if (evt.key === window.util.KeyboardKeys.ENTER) {
       evt.preventDefault();
-      window.load(activatePage, showError);
+      window.data.load(activatePage);
       window.map.mapPinMain.removeEventListener(`mousedown`, onPinMainMousedownPress);
     }
   };

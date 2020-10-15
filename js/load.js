@@ -1,6 +1,9 @@
 "use strict";
 (() => {
-  const URL = `https://21.javascript.pages.academy/keksobooking/data`;
+  const URL = {
+    load: `https://21.javascript.pages.academy/keksobooking/data`,
+    upload: `https://21.javascript.pages.academy/keksobooking`
+  };
   const StatusCode = {
     ОК: 200
   };

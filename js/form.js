@@ -99,7 +99,8 @@
     window.upload(new FormData(formNode), window.reset.resetPage);
     const successMessageElement = successMessageTemplate.cloneNode(true);
     mainNode.appendChild(successMessageElement);
-    document.addEventListener(`keydown`, window.util.onSuccesMessageEscPress);
+    document.addEventListener(`keydown`, window.util.onSuccesMessageEscPress, {once: true});
+    successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
     evt.preventDefault();
   });
 

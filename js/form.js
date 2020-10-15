@@ -20,6 +20,7 @@
   };
 
   const formNode = document.querySelector(`.ad-form`);
+  const formResetButton = formNode.querySelector(`.ad-form__reset`);
 
   const validateTimeSelects = (evt) => {
     if (evt.target === formNode.timein) {
@@ -89,7 +90,7 @@
     evt.preventDefault();
   });
 
-  formNode.addEventListener(`reset`, (evt) => {
+  formResetButton.addEventListener(`click`, (evt) => {
     window.reset.resetPage();
     evt.preventDefault();
   });

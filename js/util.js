@@ -34,7 +34,7 @@
     onSuccesMessageEscPress: (evt) => {
       if (evt.key === KeyboardKeys.ESCAPE) {
         evt.preventDefault();
-        window.form.removeMessageElement();
+        window.reset.removeMessageElement();
       }
     },
     MouseButtons,

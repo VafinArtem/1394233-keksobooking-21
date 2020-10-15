@@ -19,10 +19,8 @@
     MAX: 100
   };
 
-  const mainNode = document.querySelector(`main`);
   const formNode = document.querySelector(`.ad-form`);
   const formResetButton = formNode.querySelector(`.ad-form__reset`);
-  const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
 
   const validateTimeSelects = (evt) => {
     if (evt.target === formNode.timein) {
@@ -86,21 +84,9 @@
     }
   };
 
-  const removeMessageElement = () => {
-    const MessageElement = mainNode.querySelector(`.success`);
-    if (MessageElement) {
-      MessageElement.parentNode.removeChild(MessageElement);
-      document.removeEventListener(`keydown`, window.util.onSuccesMessageEscPress);
-    }
-  };
-
   formNode.addEventListener(`change`, onFormNodeChange);
   formNode.addEventListener(`submit`, (evt) => {
     window.upload(new FormData(formNode), window.reset.resetPage);
-    const successMessageElement = successMessageTemplate.cloneNode(true);
-    mainNode.appendChild(successMessageElement);
-    document.addEventListener(`keydown`, window.util.onSuccesMessageEscPress, {once: true});
-    successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
     evt.preventDefault();
   });
 
@@ -111,7 +97,6 @@
 
   window.form = {
     formNode,
-    passAddressInput,
-    removeMessageElement
+    passAddressInput
   };
 })();

@@ -1,7 +1,7 @@
 "use strict";
 
 (() => {
-  window.form.toggleDisabledOnFormNodes();
+  window.activate.toggleDisabledOnFormNodes();
   window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
   window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
     once: true

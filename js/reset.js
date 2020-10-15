@@ -5,7 +5,7 @@
     let pinsNode = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
     window.pin.mapNode.classList.add(`map--faded`);
     window.form.formNode.classList.add(`ad-form--disabled`);
-    window.form.toggleDisabledOnFormNodes();
+    window.activate.toggleDisabledOnFormNodes();
     for (let pinNode of pinsNode) {
       pinNode.parentNode.removeChild(pinNode);
     }

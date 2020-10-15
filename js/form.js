@@ -20,23 +20,6 @@
   };
 
   const formNode = document.querySelector(`.ad-form`);
-  const mapFiltersNode = window.pin.mapNode.querySelector(`.map__filters-container`);
-  const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
-
-  let isPageDisabled = false;
-
-  const toggleDisabledOnFormNodes = () => {
-    isPageDisabled = !isPageDisabled;
-    const classListMethod = isPageDisabled ? `add` : `remove`;
-    Array.from(window.form.formNode.children).forEach((child) => {
-      child.disabled = isPageDisabled;
-      child.classList[classListMethod](`disable-cursor`);
-    });
-    Array.from(formFiltersNode.children).forEach((child) => {
-      child.disabled = isPageDisabled;
-      child.classList[classListMethod](`disable-cursor`);
-    });
-  };
 
   const validateTimeSelects = (evt) => {
     if (evt.target === formNode.timein) {
@@ -113,8 +96,6 @@
 
   window.form = {
     formNode,
-    passAddressInput,
-    toggleDisabledOnFormNodes,
-    mapFiltersNode
+    passAddressInput
   };
 })();

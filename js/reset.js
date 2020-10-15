@@ -5,10 +5,14 @@
   const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
 
   const removeMessageElement = () => {
-    const MessageElement = mainNode.querySelector(`.success`);
-    if (MessageElement) {
-      MessageElement.parentNode.removeChild(MessageElement);
-      document.removeEventListener(`keydown`, window.util.onSuccesMessageEscPress);
+    const succesMessageElement = mainNode.querySelector(`.success`);
+    const errorMessageElement = mainNode.querySelector(`.error`);
+    if (succesMessageElement) {
+      succesMessageElement.parentNode.removeChild(succesMessageElement);
+      document.removeEventListener(`keydown`, window.util.onPopupMessageEscPress);
+    } else {
+      errorMessageElement.parentNode.removeChild(errorMessageElement);
+      document.removeEventListener(`keydown`, window.util.onPopupMessageEscPress);
     }
   };
 
@@ -35,7 +39,7 @@
     const successMessageElement = successMessageTemplate.cloneNode(true);
     mainNode.appendChild(successMessageElement);
 
-    document.addEventListener(`keydown`, window.util.onSuccesMessageEscPress, {once: true});
+    document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
     successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
     window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
       once: true

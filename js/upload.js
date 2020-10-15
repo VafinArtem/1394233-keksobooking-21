@@ -8,9 +8,13 @@
 
   const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
-  const showError = () => {
+  const showError = (message) => {
     const errorMessageElement = errorMessageTemplate.cloneNode(true);
+    errorMessageElement.querySelector(`.error__message`).textContent = message;
     window.reset.mainNode.appendChild(errorMessageElement);
+
+    document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
+    errorMessageElement.addEventListener(`click`, window.reset.removeMessageElement, {once: true});
   };
 
   window.upload = function (data, onSuccess) {
@@ -21,14 +25,14 @@
       if (xhr.status === StatusCode.ОК) {
         onSuccess(xhr.response);
       } else {
-        showError();
+        showError(`Ошибка загрузки объявления. Код ошибки: ${xhr.status} ${xhr.statusText}`);
       }
     });
     xhr.addEventListener(`timeout`, () => {
-      showError();
+      showError(`Ошибка загрузки объявления. Код ошибки: ${xhr.status} ${xhr.statusText}`);
     });
     xhr.addEventListener(`error`, () => {
-      showError();
+      showError(`Ошибка загрузки объявления. Код ошибки: ${xhr.status} ${xhr.statusText}`);
     });
 
     xhr.open(`POST`, URL);

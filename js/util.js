@@ -31,7 +31,7 @@
         window.map.removeActiveCard();
       }
     },
-    onSuccesMessageEscPress: (evt) => {
+    onPopupMessageEscPress: (evt) => {
       if (evt.key === KeyboardKeys.ESCAPE) {
         evt.preventDefault();
         window.reset.removeMessageElement();

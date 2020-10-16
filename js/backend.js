@@ -39,14 +39,10 @@
     });
     xhr.open(method, dataUrl);
     xhr.timeout = TIMEOUT_IN_MS;
-    if (method === `GET`) {
-      xhr.send();
-    } else {
-      xhr.send(data);
-    }
+    xhr.send(method === `GET` ? `` : data);
   };
 
-  window.data = {
+  window.backend = {
     load: (onSuccess) => {
       workWithServer(`GET`, Url.LOAD, onSuccess);
     },

@@ -15,7 +15,7 @@
   };
 
   window.pin = {
-    mapNode: document.querySelector(`.map`),
+    mapNode,
     mapPinsNode: mapNode.querySelector(`.map__pins`),
     createPinsNodeFragment: (pinsArr) => {
       const fragment = document.createDocumentFragment();

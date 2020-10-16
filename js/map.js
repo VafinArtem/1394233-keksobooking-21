@@ -1,8 +1,17 @@
 "use strict";
 
 (() => {
+
+  const mapPinMain = window.pin.mapNode.querySelector(`.map__pin--main`);
+
+  const defaultMainPinCoordinates = {
+    Y: mapPinMain.style.top,
+    X: mapPinMain.style.left
+  };
+
   window.map = {
-    mapPinMain: window.pin.mapNode.querySelector(`.map__pin--main`),
+    mapPinMain,
+    defaultMainPinCoordinates,
     initPinsScreen: (array) => {
       const pinsNodesFragment = window.pin.createPinsNodeFragment(array);
       window.pin.mapPinsNode.appendChild(pinsNodesFragment);

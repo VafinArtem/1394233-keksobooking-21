@@ -20,6 +20,7 @@
   };
 
   const formNode = document.querySelector(`.ad-form`);
+  const formResetButton = formNode.querySelector(`.ad-form__reset`);
 
   const validateTimeSelects = (evt) => {
     if (evt.target === formNode.timein) {
@@ -60,6 +61,10 @@
     return pinHeight === window.move.MainPinSize.pin.HEIGHT ? parseInt(window.map.mapPinMain.style.top, 10) : parseInt(window.map.mapPinMain.style.top, 10) - (pinHeight / 2);
   };
 
+  const passAddressInput = (pinWidth, pinHeight) => {
+    formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
+  };
+
   const onFormNodeChange = (evt) => {
     switch (evt.target) {
       case formNode.title:
@@ -80,11 +85,19 @@
   };
 
   formNode.addEventListener(`change`, onFormNodeChange);
+  formNode.addEventListener(`submit`, (evt) => {
+    window.data.upload(new FormData(formNode), window.reset.page);
+    window.reset.createMessageElement();
+    evt.preventDefault();
+  });
+
+  formResetButton.addEventListener(`click`, (evt) => {
+    window.reset.page();
+    evt.preventDefault();
+  });
 
   window.form = {
     formNode,
-    passAddressInput: (pinWidth, pinHeight) => {
-      formNode.address.value = `${getMainMapPinCoordinateX(pinWidth)}, ${getMainMapPinCoordinateY(pinHeight)}`;
-    }
+    passAddressInput
   };
 })();

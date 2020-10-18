@@ -19,13 +19,8 @@
     });
   };
 
-  const activatePage = (array) => {
+  const addCardNode = (array) => {
     let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-    window.pin.mapNode.classList.remove(`map--faded`);
-    window.form.formNode.classList.remove(`ad-form--disabled`);
-    toggleDisabledOnFormNodes();
-    window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
-    window.map.initPinsScreen(array);
     pinsArr.forEach((element, index) => {
       element.addEventListener(`click`, () => {
         window.map.removeActiveCard();
@@ -34,6 +29,34 @@
         document.addEventListener(`keydown`, window.util.onPopupEscPress);
         window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
       });
+    });
+  };
+
+  const activatePage = (array) => {
+    const simillarPinsArray = array;
+    window.pin.mapNode.classList.remove(`map--faded`);
+    window.form.formNode.classList.remove(`ad-form--disabled`);
+    toggleDisabledOnFormNodes();
+    window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
+    window.map.initPinsScreen(simillarPinsArray);
+    addCardNode(simillarPinsArray);
+
+    const updateSimillarPins = () => {
+      const sameTypeHouse = simillarPinsArray.filter((pinSimmillar) => {
+        if (formFiltersNode.housingType.value === `any`) {
+          return simillarPinsArray;
+        } else {
+          return pinSimmillar.offer.type === formFiltersNode.housingType.value;
+        }
+      });
+      window.pin.remove();
+      window.map.initPinsScreen(sameTypeHouse);
+      addCardNode(sameTypeHouse);
+    };
+
+    formFiltersNode.housingType.addEventListener(`change`, () => {
+      window.map.removeActiveCard();
+      updateSimillarPins();
     });
   };
 

@@ -76,11 +76,27 @@
     return cardElement;
   };
 
+  const createСardFragment = (cardObj) => {
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(createCard(cardObj));
+    return fragment;
+  };
+
+  const addCardNode = (array) => {
+    let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    pinsArr.forEach((element, index) => {
+      element.addEventListener(`click`, () => {
+        window.map.removeActiveCard();
+        const cardNodesFragment = createСardFragment(array[index]);
+        cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
+        document.addEventListener(`keydown`, window.util.onPopupEscPress);
+        window.pin.mapNode.insertBefore(cardNodesFragment, window.activate.mapFiltersNode);
+      });
+    });
+  };
+
   window.card = {
-    createСardFragment: (cardObj) => {
-      const fragment = document.createDocumentFragment();
-      fragment.appendChild(createCard(cardObj));
-      return fragment;
-    }
+    createСardFragment,
+    addCardNode
   };
 })();

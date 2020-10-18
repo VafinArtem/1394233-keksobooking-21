@@ -19,19 +19,6 @@
     });
   };
 
-  const addCardNode = (array) => {
-    let pinsArr = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
-    pinsArr.forEach((element, index) => {
-      element.addEventListener(`click`, () => {
-        window.map.removeActiveCard();
-        const cardNodesFragment = window.card.createСardFragment(array[index]);
-        cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
-        document.addEventListener(`keydown`, window.util.onPopupEscPress);
-        window.pin.mapNode.insertBefore(cardNodesFragment, mapFiltersNode);
-      });
-    });
-  };
-
   const activatePage = (array) => {
     const simillarPinsArray = array;
     window.pin.mapNode.classList.remove(`map--faded`);
@@ -39,24 +26,11 @@
     toggleDisabledOnFormNodes();
     window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
     window.map.initPinsScreen(simillarPinsArray);
-    addCardNode(simillarPinsArray);
+    window.card.addCardNode(simillarPinsArray);
 
-    const updateSimillarPins = () => {
-      const sameTypeHouse = simillarPinsArray.filter((pinSimmillar) => {
-        if (formFiltersNode.housingType.value === `any`) {
-          return simillarPinsArray;
-        } else {
-          return pinSimmillar.offer.type === formFiltersNode.housingType.value;
-        }
-      });
-      window.pin.remove();
-      window.map.initPinsScreen(sameTypeHouse);
-      addCardNode(sameTypeHouse);
-    };
-
-    formFiltersNode.housingType.addEventListener(`change`, () => {
+    window.activate.formFiltersNode.housingType.addEventListener(`change`, () => {
       window.map.removeActiveCard();
-      updateSimillarPins();
+      window.filter.updateSimillarPins(simillarPinsArray);
     });
   };
 
@@ -80,6 +54,7 @@
     onPinMainMousedownPress,
     onPinMainEnterPress,
     toggleDisabledOnFormNodes,
-    mapFiltersNode
+    mapFiltersNode,
+    formFiltersNode,
   };
 })();

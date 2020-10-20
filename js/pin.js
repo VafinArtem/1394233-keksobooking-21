@@ -1,6 +1,7 @@
 "use strict";
 
 (() => {
+  const MAX_SIMILLAR_PINS_COUNT = 5;
   const mapNode = document.querySelector(`.map`);
   const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
@@ -14,17 +15,27 @@
     return pinElement;
   };
 
+  const removePins = () => {
+    let pinsNode = window.pin.mapPinsNode.querySelectorAll(`.map__pin:not(.map__pin--main)`);
+    for (let pinNode of pinsNode) {
+      pinNode.parentNode.removeChild(pinNode);
+    }
+  };
+
   window.pin = {
-    mapNode: document.querySelector(`.map`),
+    mapNode,
     mapPinsNode: mapNode.querySelector(`.map__pins`),
     createPinsNodeFragment: (pinsArr) => {
+
+      const takeNumber = pinsArr.length > MAX_SIMILLAR_PINS_COUNT ? MAX_SIMILLAR_PINS_COUNT : pinsArr.length;
       const fragment = document.createDocumentFragment();
-      for (let i = 0; i < pinsArr.length; i++) {
+      for (let i = 0; i < takeNumber; i++) {
         fragment.appendChild(createPin(pinsArr[i]));
       }
 
       return fragment;
-    }
+    },
+    remove: removePins
   };
 })();
 

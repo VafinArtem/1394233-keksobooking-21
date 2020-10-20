@@ -21,6 +21,8 @@
 
   const formNode = document.querySelector(`.ad-form`);
   const formResetButton = formNode.querySelector(`.ad-form__reset`);
+  const mainNode = document.querySelector(`main`);
+  const successMessageTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
 
   const validateTimeSelects = (evt) => {
     if (evt.target === formNode.timein) {
@@ -84,16 +86,32 @@
     }
   };
 
+  const createMessageElement = () => {
+    const successMessageElement = successMessageTemplate.cloneNode(true);
+    mainNode.appendChild(successMessageElement);
+
+    document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
+    successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
+  };
+
+  const removeMessageElement = () => {
+    const modalNode = mainNode.querySelector(`.success, .error`);
+
+    if (modalNode) {
+      modalNode.parentNode.removeChild(modalNode);
+      document.removeEventListener(`keydown`, window.util.onPopupMessageEscPress);
+    }
+  };
+
   formNode.addEventListener(`change`, onFormNodeChange);
   formNode.addEventListener(`submit`, (evt) => {
-    window.data.upload(new FormData(formNode), window.reset.page);
-    window.reset.createMessageElement();
+    window.backend.upload(new FormData(formNode), window.reset.page);
+    createMessageElement();
     evt.preventDefault();
   });
 
-  formResetButton.addEventListener(`click`, (evt) => {
+  formResetButton.addEventListener(`click`, () => {
     window.reset.page();
-    evt.preventDefault();
   });
 
   window.form = {

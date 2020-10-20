@@ -27,9 +27,9 @@
     mapPinsNode: mapNode.querySelector(`.map__pins`),
     createPinsNodeFragment: (pinsArr) => {
 
-      const takeNumber = pinsArr.length > MAX_SIMILLAR_PINS_COUNT ? MAX_SIMILLAR_PINS_COUNT : pinsArr.length;
+      const pinsAmountLimit = pinsArr.length > MAX_SIMILLAR_PINS_COUNT ? MAX_SIMILLAR_PINS_COUNT : pinsArr.length;
       const fragment = document.createDocumentFragment();
-      for (let i = 0; i < takeNumber; i++) {
+      for (let i = 0; i < pinsAmountLimit; i++) {
         fragment.appendChild(createPin(pinsArr[i]));
       }
 

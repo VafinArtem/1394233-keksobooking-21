@@ -28,7 +28,7 @@
     window.map.initPinsScreen(simillarPinsArray);
     window.card.addCardNode(simillarPinsArray);
 
-    window.activate.formFiltersNode.housingType.addEventListener(`change`, () => {
+    window.activate.formFiltersNode[`housing-type`].addEventListener(`change`, () => {
       window.map.removeActiveCard();
       window.filter.updateSimillarPins(simillarPinsArray);
     });

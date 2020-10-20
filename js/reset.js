@@ -10,6 +10,7 @@
     window.pin.remove();
 
     window.form.formNode.reset();
+    window.activate.formFiltersNode.reset();
 
     window.map.mapPinMain.style.left = window.map.defaultMainPinCoordinates.X;
     window.map.mapPinMain.style.top = window.map.defaultMainPinCoordinates.Y;

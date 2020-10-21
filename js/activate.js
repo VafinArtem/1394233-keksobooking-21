@@ -30,7 +30,19 @@
 
     window.activate.formFiltersNode[`housing-type`].addEventListener(`change`, () => {
       window.map.removeActiveCard();
-      window.filter.updateSimillarPins(simillarPinsArray);
+      window.filter.updatePins(simillarPinsArray);
+    });
+    window.activate.formFiltersNode[`housing-price`].addEventListener(`change`, () => {
+      window.map.removeActiveCard();
+      window.filter.updatePins(simillarPinsArray);
+    });
+    window.activate.formFiltersNode[`housing-rooms`].addEventListener(`change`, () => {
+      window.map.removeActiveCard();
+      window.filter.updatePins(simillarPinsArray);
+    });
+    window.activate.formFiltersNode[`housing-guests`].addEventListener(`change`, () => {
+      window.map.removeActiveCard();
+      window.filter.updatePins(simillarPinsArray);
     });
   };
 

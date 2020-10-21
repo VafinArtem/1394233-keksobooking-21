@@ -3,6 +3,7 @@
 (() => {
   const mapFiltersNode = window.pin.mapNode.querySelector(`.map__filters-container`);
   const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
+  const checkBoxes = formFiltersNode.features;
 
   let isPageDisabled = false;
 
@@ -28,21 +29,19 @@
     window.map.initPinsScreen(simillarPinsArray);
     window.card.addCardNode(simillarPinsArray);
 
-    window.activate.formFiltersNode[`housing-type`].addEventListener(`change`, () => {
-      window.map.removeActiveCard();
-      window.filter.updatePins(simillarPinsArray);
+    checkBoxes.forEach((element) => {
+      element.addEventListener(`change`, () => {
+        if (element.checked) {
+          window.map.removeActiveCard();
+          window.filter.updatePins(simillarPinsArray);
+        }
+      });
     });
-    window.activate.formFiltersNode[`housing-price`].addEventListener(`change`, () => {
-      window.map.removeActiveCard();
-      window.filter.updatePins(simillarPinsArray);
-    });
-    window.activate.formFiltersNode[`housing-rooms`].addEventListener(`change`, () => {
-      window.map.removeActiveCard();
-      window.filter.updatePins(simillarPinsArray);
-    });
-    window.activate.formFiltersNode[`housing-guests`].addEventListener(`change`, () => {
-      window.map.removeActiveCard();
-      window.filter.updatePins(simillarPinsArray);
+    window.activate.formFiltersNode.querySelectorAll(`select`).forEach((element) => {
+      element.addEventListener(`change`, () => {
+        window.map.removeActiveCard();
+        window.filter.updatePins(simillarPinsArray);
+      });
     });
   };
 

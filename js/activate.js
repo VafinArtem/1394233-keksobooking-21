@@ -3,7 +3,6 @@
 (() => {
   const mapFiltersNode = window.pin.mapNode.querySelector(`.map__filters-container`);
   const formFiltersNode = mapFiltersNode.querySelector(`.map__filters`);
-  const checkBoxes = formFiltersNode.features;
 
   let isPageDisabled = false;
 
@@ -29,7 +28,7 @@
     window.map.initPinsScreen(simillarPinsArray);
     window.card.addCardNode(simillarPinsArray);
 
-    checkBoxes.forEach((element) => {
+    formFiltersNode.features.forEach((element) => {
       element.addEventListener(`change`, () => {
         if (element.checked) {
           window.map.removeActiveCard();

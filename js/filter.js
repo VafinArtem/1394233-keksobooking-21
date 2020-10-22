@@ -8,7 +8,9 @@
       low: 10000,
       high: 50000
     };
-    // console.log(price[window.activate.formFiltersNode[`housing-price`].value]);
+
+    const checkBoxes = window.activate.formFiltersNode.features;
+
     if (pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value) {
       rank += 4;
     } else if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
@@ -41,6 +43,12 @@
       rank += 0;
     }
 
+    checkBoxes.forEach((element) => {
+      if (element.checked && pinSimmillar.offer.features.includes(element.value)) {
+        rank += 0.5;
+      }
+    });
+
     return rank;
   };
 
@@ -48,7 +56,6 @@
     const sameTypeHouse = array.sort((left, right) => {
       return getRank(right) - getRank(left);
     });
-    console.log(sameTypeHouse);
     window.pin.remove();
     window.map.initPinsScreen(sameTypeHouse);
     window.card.addCardNode(sameTypeHouse);

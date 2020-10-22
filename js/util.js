@@ -11,6 +11,8 @@
     MAIN: 0
   };
 
+  const DEBOUNCE_INTERVAL = 500; // ms
+
   window.util = {
     getRandomArrElement: (arr) => {
       return arr[Math.floor(Math.random() * arr.length)];
@@ -36,6 +38,14 @@
         evt.preventDefault();
         window.reset.removeMessageElement();
       }
+    },
+    debounce: (cb) => {
+      let lastTimeout;
+
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(cb, DEBOUNCE_INTERVAL);
     },
     MouseButtons,
     KeyboardKeys

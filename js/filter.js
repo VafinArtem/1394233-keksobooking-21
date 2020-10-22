@@ -50,12 +50,12 @@
   };
 
   const updatePins = (array) => {
-    const sameTypeHouse = array.sort((left, right) => {
+    const samePins = array.sort((left, right) => {
       return getRank(right) - getRank(left);
     });
     window.pin.remove();
-    window.map.initPinsScreen(sameTypeHouse);
-    window.card.addCardNode(sameTypeHouse);
+    window.map.initPinsScreen(samePins);
+    window.card.addCardNode(samePins);
   };
 
 

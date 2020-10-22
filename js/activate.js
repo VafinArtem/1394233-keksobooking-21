@@ -33,16 +33,17 @@
     window.map.initPinsScreen(simillarPinsArray);
     window.card.addCardNode(simillarPinsArray);
 
+    window.activate.formFiltersNode.querySelectorAll(`select`).forEach((element) => {
+      element.addEventListener(`change`, () => {
+        window.util.debounce(updatePinMap(simillarPinsArray));
+      });
+    });
+
     formFiltersNode.features.forEach((element) => {
       element.addEventListener(`change`, () => {
         if (element.checked) {
-          updatePinMap(simillarPinsArray);
+          window.util.debounce(updatePinMap(simillarPinsArray));
         }
-      });
-    });
-    window.activate.formFiltersNode.querySelectorAll(`select`).forEach((element) => {
-      element.addEventListener(`change`, () => {
-        updatePinMap(simillarPinsArray);
       });
     });
   };

@@ -19,6 +19,11 @@
     });
   };
 
+  const updatePinMap = (array) => {
+    window.map.removeActiveCard();
+    window.filter.updatePins(array);
+  };
+
   const activatePage = (array) => {
     const simillarPinsArray = array;
     window.pin.mapNode.classList.remove(`map--faded`);
@@ -31,15 +36,13 @@
     formFiltersNode.features.forEach((element) => {
       element.addEventListener(`change`, () => {
         if (element.checked) {
-          window.map.removeActiveCard();
-          window.filter.updatePins(simillarPinsArray);
+          updatePinMap(simillarPinsArray);
         }
       });
     });
     window.activate.formFiltersNode.querySelectorAll(`select`).forEach((element) => {
       element.addEventListener(`change`, () => {
-        window.map.removeActiveCard();
-        window.filter.updatePins(simillarPinsArray);
+        updatePinMap(simillarPinsArray);
       });
     });
   };

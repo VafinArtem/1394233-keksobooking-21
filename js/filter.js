@@ -37,14 +37,14 @@
       rank += 0;
     }
 
-    containsValue(`rooms`, `housing-rooms`);
-    containsValue(`guests`, `housing-guests`);
-
     checkBoxes.forEach((element) => {
       if (element.checked && pinSimmillar.offer.features.includes(element.value)) {
         rank += 0.5;
       }
     });
+
+    containsValue(`rooms`, `housing-rooms`);
+    containsValue(`guests`, `housing-guests`);
 
     return rank;
   };
@@ -60,18 +60,6 @@
 
 
   window.filter = {
-    updateSimillarPins: (array) => {
-      const sameTypeHouse = array.filter((pinSimmillar) => {
-        if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
-          return array;
-        } else {
-          return pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value;
-        }
-      });
-      window.pin.remove();
-      window.map.initPinsScreen(sameTypeHouse);
-      window.card.addCardNode(sameTypeHouse);
-    },
     updatePins
   };
 })();

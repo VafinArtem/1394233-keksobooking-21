@@ -11,6 +11,16 @@
 
     const checkBoxes = window.activate.formFiltersNode.features;
 
+    const containsValue = (objectValue, filterValue) => {
+      if (parseInt(pinSimmillar.offer[objectValue], 10) === parseInt(window.activate.formFiltersNode[filterValue].value, 10)) {
+        rank += 2;
+      } else if (parseInt(pinSimmillar.offer[objectValue], 10) > parseInt(window.activate.formFiltersNode[filterValue].value, 10) || parseInt(pinSimmillar.offer[objectValue], 10) < parseInt(window.activate.formFiltersNode[filterValue].value, 10)) {
+        rank += 1;
+      } else if (window.activate.formFiltersNode[`housing-guests`].value === `any`) {
+        rank += 0;
+      }
+    };
+
     if (pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value) {
       rank += 4;
     } else if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
@@ -27,21 +37,8 @@
       rank += 0;
     }
 
-    if (parseInt(pinSimmillar.offer.rooms, 10) === parseInt(window.activate.formFiltersNode[`housing-rooms`].value, 10)) {
-      rank += 2;
-    } else if (parseInt(pinSimmillar.offer.rooms, 10) > parseInt(window.activate.formFiltersNode[`housing-rooms`].value, 10) || parseInt(pinSimmillar.offer.rooms, 10) < parseInt(window.activate.formFiltersNode[`housing-rooms`].value, 10)) {
-      rank += 1;
-    } else if (window.activate.formFiltersNode[`housing-rooms`].value === `any`) {
-      rank += 0;
-    }
-
-    if (parseInt(pinSimmillar.offer.guests, 10) === parseInt(window.activate.formFiltersNode[`housing-guests`].value, 10)) {
-      rank += 2;
-    } else if (parseInt(pinSimmillar.offer.guests, 10) > parseInt(window.activate.formFiltersNode[`housing-guests`].value, 10) || parseInt(pinSimmillar.offer.guests, 10) < parseInt(window.activate.formFiltersNode[`housing-guests`].value, 10)) {
-      rank += 1;
-    } else if (window.activate.formFiltersNode[`housing-guests`].value === `any`) {
-      rank += 0;
-    }
+    containsValue(`rooms`, `housing-rooms`);
+    containsValue(`guests`, `housing-guests`);
 
     checkBoxes.forEach((element) => {
       if (element.checked && pinSimmillar.offer.features.includes(element.value)) {

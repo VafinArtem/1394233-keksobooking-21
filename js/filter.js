@@ -11,16 +11,6 @@
 
   const checkBoxes = window.activate.formFiltersNode.features;
 
-  // const containsValue = (objectValue, filterValue) => {
-  //   if (parseInt(pinSimmillar.offer[objectValue], 10) === parseInt(window.activate.formFiltersNode[filterValue].value, 10)) {
-  //     rank += 2;
-  //   } else if (parseInt(pinSimmillar.offer[objectValue], 10) > parseInt(window.activate.formFiltersNode[filterValue].value, 10) || parseInt(pinSimmillar.offer[objectValue], 10) < parseInt(window.activate.formFiltersNode[filterValue].value, 10)) {
-  //     rank += 1;
-  //   } else if (window.activate.formFiltersNode[`housing-guests`].value === `any`) {
-  //     rank += 0;
-  //   }
-  // };
-
   // if (pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value) {
   //   rank += 4;
   // } else if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
@@ -69,28 +59,28 @@
         high: 50000
       };
 
+      const containsValue = (objectValue, filterValue, sourceArray, newArray) => {
+        if (window.activate.formFiltersNode[objectValue].value === `any`) {
+          return sourceArray;
+        } else {
+          return parseInt(newArray.offer[filterValue], 10) === parseInt(window.activate.formFiltersNode[objectValue].value, 10);
+        }
+      };
+
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
         if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
-          return array;
+          return simmillarPinsArray;
         } else {
           return pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value;
         }
       });
 
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
-        if (window.activate.formFiltersNode[`housing-rooms`].value === `any`) {
-          return simmillarPinsArray;
-        } else {
-          return parseInt(pinSimmillar.offer.rooms, 10) === parseInt(window.activate.formFiltersNode[`housing-rooms`].value, 10);
-        }
+        return containsValue(`housing-rooms`, `rooms`, simmillarPinsArray, pinSimmillar);
       });
 
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
-        if (window.activate.formFiltersNode[`housing-guests`].value === `any`) {
-          return simmillarPinsArray;
-        } else {
-          return parseInt(pinSimmillar.offer.guests, 10) === parseInt(window.activate.formFiltersNode[`housing-guests`].value, 10);
-        }
+        return containsValue(`housing-guests`, `guests`, simmillarPinsArray, pinSimmillar);
       });
 
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
@@ -105,15 +95,13 @@
         }
       });
 
-      // simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
-      //   checkBoxes.forEach((element) => {
-      //     if (element.checked) {
-      //       return pinSimmillar.offer.features.includes(element.value);
-      //     } else {
-      //       return simmillarPinsArray;
-      //     }
-      //   });
-      // });
+      checkBoxes.forEach((element) => {
+        if (element.checked) {
+          simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
+            return pinSimmillar.offer.features.includes(element.value);
+          });
+        }
+      });
 
       window.pin.remove();
       window.map.initPinsScreen(simmillarPinsArray);

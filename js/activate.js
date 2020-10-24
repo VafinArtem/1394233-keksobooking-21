@@ -21,7 +21,7 @@
 
   const updatePinMap = (array) => {
     window.map.removeActiveCard();
-    window.filter.updatePins(array);
+    window.filter.updateSimillarPins(array);
   };
 
   const activatePage = (array) => {
@@ -33,18 +33,8 @@
     window.map.initPinsScreen(simillarPinsArray);
     window.card.addCardNode(simillarPinsArray);
 
-    window.activate.formFiltersNode.querySelectorAll(`select`).forEach((element) => {
-      element.addEventListener(`change`, () => {
-        window.util.debounce(updatePinMap(simillarPinsArray));
-      });
-    });
-
-    formFiltersNode.features.forEach((element) => {
-      element.addEventListener(`change`, () => {
-        if (element.checked) {
-          window.util.debounce(updatePinMap(simillarPinsArray));
-        }
-      });
+    window.activate.formFiltersNode.addEventListener(`change`, () => {
+      updatePinMap(simillarPinsArray);
     });
   };
 

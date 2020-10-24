@@ -19,25 +19,20 @@
     });
   };
 
-  const updatePinMap = (array) => {
-    window.map.removeActiveCard();
-    window.filter.updateSimillarPins(array);
-  };
-
   const activatePage = (array) => {
     const simillarPinsArray = array;
     window.pin.mapNode.classList.remove(`map--faded`);
     window.form.formNode.classList.remove(`ad-form--disabled`);
     toggleDisabledOnFormNodes();
     window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
-    updatePinMap(simillarPinsArray);
+    window.filter.updateSimillarPins(simillarPinsArray);
 
-    // const filterPins = window.util.debounce(updatePinMap());
+    // const filterPins = window.util.debounce(window.filter.updateSimillarPins(simillarPinsArray));
 
     // formFiltersNode.addEventListener(`change`, filterPins);
 
     window.activate.formFiltersNode.addEventListener(`change`, () => {
-      updatePinMap(simillarPinsArray);
+      window.filter.updateSimillarPins(array);
     });
   };
 

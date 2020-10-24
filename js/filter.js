@@ -1,72 +1,27 @@
 "use strict";
 
 (() => {
-  // const getRank = (pinSimmillar) => {
-  //   let rank = 0;
+  const RoomPrice = {
+    low: 10000,
+    high: 50000
+  };
 
-  // const RoomPrice = {
-  //   low: 10000,
-  //   high: 50000
-  // };
+  const MAX_SIMILLAR_PINS_COUNT = 5;
 
-  // if (pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value) {
-  //   rank += 4;
-  // } else if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
-  //   rank += 0;
-  // }
+  const checkBoxes = window.activate.formFiltersNode.features;
 
-  // if (window.activate.formFiltersNode[`housing-price`].value === `middle` && pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high) {
-  //   rank += 2;
-  // } else if (window.activate.formFiltersNode[`housing-price`].value === `low` && pinSimmillar.offer.price < RoomPrice.low) {
-  //   rank += 2;
-  // } else if (window.activate.formFiltersNode[`housing-price`].value === `high` && pinSimmillar.offer.price > RoomPrice.high) {
-  //   rank += 2;
-  // } else if (window.activate.formFiltersNode[`housing-price`].value === `any`) {
-  //   rank += 0;
-  // }
-
-  // checkBoxes.forEach((element) => {
-  //   if (element.checked && pinSimmillar.offer.features.includes(element.value)) {
-  //     rank += 0.5;
-  //   }
-  // });
-
-  //   containsValue(`rooms`, `housing-rooms`);
-  //   containsValue(`guests`, `housing-guests`);
-
-  //   return rank;
-  // };
-
-  // const updatePins = (array) => {
-  //   const samePins = array.sort((left, right) => {
-  //     return getRank(right) - getRank(left);
-  //   });
-  //   window.pin.remove();
-  //   window.map.initPinsScreen(samePins);
-  //   window.card.addCardNode(samePins);
-  // };
-
+  const containsValue = (objectValue, filterValue, sourceArray, newArray) => {
+    if (window.activate.formFiltersNode[objectValue].value === `any`) {
+      return sourceArray;
+    } else {
+      return parseInt(newArray.offer[filterValue], 10) === parseInt(window.activate.formFiltersNode[objectValue].value, 10);
+    }
+  };
 
   window.filter = {
     updateSimillarPins: (array) => {
-      const RoomPrice = {
-        low: 10000,
-        high: 50000
-      };
-
-      const MAX_SIMILLAR_PINS_COUNT = 5;
-
-      const checkBoxes = window.activate.formFiltersNode.features;
 
       let simmillarPinsArray = array;
-
-      const containsValue = (objectValue, filterValue, sourceArray, newArray) => {
-        if (window.activate.formFiltersNode[objectValue].value === `any`) {
-          return sourceArray;
-        } else {
-          return parseInt(newArray.offer[filterValue], 10) === parseInt(window.activate.formFiltersNode[objectValue].value, 10);
-        }
-      };
 
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
         if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
@@ -106,6 +61,7 @@
 
       simmillarPinsArray = simmillarPinsArray.slice(0, MAX_SIMILLAR_PINS_COUNT);
 
+      window.map.removeActiveCard();
       window.pin.remove();
       window.map.initPinsScreen(simmillarPinsArray);
       window.card.addCardNode(simmillarPinsArray);

@@ -1,7 +1,6 @@
 "use strict";
 
 (() => {
-  const MAX_SIMILLAR_PINS_COUNT = 5;
   const mapNode = document.querySelector(`.map`);
   const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 

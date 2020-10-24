@@ -27,13 +27,11 @@
     window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
     window.filter.updateSimillarPins(simillarPinsArray);
 
-    // const filterPins = window.util.debounce(window.filter.updateSimillarPins(simillarPinsArray));
-
-    // formFiltersNode.addEventListener(`change`, filterPins);
-
-    window.activate.formFiltersNode.addEventListener(`change`, () => {
-      window.filter.updateSimillarPins(array);
+    const filterPins = window.util.debounce(() => {
+      window.filter.updateSimillarPins(simillarPinsArray);
     });
+
+    formFiltersNode.addEventListener(`change`, filterPins);
   };
 
   const onPinMainMousedownPress = (evt) => {

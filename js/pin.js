@@ -1,7 +1,6 @@
 "use strict";
 
 (() => {
-  const MAX_SIMILLAR_PINS_COUNT = 5;
   const mapNode = document.querySelector(`.map`);
   const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
@@ -26,10 +25,8 @@
     mapNode,
     mapPinsNode: mapNode.querySelector(`.map__pins`),
     createPinsNodeFragment: (pinsArr) => {
-
-      const takeNumber = pinsArr.length > MAX_SIMILLAR_PINS_COUNT ? MAX_SIMILLAR_PINS_COUNT : pinsArr.length;
       const fragment = document.createDocumentFragment();
-      for (let i = 0; i < takeNumber; i++) {
+      for (let i = 0; i < pinsArr.length; i++) {
         fragment.appendChild(createPin(pinsArr[i]));
       }
 

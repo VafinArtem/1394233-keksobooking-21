@@ -25,13 +25,13 @@
     window.form.formNode.classList.remove(`ad-form--disabled`);
     toggleDisabledOnFormNodes();
     window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
-    window.map.initPinsScreen(simillarPinsArray);
-    window.card.addCardNode(simillarPinsArray);
+    window.filter.updateSimillarPins(simillarPinsArray);
 
-    window.activate.formFiltersNode.housingType.addEventListener(`change`, () => {
-      window.map.removeActiveCard();
+    const filterPins = window.util.debounce(() => {
       window.filter.updateSimillarPins(simillarPinsArray);
     });
+
+    formFiltersNode.addEventListener(`change`, filterPins);
   };
 
   const onPinMainMousedownPress = (evt) => {
@@ -55,6 +55,6 @@
     onPinMainEnterPress,
     toggleDisabledOnFormNodes,
     mapFiltersNode,
-    formFiltersNode,
+    formFiltersNode
   };
 })();

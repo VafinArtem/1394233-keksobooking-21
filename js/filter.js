@@ -24,23 +24,23 @@ window.filter = {
 
     let simmillarPinsArray = array;
 
-    simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
+    const filterPinsByType = (pinSimmillar) => {
       if (window.activate.formFiltersNode[`housing-type`].value === FILTER_DEFAULT_VALUE) {
         return simmillarPinsArray;
       } else {
         return pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value;
       }
-    });
+    };
 
-    simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
+    const filterPinsByRooms = (pinSimmillar) => {
       return containsValue(`housing-rooms`, `rooms`, simmillarPinsArray, pinSimmillar);
-    });
+    };
 
-    simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
+    const filterPinsByGuests = (pinSimmillar) => {
       return containsValue(`housing-guests`, `guests`, simmillarPinsArray, pinSimmillar);
-    });
+    };
 
-    simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
+    const filterPinsByPrice = (pinSimmillar) => {
       switch (window.activate.formFiltersNode[`housing-price`].value) {
         case `low`:
           return pinSimmillar.offer.price < RoomPrice.low;
@@ -51,17 +51,23 @@ window.filter = {
         default:
           return simmillarPinsArray;
       }
-    });
+    };
 
-    checkBoxes.forEach((element) => {
-      if (element.checked) {
-        simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
-          return pinSimmillar.offer.features.includes(element.value);
-        });
-      }
-    });
+    const filterPinsByFeatures = (pinSimmillar) => {
+      checkBoxes.forEach((element) => {
+        if (element.checked) {
+          pinSimmillar.offer.features.includes(element.value);
+        }
+      });
+    };
 
-    simmillarPinsArray = simmillarPinsArray.slice(0, MAX_SIMILLAR_PINS_COUNT);
+    simmillarPinsArray.filter(filterPinsByType);
+    simmillarPinsArray.filter(filterPinsByRooms);
+    simmillarPinsArray.filter(filterPinsByGuests);
+    simmillarPinsArray.filter(filterPinsByPrice);
+    simmillarPinsArray.filter(filterPinsByPrice);
+    simmillarPinsArray.filter(filterPinsByFeatures);
+    simmillarPinsArray.slice(0, MAX_SIMILLAR_PINS_COUNT);
 
     window.map.removeActiveCard();
     window.pin.remove();

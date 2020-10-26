@@ -14,10 +14,10 @@ const errorMessageTemplate = document.querySelector(`#error`).content.querySelec
 const showError = (message) => {
   const errorMessageElement = errorMessageTemplate.cloneNode(true);
   errorMessageElement.querySelector(`.error__message`).textContent = message;
-  window.reset.mainNode.appendChild(errorMessageElement);
+  window.form.mainNode.appendChild(errorMessageElement);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
-  errorMessageElement.addEventListener(`click`, window.reset.removeMessageElement, {once: true});
+  errorMessageElement.addEventListener(`click`, window.form.removeMessageElement, {once: true});
 };
 
 const workWithServer = (method, dataUrl, onSuccess, data) => {
@@ -48,4 +48,5 @@ window.backend = {
   upload: (data, onSuccess) => {
     workWithServer(`POST`, Url.UPLOAD, onSuccess, data);
   },
+  showError
 };

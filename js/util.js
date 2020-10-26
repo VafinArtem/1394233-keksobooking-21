@@ -11,19 +11,6 @@ const MouseButtons = {
 
 const DEBOUNCE_INTERVAL = 500; // ms
 
-const debounce = (cb) => {
-  let lastTimeout = null;
-
-  return (...parameters) => {
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(() => {
-      cb(...parameters);
-    }, DEBOUNCE_INTERVAL);
-  };
-};
-
 window.util = {
   getRandomArrElement: (arr) => {
     return arr[Math.floor(Math.random() * arr.length)];
@@ -47,10 +34,21 @@ window.util = {
   onPopupMessageEscPress: (evt) => {
     if (evt.key === KeyboardKeys.ESCAPE) {
       evt.preventDefault();
-      window.reset.removeMessageElement();
+      window.form.removeMessageElement();
     }
   },
-  debounce,
+  debounce: (cb) => {
+    let lastTimeout = null;
+
+    return (...parameters) => {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(() => {
+        cb(...parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
+  },
   MouseButtons,
   KeyboardKeys
 };

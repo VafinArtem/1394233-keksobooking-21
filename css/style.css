@@ -790,6 +790,11 @@ fieldset {
   border-radius: 5px;
 }
 
+.ad-form__photo-img {
+  width: 70px;
+  height: 70px;
+}
+
 .ad-form__element--submit {
   -ms-flex-preferred-size: 100%;
   flex-basis: 100%;
@@ -1218,20 +1223,6 @@ fieldset {
 .error__button:active {
   outline: none;
   opacity: 0.6;
-}
-
-.error-load {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  background-color: red;
-  z-index: 100;
-}
-
-.error-load__message {
-  margin: 0;
-  color: #fff;
-  text-align: center;
 }
 
 .visually-hidden {

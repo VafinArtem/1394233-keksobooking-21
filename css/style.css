@@ -780,10 +780,15 @@ fieldset {
 }
 
 .ad-form__photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   margin-right: 10px;
   margin-bottom: 10px;
+  padding-right: 5px;
 
-  width: 70px;
+  min-width: 70px;
   height: 70px;
 
   background-color: #e4e4de;
@@ -791,8 +796,14 @@ fieldset {
 }
 
 .ad-form__photo-img {
-  width: 70px;
-  height: 70px;
+  width: 65px;
+  height: 65px;
+
+  width: 60px;
+  height: 60px;
+  margin-left: 5px;
+
+  border-radius: 5px;
 }
 
 .ad-form__element--submit {

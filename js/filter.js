@@ -42,14 +42,15 @@
       });
 
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
-        if (window.activate.formFiltersNode[`housing-price`].value === `low`) {
-          return pinSimmillar.offer.price < RoomPrice.low;
-        } else if (window.activate.formFiltersNode[`housing-price`].value === `middle`) {
-          return pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high;
-        } else if (window.activate.formFiltersNode[`housing-price`].value === `high`) {
-          return pinSimmillar.offer.price > RoomPrice.high;
-        } else {
-          return simmillarPinsArray;
+        switch (window.activate.formFiltersNode[`housing-price`].value) {
+          case `low`:
+            return pinSimmillar.offer.price < RoomPrice.low;
+          case `middle`:
+            return pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high;
+          case `high`:
+            return pinSimmillar.offer.price > RoomPrice.high;
+          default:
+            return simmillarPinsArray;
         }
       });
 

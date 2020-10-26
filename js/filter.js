@@ -59,10 +59,9 @@ window.filter = {
       });
     };
 
-    const newArray = simmillarPinsArray.filter(filterPinsByType)
+    const filteredOffersArray = simmillarPinsArray.filter(filterPinsByType)
     .filter(filterPinsByRooms)
     .filter(filterPinsByGuests)
-    .filter(filterPinsByPrice)
     .filter(filterPinsByPrice)
     .filter(filterPinsByFeatures)
     .slice(0, MAX_SIMILLAR_PINS_COUNT);
@@ -70,7 +69,7 @@ window.filter = {
 
     window.map.removeActiveCard();
     window.pin.remove();
-    window.map.initPinsScreen(newArray);
-    window.card.addCardNode(newArray);
+    window.map.initPinsScreen(filteredOffersArray);
+    window.card.addCardNode(filteredOffersArray);
   }
 };

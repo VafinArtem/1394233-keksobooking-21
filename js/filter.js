@@ -19,47 +19,45 @@ const containsValue = (objectValue, filterValue, sourceArray, newArray) => {
   }
 };
 
+const filterPinsByType = (element, array) => {
+  if (window.activate.formFiltersNode[`housing-type`].value === FILTER_DEFAULT_VALUE) {
+    return array;
+  } else {
+    return element.offer.type === window.activate.formFiltersNode[`housing-type`].value;
+  }
+};
+
+const filterPinsByRooms = (pinSimmillar, index, array) => {
+  return containsValue(`housing-rooms`, `rooms`, array, pinSimmillar);
+};
+
+const filterPinsByGuests = (pinSimmillar, index, array) => {
+  return containsValue(`housing-guests`, `guests`, array, pinSimmillar);
+};
+
+const filterPinsByPrice = (pinSimmillar, index, array) => {
+  switch (window.activate.formFiltersNode[`housing-price`].value) {
+    case `low`:
+      return pinSimmillar.offer.price < RoomPrice.low;
+    case `middle`:
+      return pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high;
+    case `high`:
+      return pinSimmillar.offer.price > RoomPrice.high;
+    default:
+      return array;
+  }
+};
+
+const filterPinsByFeatures = function (pinSimmillar) {
+  return !checkBoxes.some(function (element) {
+    return element.checked && !pinSimmillar.offer.features.includes(element.value);
+  });
+};
+
 window.filter = {
   updateSimillarPins: (array) => {
 
-    let simmillarPinsArray = array;
-
-    const filterPinsByType = (pinSimmillar) => {
-      if (window.activate.formFiltersNode[`housing-type`].value === FILTER_DEFAULT_VALUE) {
-        return simmillarPinsArray;
-      } else {
-        return pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value;
-      }
-    };
-
-    const filterPinsByRooms = (pinSimmillar) => {
-      return containsValue(`housing-rooms`, `rooms`, simmillarPinsArray, pinSimmillar);
-    };
-
-    const filterPinsByGuests = (pinSimmillar) => {
-      return containsValue(`housing-guests`, `guests`, simmillarPinsArray, pinSimmillar);
-    };
-
-    const filterPinsByPrice = (pinSimmillar) => {
-      switch (window.activate.formFiltersNode[`housing-price`].value) {
-        case `low`:
-          return pinSimmillar.offer.price < RoomPrice.low;
-        case `middle`:
-          return pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high;
-        case `high`:
-          return pinSimmillar.offer.price > RoomPrice.high;
-        default:
-          return simmillarPinsArray;
-      }
-    };
-
-    const filterPinsByFeatures = function (pinSimmillar) {
-      return !checkBoxes.some(function (element) {
-        return element.checked && !pinSimmillar.offer.features.includes(element.value);
-      });
-    };
-
-    const filteredOffersArray = simmillarPinsArray.filter(filterPinsByType)
+    const filteredOffersArray = array.filter(filterPinsByType)
     .filter(filterPinsByRooms)
     .filter(filterPinsByGuests)
     .filter(filterPinsByPrice)

@@ -99,6 +99,7 @@ const removeMessageElement = () => {
   if (modalNode) {
     modalNode.parentNode.removeChild(modalNode);
     document.removeEventListener(`keydown`, window.util.onPopupMessageEscPress);
+    window.reset.page();
   }
 };
 

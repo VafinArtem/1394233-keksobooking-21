@@ -7,7 +7,7 @@ const Url = {
 const StatusCode = {
   ОК: 200
 };
-const TIMEOUT_IN_MS = 10000;
+const TIMEOUT_IN_MS = 1;
 
 const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 

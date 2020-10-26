@@ -8,10 +8,12 @@
 
   const MAX_SIMILLAR_PINS_COUNT = 5;
 
+  const FILTER_DEFAULT_VALUE = `any`;
+
   const checkBoxes = window.activate.formFiltersNode.features;
 
   const containsValue = (objectValue, filterValue, sourceArray, newArray) => {
-    if (window.activate.formFiltersNode[objectValue].value === `any`) {
+    if (window.activate.formFiltersNode[objectValue].value === FILTER_DEFAULT_VALUE) {
       return sourceArray;
     } else {
       return parseInt(newArray.offer[filterValue], 10) === parseInt(window.activate.formFiltersNode[objectValue].value, 10);
@@ -24,7 +26,7 @@
       let simmillarPinsArray = array;
 
       simmillarPinsArray = simmillarPinsArray.filter((pinSimmillar) => {
-        if (window.activate.formFiltersNode[`housing-type`].value === `any`) {
+        if (window.activate.formFiltersNode[`housing-type`].value === FILTER_DEFAULT_VALUE) {
           return simmillarPinsArray;
         } else {
           return pinSimmillar.offer.type === window.activate.formFiltersNode[`housing-type`].value;

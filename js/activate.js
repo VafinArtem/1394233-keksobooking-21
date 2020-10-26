@@ -8,14 +8,13 @@
 
   const toggleDisabledOnFormNodes = () => {
     isPageDisabled = !isPageDisabled;
-    const classListMethod = isPageDisabled ? `add` : `remove`;
     Array.from(window.form.formNode.children).forEach((child) => {
       child.disabled = isPageDisabled;
-      child.classList[classListMethod](`disable-cursor`);
+      child.classList.toggle(`disable-cursor`, isPageDisabled);
     });
     Array.from(formFiltersNode.children).forEach((child) => {
       child.disabled = isPageDisabled;
-      child.classList[classListMethod](`disable-cursor`);
+      child.classList.toggle(`disable-cursor`, isPageDisabled);
     });
   };
 

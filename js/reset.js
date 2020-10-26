@@ -1,6 +1,14 @@
 "use strict";
 
+const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
+const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
+
+const defaultAvatarImage = previewAvatarNode.src;
+const defaultRoomImage = ``;
+
+
 const resetPage = () => {
+
   window.pin.mapNode.classList.add(`map--faded`);
   window.form.formNode.classList.add(`ad-form--disabled`);
 
@@ -17,6 +25,10 @@ const resetPage = () => {
 
   window.map.removeActiveCard();
 
+  previewRoomNode.classList.add(`hidden`);
+  previewRoomNode.src = defaultRoomImage;
+  previewAvatarNode.src = defaultAvatarImage;
+
   window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
     once: true
   });
@@ -27,5 +39,7 @@ const resetPage = () => {
 };
 
 window.reset = {
-  page: resetPage
+  page: resetPage,
+  previewAvatarNode,
+  previewRoomNode
 };

@@ -3,10 +3,7 @@
 const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
 const avatarImageChooserNode = window.form.formNode.querySelector(`.ad-form-header__input`);
-const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
 const roomImageChooserNode = window.form.formNode.querySelector(`.ad-form__input`);
-const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
-
 
 const addImage = (imageChooserInput, previewImageElement) => {
   const image = imageChooserInput.files[0];
@@ -20,12 +17,8 @@ const addImage = (imageChooserInput, previewImageElement) => {
     let reader = new FileReader();
 
     reader.addEventListener(`load`, () => {
-      if (previewImageElement.classList.contains(`hidden`)) {
-        previewImageElement.classList.remove(`hidden`);
-        previewImageElement.src = reader.result;
-      } else {
-        previewImageElement.src = reader.result;
-      }
+      previewImageElement.classList.remove(`hidden`);
+      previewImageElement.src = reader.result;
     });
 
     reader.readAsDataURL(image);
@@ -33,9 +26,10 @@ const addImage = (imageChooserInput, previewImageElement) => {
 };
 
 avatarImageChooserNode.addEventListener(`change`, () => {
-  addImage(avatarImageChooserNode, previewAvatarNode);
+  addImage(avatarImageChooserNode, window.reset.previewAvatarNode);
 });
 
 roomImageChooserNode.addEventListener(`change`, () => {
-  addImage(roomImageChooserNode, previewRoomNode);
+  addImage(roomImageChooserNode, window.reset.previewRoomNode);
 });
+

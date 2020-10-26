@@ -12,6 +12,7 @@ module.exports = {
     "./js/move.js",
     "./js/reset.js",
     "./js/form.js",
+    "./js/images.js",
     "./js/main.js"
   ],
   output: {

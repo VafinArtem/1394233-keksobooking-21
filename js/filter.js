@@ -67,6 +67,7 @@ window.filter = {
     .filter(filterPinsByFeatures)
     .slice(0, MAX_SIMILLAR_PINS_COUNT);
 
+
     window.map.removeActiveCard();
     window.pin.remove();
     window.map.initPinsScreen(newArray);

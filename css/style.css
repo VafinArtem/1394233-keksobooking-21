@@ -1225,20 +1225,6 @@ fieldset {
   opacity: 0.6;
 }
 
-.error-load {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  background-color: red;
-  z-index: 100;
-}
-
-.error-load__message {
-  margin: 0;
-  color: #fff;
-  text-align: center;
-}
-
 .visually-hidden {
   position: absolute;
 

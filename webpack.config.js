@@ -7,10 +7,10 @@ module.exports = {
     "./js/map.js",
     "./js/activate.js",
     "./js/filter.js",
+    "./js/reset.js",
     "./js/backend.js",
     "./js/card.js",
     "./js/move.js",
-    "./js/reset.js",
     "./js/form.js",
     "./js/images.js",
     "./js/main.js"

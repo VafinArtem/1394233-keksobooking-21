@@ -115,5 +115,7 @@ formResetButton.addEventListener(`click`, () => {
 
 window.form = {
   formNode,
-  passAddressInput
+  passAddressInput,
+  mainNode,
+  removeMessageElement
 };

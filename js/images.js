@@ -21,10 +21,15 @@ const addImage = (imageChooserInput, previewImageElement) => {
 
     if (imageChooserInput === roomImageChooserNode) {
       reader.addEventListener(`load`, () => {
-        const previewRoomImageElement = document.createElement(`img`);
-        previewRoomImageElement.classList.add(`ad-form__photo-img`);
-        previewImageElement.appendChild(previewRoomImageElement);
-        previewRoomImageElement.src = reader.result;
+        let previewRoomImageElement = false;
+        if (previewRoomImageElement) {
+          const previewRoomImage = document.createElement(`img`);
+          previewRoomImage.classList.add(`ad-form__photo-img`);
+          previewRoomImageElement = previewImageElement.appendChild(previewRoomImage);
+          previewRoomImageElement.src = reader.result;
+        } else {
+          window.backend.showError(`Вы можете загрузить только одно фото`);
+        }
       });
     } else {
       reader.addEventListener(`load`, () => {

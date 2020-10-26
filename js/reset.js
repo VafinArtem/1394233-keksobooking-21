@@ -3,9 +3,10 @@
 const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
 const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
 
-const defaultAvatarImage = previewAvatarNode.src;
-const defaultRoomImage = ``;
-
+const defaultImage = {
+  AVATAR: previewAvatarNode.src,
+  ROOM: ``
+};
 
 const resetPage = () => {
 
@@ -26,8 +27,8 @@ const resetPage = () => {
   window.map.removeActiveCard();
 
   previewRoomNode.classList.add(`hidden`);
-  previewRoomNode.src = defaultRoomImage;
-  previewAvatarNode.src = defaultAvatarImage;
+  previewRoomNode.src = defaultImage.ROOM;
+  previewAvatarNode.src = defaultImage.AVATAR;
 
   window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
     once: true

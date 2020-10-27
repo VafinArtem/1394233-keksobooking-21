@@ -97,9 +97,16 @@ const removeMessageElement = () => {
   const modalNode = mainNode.querySelector(`.success, .error`);
 
   if (modalNode) {
+    if (modalNode.classList.contains(`error`)) {
+      window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
+        once: true
+      });
+      window.map.mapPinMain.addEventListener(`keydown`, window.activate.onPinMainEnterPress, {
+        once: true
+      });
+    }
     modalNode.parentNode.removeChild(modalNode);
     document.removeEventListener(`keydown`, window.util.onPopupMessageEscPress);
-    window.reset.page();
   }
 };
 

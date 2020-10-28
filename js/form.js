@@ -85,15 +85,15 @@ const onFormNodeChange = (evt) => {
   }
 };
 
-const createMessageElement = () => {
-  const successMessageElement = successMessageTemplate.cloneNode(true);
-  mainNode.appendChild(successMessageElement);
+const createMessageNode = () => {
+  const successMessageNode = successMessageTemplate.cloneNode(true);
+  mainNode.appendChild(successMessageNode);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
-  successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
+  successMessageNode.addEventListener(`click`, removeMessageNode, {once: true});
 };
 
-const removeMessageElement = () => {
+const removeMessageNode = () => {
   const modalNode = mainNode.querySelector(`.success, .error`);
 
   if (modalNode) {
@@ -113,7 +113,7 @@ const removeMessageElement = () => {
 formNode.addEventListener(`change`, onFormNodeChange);
 formNode.addEventListener(`submit`, (evt) => {
   window.backend.upload(new FormData(formNode), window.reset.page);
-  createMessageElement();
+  createMessageNode();
   evt.preventDefault();
 });
 
@@ -125,5 +125,5 @@ window.form = {
   formNode,
   passAddressInput,
   mainNode,
-  removeMessageElement
+  removeMessageNode
 };

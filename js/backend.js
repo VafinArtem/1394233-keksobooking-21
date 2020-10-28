@@ -13,12 +13,12 @@ const StatusCode = {
 const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
 const showError = (message) => {
-  const errorMessageElement = errorMessageTemplate.cloneNode(true);
-  errorMessageElement.querySelector(`.error__message`).textContent = message;
-  window.form.mainNode.appendChild(errorMessageElement);
+  const errorMessageNode = errorMessageTemplate.cloneNode(true);
+  errorMessageNode.querySelector(`.error__message`).textContent = message;
+  window.form.mainNode.appendChild(errorMessageNode);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
-  errorMessageElement.addEventListener(`click`, window.form.removeMessageElement, {once: true});
+  errorMessageNode.addEventListener(`click`, window.form.removeMessageNode, {once: true});
 };
 
 const workWithServer = (method, dataUrl, onSuccess, data) => {

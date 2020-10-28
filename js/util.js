@@ -31,7 +31,7 @@ window.util = {
   onPopupMessageEscPress: (evt) => {
     if (evt.key === KeyboardKeys.ESCAPE) {
       evt.preventDefault();
-      window.form.removeMessageElement();
+      window.form.removeMessageNode();
     }
   },
   debounce: (cb) => {

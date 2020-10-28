@@ -9,7 +9,7 @@
 
 
 
-const DEBOUNCE_INTERVAL = 500; // ms
+const DEBOUNCE_INTERVAL = 500;
 
 const KeyboardKeys = {
   ESCAPE: `Escape`,
@@ -39,7 +39,7 @@ window.util = {
   onPopupMessageEscPress: (evt) => {
     if (evt.key === KeyboardKeys.ESCAPE) {
       evt.preventDefault();
-      window.form.removeMessageElement();
+      window.form.removeMessageNode();
     }
   },
   debounce: (cb) => {
@@ -74,13 +74,13 @@ const mapNode = document.querySelector(`.map`);
 const mapPinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
 const createPin = (obj) => {
-  const pinElement = mapPinTemplate.cloneNode(true);
-  pinElement.style.left = `${obj.location.x}px`;
-  pinElement.style.top = `${obj.location.y}px`;
-  pinElement.querySelector(`img`).src = obj.author.avatar;
-  pinElement.querySelector(`img`).alt = obj.offer.title;
+  const pinNode = mapPinTemplate.cloneNode(true);
+  pinNode.style.left = `${obj.location.x}px`;
+  pinNode.style.top = `${obj.location.y}px`;
+  pinNode.querySelector(`img`).src = obj.author.avatar;
+  pinNode.querySelector(`img`).alt = obj.offer.title;
 
-  return pinElement;
+  return pinNode;
 };
 
 const removePins = () => {
@@ -379,15 +379,15 @@ const onFormNodeChange = (evt) => {
   }
 };
 
-const createMessageElement = () => {
-  const successMessageElement = successMessageTemplate.cloneNode(true);
-  mainNode.appendChild(successMessageElement);
+const createMessageNode = () => {
+  const successMessageNode = successMessageTemplate.cloneNode(true);
+  mainNode.appendChild(successMessageNode);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
-  successMessageElement.addEventListener(`click`, removeMessageElement, {once: true});
+  successMessageNode.addEventListener(`click`, removeMessageNode, {once: true});
 };
 
-const removeMessageElement = () => {
+const removeMessageNode = () => {
   const modalNode = mainNode.querySelector(`.success, .error`);
 
   if (modalNode) {
@@ -407,7 +407,7 @@ const removeMessageElement = () => {
 formNode.addEventListener(`change`, onFormNodeChange);
 formNode.addEventListener(`submit`, (evt) => {
   window.backend.upload(new FormData(formNode), window.reset.page);
-  createMessageElement();
+  createMessageNode();
   evt.preventDefault();
 });
 
@@ -419,7 +419,7 @@ window.form = {
   formNode,
   passAddressInput,
   mainNode,
-  removeMessageElement
+  removeMessageNode
 };
 
 })();
@@ -500,12 +500,12 @@ const StatusCode = {
 const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
 const showError = (message) => {
-  const errorMessageElement = errorMessageTemplate.cloneNode(true);
-  errorMessageElement.querySelector(`.error__message`).textContent = message;
-  window.form.mainNode.appendChild(errorMessageElement);
+  const errorMessageNode = errorMessageTemplate.cloneNode(true);
+  errorMessageNode.querySelector(`.error__message`).textContent = message;
+  window.form.mainNode.appendChild(errorMessageNode);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
-  errorMessageElement.addEventListener(`click`, window.form.removeMessageElement, {once: true});
+  errorMessageNode.addEventListener(`click`, window.form.removeMessageNode, {once: true});
 };
 
 const workWithServer = (method, dataUrl, onSuccess, data) => {
@@ -568,37 +568,37 @@ const HOUSE_TYPES = {
 const mapCardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
 const createCard = (dataObject) => {
-  const cardElement = mapCardTemplate.cloneNode(true);
+  const cardNode = mapCardTemplate.cloneNode(true);
   if (dataObject.offer.title.length) {
-    cardElement.querySelector(`.popup__title`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__title`).textContent = dataObject.offer.title;
+    cardNode.querySelector(`.popup__title`).classList.remove(`hidden`);
+    cardNode.querySelector(`.popup__title`).textContent = dataObject.offer.title;
   }
   if (dataObject.offer.address.length) {
-    cardElement.querySelector(`.popup__text--address`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--address`).textContent = dataObject.offer.address;
+    cardNode.querySelector(`.popup__text--address`).classList.remove(`hidden`);
+    cardNode.querySelector(`.popup__text--address`).textContent = dataObject.offer.address;
   }
   if (dataObject.offer.price) {
-    cardElement.querySelector(`.popup__text--price`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__text--price`).textContent = `${new Intl.NumberFormat(`ru-RU`).format(dataObject.offer.price)} ₽/ночь`;
+    cardNode.querySelector(`.popup__text--price`).classList.remove(`hidden`);
+    cardNode.querySelector(`.popup__text--price`).textContent = `${new Intl.NumberFormat(`ru-RU`).format(dataObject.offer.price)} ₽/ночь`;
   }
   if (dataObject.offer.type.length) {
-    cardElement.querySelector(`.popup__type`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__type`).textContent = HOUSE_TYPES[dataObject.offer.type];
+    cardNode.querySelector(`.popup__type`).classList.remove(`hidden`);
+    cardNode.querySelector(`.popup__type`).textContent = HOUSE_TYPES[dataObject.offer.type];
   }
-  cardElement.querySelector(`.popup__text--capacity`).textContent = `${dataObject.offer.rooms} ${window.util.getDeclension(dataObject.offer.rooms, [`комната`, `комнаты`, `комнат`])} ${dataObject.offer.guests > 0 ? `для ${dataObject.offer.guests} ${window.util.getDeclension(dataObject.offer.guests, [`гостя`, `гостей`, `гостей`])}` : `не для гостей`}`;
-  cardElement.querySelector(`.popup__text--time`).textContent = `Заезд после ${dataObject.offer.checkin}, выезд до ${dataObject.offer.checkout} `;
+  cardNode.querySelector(`.popup__text--capacity`).textContent = `${dataObject.offer.rooms} ${window.util.getDeclension(dataObject.offer.rooms, [`комната`, `комнаты`, `комнат`])} ${dataObject.offer.guests > 0 ? `для ${dataObject.offer.guests} ${window.util.getDeclension(dataObject.offer.guests, [`гостя`, `гостей`, `гостей`])}` : `не для гостей`}`;
+  cardNode.querySelector(`.popup__text--time`).textContent = `Заезд после ${dataObject.offer.checkin}, выезд до ${dataObject.offer.checkout} `;
 
   if (dataObject.offer.description.length) {
-    cardElement.querySelector(`.popup__description`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__description`).textContent = dataObject.offer.description;
+    cardNode.querySelector(`.popup__description`).classList.remove(`hidden`);
+    cardNode.querySelector(`.popup__description`).textContent = dataObject.offer.description;
   }
   if (dataObject.author.avatar.length) {
-    cardElement.querySelector(`.popup__avatar`).classList.remove(`hidden`);
-    cardElement.querySelector(`.popup__avatar`).src = dataObject.author.avatar;
+    cardNode.querySelector(`.popup__avatar`).classList.remove(`hidden`);
+    cardNode.querySelector(`.popup__avatar`).src = dataObject.author.avatar;
   }
   if (dataObject.offer.features.length) {
-    cardElement.querySelector(`.popup__features`).classList.remove(`hidden`);
-    const featureNodes = cardElement.querySelectorAll(`.popup__feature`);
+    cardNode.querySelector(`.popup__features`).classList.remove(`hidden`);
+    const featureNodes = cardNode.querySelectorAll(`.popup__feature`);
     for (let i = 0; i < featureNodes.length; i++) {
       for (let j = 0; j < dataObject.offer.features.length; j++) {
         if (featureNodes[i].classList.contains(FEATURES_CLASS_MAP[dataObject.offer.features[j]])) {
@@ -609,8 +609,8 @@ const createCard = (dataObject) => {
     }
   }
   if (dataObject.offer.photos.length) {
-    cardElement.querySelector(`.popup__photos`).classList.remove(`hidden`);
-    let photoNode = cardElement.querySelector(`.popup__photo`);
+    cardNode.querySelector(`.popup__photos`).classList.remove(`hidden`);
+    let photoNode = cardNode.querySelector(`.popup__photo`);
     photoNode.src = dataObject.offer.photos[0];
     if (dataObject.offer.photos.length > 1) {
       const fragment = document.createDocumentFragment();
@@ -621,7 +621,7 @@ const createCard = (dataObject) => {
     }
   }
 
-  return cardElement;
+  return cardNode;
 };
 
 const createСardFragment = (cardObj) => {
@@ -749,7 +749,7 @@ const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 const avatarImageChooserNode = window.form.formNode.querySelector(`.ad-form-header__input`);
 const roomImageChooserNode = window.form.formNode.querySelector(`.ad-form__input`);
 
-const addImage = (imageChooserInput, previewImageElement) => {
+const addImage = (imageChooserInput, previewImageNode) => {
   const image = imageChooserInput.files[0];
   const imageName = image.name.toLowerCase();
 
@@ -761,8 +761,8 @@ const addImage = (imageChooserInput, previewImageElement) => {
     let reader = new FileReader();
 
     reader.addEventListener(`load`, () => {
-      previewImageElement.classList.remove(`hidden`);
-      previewImageElement.src = reader.result;
+      previewImageNode.classList.remove(`hidden`);
+      previewImageNode.src = reader.result;
     });
 
     reader.readAsDataURL(image);

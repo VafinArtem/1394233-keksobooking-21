@@ -5,7 +5,7 @@ const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 const avatarImageChooserNode = window.form.formNode.querySelector(`.ad-form-header__input`);
 const roomImageChooserNode = window.form.formNode.querySelector(`.ad-form__input`);
 
-const addImage = (imageChooserInput, previewImageElement) => {
+const addImage = (imageChooserInput, previewImageNode) => {
   const image = imageChooserInput.files[0];
   const imageName = image.name.toLowerCase();
 
@@ -17,8 +17,8 @@ const addImage = (imageChooserInput, previewImageElement) => {
     let reader = new FileReader();
 
     reader.addEventListener(`load`, () => {
-      previewImageElement.classList.remove(`hidden`);
-      previewImageElement.src = reader.result;
+      previewImageNode.classList.remove(`hidden`);
+      previewImageNode.src = reader.result;
     });
 
     reader.readAsDataURL(image);

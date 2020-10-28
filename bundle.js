@@ -153,7 +153,7 @@ let isPageDisabled = false;
 
 const toggleDisabledOnFormNodes = () => {
   isPageDisabled = !isPageDisabled;
-  Array.from(window.form.formNode.children).forEach((child) => {
+  Array.from(window.form.node.children).forEach((child) => {
     child.disabled = isPageDisabled;
     child.classList.toggle(`disable-cursor`, isPageDisabled);
   });
@@ -166,7 +166,7 @@ const toggleDisabledOnFormNodes = () => {
 const activatePage = (array) => {
   const simillarPinsArray = array;
   window.pin.mapNode.classList.remove(`map--faded`);
-  window.form.formNode.classList.remove(`ad-form--disabled`);
+  window.form.node.classList.remove(`ad-form--disabled`);
   toggleDisabledOnFormNodes();
   window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
   window.filter.updateSimillarPins(simillarPinsArray);
@@ -280,7 +280,7 @@ window.filter = {
     window.map.removeActiveCard();
     window.pin.remove();
     window.map.initPinsScreen(filteredOffersArray);
-    window.card.addCardNode(filteredOffersArray);
+    window.card.addNode(filteredOffersArray);
   }
 };
 
@@ -416,7 +416,7 @@ formResetButton.addEventListener(`click`, () => {
 });
 
 window.form = {
-  formNode,
+  node: formNode,
   passAddressInput,
   mainNode,
   removeMessageNode
@@ -432,8 +432,8 @@ window.form = {
 /*! runtime requirements:  */
 
 
-const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
-const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
+const previewAvatarNode = window.form.node.querySelector(`.ad-form-header__preview img`);
+const previewRoomNode = window.form.node.querySelector(`.ad-form__photo img`);
 
 const DefaultImage = {
   AVATAR: previewAvatarNode.src,
@@ -443,13 +443,13 @@ const DefaultImage = {
 const resetPage = () => {
 
   window.pin.mapNode.classList.add(`map--faded`);
-  window.form.formNode.classList.add(`ad-form--disabled`);
+  window.form.node.classList.add(`ad-form--disabled`);
 
   window.activate.toggleDisabledOnFormNodes();
 
   window.pin.remove();
 
-  window.form.formNode.reset();
+  window.form.node.reset();
   window.activate.formFiltersNode.reset();
 
   window.map.mapPinMain.style.left = window.map.DefaultMainPinCoordinates.X;
@@ -502,7 +502,7 @@ const errorMessageTemplate = document.querySelector(`#error`).content.querySelec
 const showError = (message) => {
   const errorMessageNode = errorMessageTemplate.cloneNode(true);
   errorMessageNode.querySelector(`.error__message`).textContent = message;
-  window.form.mainNode.appendChild(errorMessageNode);
+  window.form.node.appendChild(errorMessageNode);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
   errorMessageNode.addEventListener(`click`, window.form.removeMessageNode, {once: true});
@@ -644,8 +644,7 @@ const addCardNode = (array) => {
 };
 
 window.card = {
-  createСardFragment,
-  addCardNode
+  addNode: addCardNode
 };
 
 })();
@@ -746,8 +745,8 @@ window.move = {
 
 const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
-const avatarImageChooserNode = window.form.formNode.querySelector(`.ad-form-header__input`);
-const roomImageChooserNode = window.form.formNode.querySelector(`.ad-form__input`);
+const avatarImageChooserNode = window.form.node.querySelector(`.ad-form-header__input`);
+const roomImageChooserNode = window.form.node.querySelector(`.ad-form__input`);
 
 const addImage = (imageChooserInput, previewImageNode) => {
   const image = imageChooserInput.files[0];

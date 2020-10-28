@@ -95,6 +95,5 @@ const addCardNode = (array) => {
 };
 
 window.card = {
-  createСardFragment,
-  addCardNode
+  addNode: addCardNode
 };

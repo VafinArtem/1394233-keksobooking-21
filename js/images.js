@@ -2,8 +2,8 @@
 
 const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
 
-const avatarImageChooserNode = window.form.formNode.querySelector(`.ad-form-header__input`);
-const roomImageChooserNode = window.form.formNode.querySelector(`.ad-form__input`);
+const avatarImageChooserNode = window.form.node.querySelector(`.ad-form-header__input`);
+const roomImageChooserNode = window.form.node.querySelector(`.ad-form__input`);
 
 const addImage = (imageChooserInput, previewImageNode) => {
   const image = imageChooserInput.files[0];

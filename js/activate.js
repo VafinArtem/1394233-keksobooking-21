@@ -7,7 +7,7 @@ let isPageDisabled = false;
 
 const toggleDisabledOnFormNodes = () => {
   isPageDisabled = !isPageDisabled;
-  Array.from(window.form.formNode.children).forEach((child) => {
+  Array.from(window.form.node.children).forEach((child) => {
     child.disabled = isPageDisabled;
     child.classList.toggle(`disable-cursor`, isPageDisabled);
   });
@@ -20,7 +20,7 @@ const toggleDisabledOnFormNodes = () => {
 const activatePage = (array) => {
   const simillarPinsArray = array;
   window.pin.mapNode.classList.remove(`map--faded`);
-  window.form.formNode.classList.remove(`ad-form--disabled`);
+  window.form.node.classList.remove(`ad-form--disabled`);
   toggleDisabledOnFormNodes();
   window.form.passAddressInput(window.move.MainPinSize.pin.WIDTH, window.move.MainPinSize.pin.HEIGHT);
   window.filter.updateSimillarPins(simillarPinsArray);

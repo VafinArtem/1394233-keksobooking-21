@@ -122,7 +122,7 @@ formResetButton.addEventListener(`click`, () => {
 });
 
 window.form = {
-  formNode,
+  node: formNode,
   passAddressInput,
   mainNode,
   removeMessageNode

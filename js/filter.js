@@ -68,6 +68,6 @@ window.filter = {
     window.map.removeActiveCard();
     window.pin.remove();
     window.map.initPinsScreen(filteredOffersArray);
-    window.card.addCardNode(filteredOffersArray);
+    window.card.addNode(filteredOffersArray);
   }
 };

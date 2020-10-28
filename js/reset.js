@@ -1,7 +1,7 @@
 "use strict";
 
-const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
-const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
+const previewAvatarNode = window.form.node.querySelector(`.ad-form-header__preview img`);
+const previewRoomNode = window.form.node.querySelector(`.ad-form__photo img`);
 
 const DefaultImage = {
   AVATAR: previewAvatarNode.src,
@@ -11,13 +11,13 @@ const DefaultImage = {
 const resetPage = () => {
 
   window.pin.mapNode.classList.add(`map--faded`);
-  window.form.formNode.classList.add(`ad-form--disabled`);
+  window.form.node.classList.add(`ad-form--disabled`);
 
   window.activate.toggleDisabledOnFormNodes();
 
   window.pin.remove();
 
-  window.form.formNode.reset();
+  window.form.node.reset();
   window.activate.formFiltersNode.reset();
 
   window.map.mapPinMain.style.left = window.map.DefaultMainPinCoordinates.X;

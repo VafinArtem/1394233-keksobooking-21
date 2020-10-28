@@ -15,7 +15,7 @@ const errorMessageTemplate = document.querySelector(`#error`).content.querySelec
 const showError = (message) => {
   const errorMessageNode = errorMessageTemplate.cloneNode(true);
   errorMessageNode.querySelector(`.error__message`).textContent = message;
-  window.form.mainNode.appendChild(errorMessageNode);
+  window.form.node.appendChild(errorMessageNode);
 
   document.addEventListener(`keydown`, window.util.onPopupMessageEscPress, {once: true});
   errorMessageNode.addEventListener(`click`, window.form.removeMessageNode, {once: true});

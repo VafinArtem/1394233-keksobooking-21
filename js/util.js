@@ -1,15 +1,12 @@
 "use strict";
 
+
+const DEBOUNCE_INTERVAL = 500;
+
 const KeyboardKeys = {
   ESCAPE: `Escape`,
   ENTER: `Enter`
 };
-
-const MouseButtons = {
-  MAIN: 0
-};
-
-const DEBOUNCE_INTERVAL = 500; // ms
 
 window.util = {
   getRandomArrElement: (arr) => {
@@ -49,6 +46,8 @@ window.util = {
       }, DEBOUNCE_INTERVAL);
     };
   },
-  MouseButtons,
+  MouseButtons: {
+    MAIN: 0
+  },
   KeyboardKeys
 };

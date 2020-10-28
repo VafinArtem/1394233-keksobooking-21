@@ -3,7 +3,7 @@
 const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
 const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
 
-const defaultImage = {
+const DefaultImage = {
   AVATAR: previewAvatarNode.src,
   ROOM: ``
 };
@@ -20,15 +20,15 @@ const resetPage = () => {
   window.form.formNode.reset();
   window.activate.formFiltersNode.reset();
 
-  window.map.mapPinMain.style.left = window.map.defaultMainPinCoordinates.X;
-  window.map.mapPinMain.style.top = window.map.defaultMainPinCoordinates.Y;
+  window.map.mapPinMain.style.left = window.map.DefaultMainPinCoordinates.X;
+  window.map.mapPinMain.style.top = window.map.DefaultMainPinCoordinates.Y;
   window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
 
   window.map.removeActiveCard();
 
   previewRoomNode.classList.add(`hidden`);
-  previewRoomNode.src = defaultImage.ROOM;
-  previewAvatarNode.src = defaultImage.AVATAR;
+  previewRoomNode.src = DefaultImage.ROOM;
+  previewAvatarNode.src = DefaultImage.AVATAR;
 
   window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
     once: true

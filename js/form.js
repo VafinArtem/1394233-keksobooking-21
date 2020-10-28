@@ -1,6 +1,6 @@
 "use strict";
 
-const ROOMS_FOR_GUESTS_MAP = {
+const RoomsForGuestsMap = {
   1: [`1`],
   2: [`1`, `2`],
   3: [`1`, `2`, `3`],
@@ -32,7 +32,7 @@ const validateTimeSelects = (evt) => {
 };
 
 const validateRoomsInput = () => {
-  formNode.capacity.setCustomValidity(ROOMS_FOR_GUESTS_MAP[formNode.rooms.value].includes(formNode.capacity.value) ? `` : `Вы не можете выбрать данное количество гостей`);
+  formNode.capacity.setCustomValidity(RoomsForGuestsMap[formNode.rooms.value].includes(formNode.capacity.value) ? `` : `Вы не можете выбрать данное количество гостей`);
   formNode.capacity.reportValidity();
 };
 

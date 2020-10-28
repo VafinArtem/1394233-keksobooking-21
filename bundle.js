@@ -8,16 +8,13 @@
 /*! runtime requirements:  */
 
 
+
+const DEBOUNCE_INTERVAL = 500; // ms
+
 const KeyboardKeys = {
   ESCAPE: `Escape`,
   ENTER: `Enter`
 };
-
-const MouseButtons = {
-  MAIN: 0
-};
-
-const DEBOUNCE_INTERVAL = 500; // ms
 
 window.util = {
   getRandomArrElement: (arr) => {
@@ -57,7 +54,9 @@ window.util = {
       }, DEBOUNCE_INTERVAL);
     };
   },
-  MouseButtons,
+  MouseButtons: {
+    MAIN: 0
+  },
   KeyboardKeys
 };
 
@@ -118,14 +117,12 @@ window.pin = {
 
 const mapPinMain = window.pin.mapNode.querySelector(`.map__pin--main`);
 
-const defaultMainPinCoordinates = {
-  Y: mapPinMain.style.top,
-  X: mapPinMain.style.left
-};
-
 window.map = {
   mapPinMain,
-  defaultMainPinCoordinates,
+  DefaultMainPinCoordinates: {
+    Y: mapPinMain.style.top,
+    X: mapPinMain.style.left
+  },
   initPinsScreen: (array) => {
     const pinsNodesFragment = window.pin.createPinsNodeFragment(array);
     window.pin.mapPinsNode.appendChild(pinsNodesFragment);
@@ -215,14 +212,14 @@ window.activate = {
 /*! runtime requirements:  */
 
 
-const RoomPrice = {
-  low: 10000,
-  high: 50000
-};
 
 const MAX_SIMILLAR_PINS_COUNT = 5;
-
 const FILTER_DEFAULT_VALUE = `any`;
+
+const RoomPrice = {
+  LOW: 10000,
+  HIGH: 50000
+};
 
 const checkBoxes = Array.from(window.activate.formFiltersNode.features);
 
@@ -253,11 +250,11 @@ const filterPinsByGuests = (pinSimmillar, index, array) => {
 const filterPinsByPrice = (pinSimmillar, index, array) => {
   switch (window.activate.formFiltersNode[`housing-price`].value) {
     case `low`:
-      return pinSimmillar.offer.price < RoomPrice.low;
+      return pinSimmillar.offer.price < RoomPrice.LOW;
     case `middle`:
-      return pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high;
+      return pinSimmillar.offer.price >= RoomPrice.LOW && pinSimmillar.offer.price <= RoomPrice.HIGH;
     case `high`:
-      return pinSimmillar.offer.price > RoomPrice.high;
+      return pinSimmillar.offer.price > RoomPrice.HIGH;
     default:
       return array;
   }
@@ -297,7 +294,7 @@ window.filter = {
 /*! runtime requirements:  */
 
 
-const ROOMS_FOR_GUESTS_MAP = {
+const RoomsForGuestsMap = {
   1: [`1`],
   2: [`1`, `2`],
   3: [`1`, `2`, `3`],
@@ -329,7 +326,7 @@ const validateTimeSelects = (evt) => {
 };
 
 const validateRoomsInput = () => {
-  formNode.capacity.setCustomValidity(ROOMS_FOR_GUESTS_MAP[formNode.rooms.value].includes(formNode.capacity.value) ? `` : `Вы не можете выбрать данное количество гостей`);
+  formNode.capacity.setCustomValidity(RoomsForGuestsMap[formNode.rooms.value].includes(formNode.capacity.value) ? `` : `Вы не можете выбрать данное количество гостей`);
   formNode.capacity.reportValidity();
 };
 
@@ -438,7 +435,7 @@ window.form = {
 const previewAvatarNode = window.form.formNode.querySelector(`.ad-form-header__preview img`);
 const previewRoomNode = window.form.formNode.querySelector(`.ad-form__photo img`);
 
-const defaultImage = {
+const DefaultImage = {
   AVATAR: previewAvatarNode.src,
   ROOM: ``
 };
@@ -455,15 +452,15 @@ const resetPage = () => {
   window.form.formNode.reset();
   window.activate.formFiltersNode.reset();
 
-  window.map.mapPinMain.style.left = window.map.defaultMainPinCoordinates.X;
-  window.map.mapPinMain.style.top = window.map.defaultMainPinCoordinates.Y;
+  window.map.mapPinMain.style.left = window.map.DefaultMainPinCoordinates.X;
+  window.map.mapPinMain.style.top = window.map.DefaultMainPinCoordinates.Y;
   window.form.passAddressInput(window.move.MainPinSize.circle.WIDTH, window.move.MainPinSize.circle.HEIGHT);
 
   window.map.removeActiveCard();
 
   previewRoomNode.classList.add(`hidden`);
-  previewRoomNode.src = defaultImage.ROOM;
-  previewAvatarNode.src = defaultImage.AVATAR;
+  previewRoomNode.src = DefaultImage.ROOM;
+  previewAvatarNode.src = DefaultImage.AVATAR;
 
   window.map.mapPinMain.addEventListener(`mousedown`, window.activate.onPinMainMousedownPress, {
     once: true
@@ -490,6 +487,8 @@ window.reset = {
 /*! runtime requirements:  */
 
 
+const TIMEOUT_IN_MS = 10000;
+
 const Url = {
   LOAD: `https://21.javascript.pages.academy/keksobooking/data`,
   UPLOAD: `https://21.javascript.pages.academy/keksobooking`
@@ -497,7 +496,6 @@ const Url = {
 const StatusCode = {
   ОК: 200
 };
-const TIMEOUT_IN_MS = 1;
 
 const errorMessageTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
@@ -686,35 +684,35 @@ window.map.mapPinMain.addEventListener(`mousedown`, (evt) => {
   if (evt.button === window.util.MouseButtons.MAIN) {
     evt.preventDefault();
 
-    let startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+    let StartCoords = {
+      X: evt.clientX,
+      Y: evt.clientY
     };
 
     const onMouseMove = (moveEvt) => {
       moveEvt.preventDefault();
 
-      const shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      const Shift = {
+        X: StartCoords.X - moveEvt.clientX,
+        Y: StartCoords.Y - moveEvt.clientY
       };
 
       const CoordinatesMainPin = {
-        x: window.map.mapPinMain.offsetLeft - shift.x,
-        y: window.map.mapPinMain.offsetTop - shift.y
+        X: window.map.mapPinMain.offsetLeft - Shift.X,
+        Y: window.map.mapPinMain.offsetTop - Shift.Y
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      StartCoords = {
+        X: moveEvt.clientX,
+        Y: moveEvt.clientY
       };
 
-      if (CoordinatesMainPin.x >= Coordinates.X.MIN && CoordinatesMainPin.x <= Coordinates.X.MAX) {
-        window.map.mapPinMain.style.left = `${CoordinatesMainPin.x}px`;
+      if (CoordinatesMainPin.X >= Coordinates.X.MIN && CoordinatesMainPin.X <= Coordinates.X.MAX) {
+        window.map.mapPinMain.style.left = `${CoordinatesMainPin.X}px`;
       }
 
-      if (CoordinatesMainPin.y >= Coordinates.Y.MIN && CoordinatesMainPin.y <= Coordinates.Y.MAX) {
-        window.map.mapPinMain.style.top = `${CoordinatesMainPin.y}px`;
+      if (CoordinatesMainPin.Y >= Coordinates.Y.MIN && CoordinatesMainPin.Y <= Coordinates.Y.MAX) {
+        window.map.mapPinMain.style.top = `${CoordinatesMainPin.Y}px`;
       }
 
       window.form.passAddressInput(MainPinSize.pin.WIDTH, MainPinSize.pin.HEIGHT);

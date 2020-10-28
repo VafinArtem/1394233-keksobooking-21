@@ -26,35 +26,35 @@ window.map.mapPinMain.addEventListener(`mousedown`, (evt) => {
   if (evt.button === window.util.MouseButtons.MAIN) {
     evt.preventDefault();
 
-    let startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
+    let StartCoords = {
+      X: evt.clientX,
+      Y: evt.clientY
     };
 
     const onMouseMove = (moveEvt) => {
       moveEvt.preventDefault();
 
-      const shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
+      const Shift = {
+        X: StartCoords.X - moveEvt.clientX,
+        Y: StartCoords.Y - moveEvt.clientY
       };
 
       const CoordinatesMainPin = {
-        x: window.map.mapPinMain.offsetLeft - shift.x,
-        y: window.map.mapPinMain.offsetTop - shift.y
+        X: window.map.mapPinMain.offsetLeft - Shift.X,
+        Y: window.map.mapPinMain.offsetTop - Shift.Y
       };
 
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
+      StartCoords = {
+        X: moveEvt.clientX,
+        Y: moveEvt.clientY
       };
 
-      if (CoordinatesMainPin.x >= Coordinates.X.MIN && CoordinatesMainPin.x <= Coordinates.X.MAX) {
-        window.map.mapPinMain.style.left = `${CoordinatesMainPin.x}px`;
+      if (CoordinatesMainPin.X >= Coordinates.X.MIN && CoordinatesMainPin.X <= Coordinates.X.MAX) {
+        window.map.mapPinMain.style.left = `${CoordinatesMainPin.X}px`;
       }
 
-      if (CoordinatesMainPin.y >= Coordinates.Y.MIN && CoordinatesMainPin.y <= Coordinates.Y.MAX) {
-        window.map.mapPinMain.style.top = `${CoordinatesMainPin.y}px`;
+      if (CoordinatesMainPin.Y >= Coordinates.Y.MIN && CoordinatesMainPin.Y <= Coordinates.Y.MAX) {
+        window.map.mapPinMain.style.top = `${CoordinatesMainPin.Y}px`;
       }
 
       window.form.passAddressInput(MainPinSize.pin.WIDTH, MainPinSize.pin.HEIGHT);

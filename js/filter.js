@@ -1,13 +1,13 @@
 "use strict";
 
-const RoomPrice = {
-  low: 10000,
-  high: 50000
-};
 
 const MAX_SIMILLAR_PINS_COUNT = 5;
-
 const FILTER_DEFAULT_VALUE = `any`;
+
+const RoomPrice = {
+  LOW: 10000,
+  HIGH: 50000
+};
 
 const checkBoxes = Array.from(window.activate.formFiltersNode.features);
 
@@ -38,11 +38,11 @@ const filterPinsByGuests = (pinSimmillar, index, array) => {
 const filterPinsByPrice = (pinSimmillar, index, array) => {
   switch (window.activate.formFiltersNode[`housing-price`].value) {
     case `low`:
-      return pinSimmillar.offer.price < RoomPrice.low;
+      return pinSimmillar.offer.price < RoomPrice.LOW;
     case `middle`:
-      return pinSimmillar.offer.price >= RoomPrice.low && pinSimmillar.offer.price <= RoomPrice.high;
+      return pinSimmillar.offer.price >= RoomPrice.LOW && pinSimmillar.offer.price <= RoomPrice.HIGH;
     case `high`:
-      return pinSimmillar.offer.price > RoomPrice.high;
+      return pinSimmillar.offer.price > RoomPrice.HIGH;
     default:
       return array;
   }

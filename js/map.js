@@ -2,14 +2,12 @@
 
 const mapPinMain = window.pin.mapNode.querySelector(`.map__pin--main`);
 
-const defaultMainPinCoordinates = {
-  Y: mapPinMain.style.top,
-  X: mapPinMain.style.left
-};
-
 window.map = {
   mapPinMain,
-  defaultMainPinCoordinates,
+  DefaultMainPinCoordinates: {
+    Y: mapPinMain.style.top,
+    X: mapPinMain.style.left
+  },
   initPinsScreen: (array) => {
     const pinsNodesFragment = window.pin.createPinsNodeFragment(array);
     window.pin.mapPinsNode.appendChild(pinsNodesFragment);

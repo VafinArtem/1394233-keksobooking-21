@@ -8,6 +8,8 @@ const DefaultImage = {
   ROOM: ``
 };
 
+const DEFAULT_PRICE = `5000`;
+
 const resetPage = () => {
 
   window.pin.mapNode.classList.add(`map--faded`);
@@ -19,6 +21,9 @@ const resetPage = () => {
 
   window.form.node.reset();
   window.activate.formFiltersNode.reset();
+
+  window.form.node.price.placeholder = DEFAULT_PRICE;
+  window.form.node.price.min = DEFAULT_PRICE;
 
   window.map.mapPinMain.style.left = window.map.DefaultMainPinCoordinates.X;
   window.map.mapPinMain.style.top = window.map.DefaultMainPinCoordinates.Y;

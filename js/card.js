@@ -75,7 +75,7 @@ const createCard = (dataObject) => {
   return cardNode;
 };
 
-const createСardFragment = (cardObj) => {
+const createCardFragment = (cardObj) => {
   const fragment = document.createDocumentFragment();
   fragment.appendChild(createCard(cardObj));
   return fragment;
@@ -86,7 +86,7 @@ const addCardNode = (array) => {
   pinsArr.forEach((element, index) => {
     element.addEventListener(`click`, () => {
       window.map.removeActiveCard();
-      const cardNodesFragment = createСardFragment(array[index]);
+      const cardNodesFragment = createCardFragment(array[index]);
       cardNodesFragment.querySelector(`.popup__close`).addEventListener(`click`, window.map.removeActiveCard);
       document.addEventListener(`keydown`, window.util.onPopupEscPress);
       window.pin.mapNode.insertBefore(cardNodesFragment, window.activate.mapFiltersNode);
